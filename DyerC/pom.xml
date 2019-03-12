@@ -54,6 +54,10 @@
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-core</artifactId>
         </dependency>
+        <dependency>
+   			<groupId>com.vaadin</groupId>
+   			<artifactId>vaadin-dialog-flow</artifactId>
+		</dependency>
 
         <!-- Added to provide logging output as Flow uses -->
         <!-- the unbound SLF4J no-operation (NOP) logger implementation -->

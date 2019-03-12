@@ -37,16 +37,15 @@ import com.msn.gabrielle.ui.views.reviewslist.ReviewsList;
  * The main layout contains the header with the navigation buttons, and the
  * child views below that.
  */
-@Route(value = "studentPage", layout = MainLayout.class)
+@Route(value = "studentPage")
 @HtmlImport("frontend://styles/shared-styles.html")
-
 public class StudentPage extends Div
         implements RouterLayout{
 		
     public StudentPage() {
 		H2 title = new H2("Dyer Center Student");
 		title.addClassName("main-layout__title");
-
+		
 		RouterLink reviews = new RouterLink(null, ReviewsList.class);
 		reviews.add(new Icon(VaadinIcon.LIST), new Text("Reviews"));
 		reviews.addClassName("main-layout__nav-item");

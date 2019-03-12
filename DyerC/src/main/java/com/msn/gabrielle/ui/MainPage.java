@@ -15,13 +15,19 @@
  */
 package com.msn.gabrielle.ui;
 
+import com.vaadin.flow.component.ClickNotifier;
+import com.vaadin.flow.component.Html;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.HtmlImport;
+import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H2;
+import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.page.Viewport;
 import com.vaadin.flow.router.HighlightConditions;
 import com.vaadin.flow.router.Route;
@@ -38,33 +44,35 @@ import com.msn.gabrielle.ui.views.reviewslist.ReviewsList;
  * child views below that.
  */
 @Route(value = "", layout = MainLayout.class)
+@HtmlImport("frontend://styles/shared-styles.html")
 public class MainPage extends Div
         implements RouterLayout{
 	
 	private Button studentButton;
 	private Button alumniButton;
 	private Button employeeButton;
-
+	private Dialog dialog;
+	private Html img;
+	private HorizontalLayout buttonLayout;
 	
     public MainPage() {
+    	buttonLayout = new HorizontalLayout();
     	studentButton = new Button("Student");
-    	add(studentButton);
     	studentButton.addClickListener( e-> {
     		studentButton.getUI().ifPresent(ui -> ui.navigate("studentPage"));
     	});
     	
     	alumniButton = new Button("Alumni");
-    	add(alumniButton);
     	alumniButton.addClickListener( e-> {
     		alumniButton.getUI().ifPresent(ui -> ui.navigate("alumniPage"));
     	});
     	
     	employeeButton = new Button("Employee");
-    	add(employeeButton);
     	employeeButton.addClickListener( e-> {
     		employeeButton.getUI().ifPresent(ui -> ui.navigate("employeePage"));
     	});
-    	
+    	buttonLayout.add(studentButton, alumniButton,employeeButton);
+        add(buttonLayout);
     }
    
 }

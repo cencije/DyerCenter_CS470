@@ -1,14 +1,17 @@
 com/msn/gabrielle/backend/CategoryService.class
 com/msn/gabrielle/ui/views/categorieslist/CategoriesList.class
 com/msn/gabrielle/ui/encoders/LongToStringEncoder.class
+com/msn/gabrielle/ui/AlumniPage.class
 com/msn/gabrielle/backend/ReviewService.class
 com/msn/gabrielle/ui/encoders/LocalDateToStringEncoder.class
 com/msn/gabrielle/backend/Review.class
 com/msn/gabrielle/ui/common/ConfirmationDialog.class
 com/msn/gabrielle/ui/MainPage.class
+com/msn/gabrielle/ui/StudentPage.class
 com/msn/gabrielle/backend/Category.class
 com/msn/gabrielle/backend/ReviewService$SingletonHolder.class
 com/msn/gabrielle/ui/common/AbstractEditorDialog.class
+com/msn/gabrielle/ui/EmployeePage.class
 com/msn/gabrielle/backend/CategoryService$SingletonHolder.class
 com/msn/gabrielle/backend/ReviewService$1.class
 com/msn/gabrielle/backend/CategoryService$1.class
