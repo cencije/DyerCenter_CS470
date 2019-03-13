@@ -35,7 +35,7 @@ import com.msn.gabrielle.ui.views.reviewslist.ReviewsList;
  * The main layout contains the header with the navigation buttons, and the
  * child views below that.
  */
-@HtmlImport("frontend://styles/shared-styles.html")
+//@HtmlImport("frontend://styles/shared-styles.html")
 @PWA(name = "Beverage Buddy", shortName = "BevBuddy")
 @Viewport("width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes")
 public class MainLayout extends Div
@@ -61,6 +61,7 @@ public class MainLayout extends Div
 //        Div header = new Div(title, navigation);
 //        header.addClassName("main-layout__header");
 //        add(header);
+    	
 
         addClassName("main");
     }

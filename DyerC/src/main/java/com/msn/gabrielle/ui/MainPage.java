@@ -23,11 +23,13 @@ import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H2;
+import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.page.Viewport;
 import com.vaadin.flow.router.HighlightConditions;
 import com.vaadin.flow.router.Route;
@@ -44,7 +46,7 @@ import com.msn.gabrielle.ui.views.reviewslist.ReviewsList;
  * child views below that.
  */
 @Route(value = "", layout = MainLayout.class)
-@HtmlImport("frontend://styles/shared-styles.html")
+@HtmlImport("frontend://styles/Style_MainPage.html")
 public class MainPage extends Div
         implements RouterLayout{
 	
@@ -56,10 +58,17 @@ public class MainPage extends Div
 	private HorizontalLayout buttonLayout;
 	
     public MainPage() {
+    	VerticalLayout vl = new VerticalLayout();
+    	//vl.setClassName("bg_Image");
+    	Image img = new Image("frontend/styles/dyer-teamwork.jpg","background_img");
+        img.setClassName("background_Image");
+        vl.add(img);
+        
     	buttonLayout = new HorizontalLayout();
     	studentButton = new Button("Student");
     	studentButton.addClickListener( e-> {
     		studentButton.getUI().ifPresent(ui -> ui.navigate("studentPage"));
+    		
     	});
     	
     	alumniButton = new Button("Alumni");
@@ -72,7 +81,11 @@ public class MainPage extends Div
     		employeeButton.getUI().ifPresent(ui -> ui.navigate("employeePage"));
     	});
     	buttonLayout.add(studentButton, alumniButton,employeeButton);
-        add(buttonLayout);
+        //add(buttonLayout);
+        vl.add(buttonLayout);
+        add(vl);
+        
+        
     }
    
 }
