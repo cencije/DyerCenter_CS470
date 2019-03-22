@@ -38,14 +38,14 @@ import com.msn.gabrielle.backend.Category;
 import com.msn.gabrielle.backend.CategoryService;
 import com.msn.gabrielle.backend.Review;
 import com.msn.gabrielle.backend.ReviewService;
-import com.msn.gabrielle.ui.StudentPage;
+import com.msn.gabrielle.ui.EmployeePage;
 import com.msn.gabrielle.ui.common.AbstractEditorDialog;
 
 /**
  * Displays the list of available categories, with a search filter as well as
  * buttons to add a new category or edit existing ones.
  */
-@Route(value = "categories", layout = StudentPage.class)
+@Route(value = "categories", layout = EmployeePage.class)
 @PageTitle("Categories List")
 public class CategoriesList extends VerticalLayout {
 

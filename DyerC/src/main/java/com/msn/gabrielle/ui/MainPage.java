@@ -23,11 +23,13 @@ import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H2;
+import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.page.Viewport;
 import com.vaadin.flow.router.HighlightConditions;
 import com.vaadin.flow.router.Route;
@@ -44,7 +46,7 @@ import com.msn.gabrielle.ui.views.reviewslist.ReviewsList;
  * child views below that.
  */
 @Route(value = "", layout = MainLayout.class)
-@HtmlImport("frontend://styles/shared-styles.html")
+@HtmlImport("frontend://styles/main-page-styles.html")
 public class MainPage extends Div
         implements RouterLayout{
 	
@@ -54,8 +56,13 @@ public class MainPage extends Div
 	private Dialog dialog;
 	private Html img;
 	private HorizontalLayout buttonLayout;
+	private VerticalLayout mainLayout;
 	
     public MainPage() {
+    	mainLayout = new VerticalLayout();
+    	mainLayout.setHeightFull();
+    	mainLayout.setWidthFull();
+
     	buttonLayout = new HorizontalLayout();
     	studentButton = new Button("Student");
     	studentButton.addClickListener( e-> {
@@ -72,7 +79,10 @@ public class MainPage extends Div
     		employeeButton.getUI().ifPresent(ui -> ui.navigate("employeePage"));
     	});
     	buttonLayout.add(studentButton, alumniButton,employeeButton);
-        add(buttonLayout);
+    	mainLayout.add(buttonLayout);
+    	//mainLayout.setHorizontalComponentAlignment(Alignment.CENTER, buttonLayout);
+    	mainLayout.setAlignItems(Alignment.CENTER);
+        add(mainLayout);
     }
    
 }

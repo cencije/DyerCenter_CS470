@@ -22,6 +22,7 @@ import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.page.Viewport;
 import com.vaadin.flow.router.HighlightConditions;
 import com.vaadin.flow.router.Route;
@@ -30,6 +31,10 @@ import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.server.InitialPageSettings;
 import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.server.PageConfigurator;
+import com.msn.gabrielle.ui.views.Alumni.ProfileAlum;
+import com.msn.gabrielle.ui.views.Student.EventsStud;
+import com.msn.gabrielle.ui.views.Student.ProfileStud;
+import com.msn.gabrielle.ui.views.Student.ProjectListStud;
 import com.msn.gabrielle.ui.views.categorieslist.CategoriesList;
 import com.msn.gabrielle.ui.views.reviewslist.ReviewsList;
 
@@ -46,18 +51,23 @@ public class StudentPage extends Div
 		H2 title = new H2("Dyer Center Student");
 		title.addClassName("main-layout__title");
 		
-		RouterLink reviews = new RouterLink(null, ReviewsList.class);
-		reviews.add(new Icon(VaadinIcon.LIST), new Text("Reviews"));
-		reviews.addClassName("main-layout__nav-item");
+		RouterLink events = new RouterLink(null, EventsStud.class);
+		events.add(new Icon(VaadinIcon.CALENDAR), new Text("Events"));
+		events.addClassName("main-layout__nav-item");
 		// Only show as active for the exact URL, but not for sub paths
-		reviews.setHighlightCondition(HighlightConditions.sameLocation());
+		events.setHighlightCondition(HighlightConditions.sameLocation());
 
-		RouterLink categories = new RouterLink(null, CategoriesList.class);
-		categories.add(new Icon(VaadinIcon.ARCHIVES), new Text("Categories"));
-		categories.addClassName("main-layout__nav-item");
-		categories.setHighlightCondition(HighlightConditions.sameLocation());
+		RouterLink projects = new RouterLink(null, ProjectListStud.class);
+		projects.add(new Icon(VaadinIcon.USER), new Text("Projects"));
+		projects.addClassName("main-layout__nav-item");
+		projects.setHighlightCondition(HighlightConditions.sameLocation());
+		
+		RouterLink profile = new RouterLink(null, ProfileStud.class);
+		profile.add(new Icon(VaadinIcon.USER), new Text("Profile"));
+		profile.addClassName("main-layout__nav-item");
+		profile.setHighlightCondition(HighlightConditions.sameLocation());
 
-		Div navigation = new Div(reviews, categories);
+		Div navigation = new Div(projects, events, profile);
 		navigation.addClassName("main-layout__nav");
 
 		Div header = new Div(title, navigation);

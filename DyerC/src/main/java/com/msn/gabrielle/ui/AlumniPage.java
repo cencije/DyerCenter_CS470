@@ -30,6 +30,8 @@ import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.server.InitialPageSettings;
 import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.server.PageConfigurator;
+import com.msn.gabrielle.ui.views.Alumni.ProfileAlum;
+import com.msn.gabrielle.ui.views.Alumni.ProjectListAlum;
 import com.msn.gabrielle.ui.views.categorieslist.CategoriesList;
 import com.msn.gabrielle.ui.views.reviewslist.ReviewsList;
 
@@ -47,18 +49,18 @@ public class AlumniPage extends Div
 		H2 title = new H2("Dyer Center Alumni");
 		title.addClassName("main-layout__title");
 
-		RouterLink reviews = new RouterLink(null, ReviewsList.class);
-		reviews.add(new Icon(VaadinIcon.LIST), new Text("Reviews"));
-		reviews.addClassName("main-layout__nav-item");
+		RouterLink projects = new RouterLink(null, ProjectListAlum.class);
+		projects.add(new Icon(VaadinIcon.GROUP), new Text("Projects"));
+		projects.addClassName("main-layout__nav-item");
 		// Only show as active for the exact URL, but not for sub paths
-		reviews.setHighlightCondition(HighlightConditions.sameLocation());
+		projects.setHighlightCondition(HighlightConditions.sameLocation());
 
-		RouterLink categories = new RouterLink(null, CategoriesList.class);
-		categories.add(new Icon(VaadinIcon.ARCHIVES), new Text("Categories"));
-		categories.addClassName("main-layout__nav-item");
-		categories.setHighlightCondition(HighlightConditions.sameLocation());
+		RouterLink profile = new RouterLink(null, ProfileAlum.class);
+		profile.add(new Icon(VaadinIcon.USER), new Text("Profile"));
+		profile.addClassName("main-layout__nav-item");
+		profile.setHighlightCondition(HighlightConditions.sameLocation());
 
-		Div navigation = new Div(reviews, categories);
+		Div navigation = new Div(projects, profile);
 		navigation.addClassName("main-layout__nav");
 
 		Div header = new Div(title, navigation);
