@@ -47,22 +47,28 @@ public class EmployeePage extends Div
 		H2 title = new H2("Dyer Center Employee");
 		title.addClassName("main-layout__title");
 
-		RouterLink reviews = new RouterLink(null, ReviewsList.class);
-		reviews.add(new Icon(VaadinIcon.LIST), new Text("Reviews"));
-		reviews.addClassName("main-layout__nav-item");
+		RouterLink projects = new RouterLink(null, ReviewsList.class);
+		projects.add(new Icon(VaadinIcon.FORM), new Text("Projects"));
+		projects.addClassName("main-layout__nav-item");
 		// Only show as active for the exact URL, but not for sub paths
-		reviews.setHighlightCondition(HighlightConditions.sameLocation());
+		projects.setHighlightCondition(HighlightConditions.sameLocation());
 
-		RouterLink categories = new RouterLink(null, CategoriesList.class);
-		categories.add(new Icon(VaadinIcon.ARCHIVES), new Text("Categories"));
-		categories.addClassName("main-layout__nav-item");
-		categories.setHighlightCondition(HighlightConditions.sameLocation());
+		RouterLink events = new RouterLink(null, CategoriesList.class);
+		events.add(new Icon(VaadinIcon.CALENDAR), new Text("Events"));
+		events.addClassName("main-layout__nav-item");
+		events.setHighlightCondition(HighlightConditions.sameLocation());
 
-		Div navigation = new Div(reviews, categories);
+		RouterLink profile = new RouterLink(null, CategoriesList.class);
+		profile.add(new Icon(VaadinIcon.USER), new Text("Profile"));
+		profile.addClassName("main-layout__nav-item");
+		profile.setHighlightCondition(HighlightConditions.sameLocation());
+		
+		Div navigation = new Div(projects, events, profile);
 		navigation.addClassName("main-layout__nav");
 
 		Div header = new Div(title, navigation);
 		header.addClassName("main-layout__header");
+		
 		add(header);
 
 		addClassName("main-layout");
