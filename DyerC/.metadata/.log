@@ -1,0 +1,49 @@
+!SESSION 2019-03-13 15:22:49.576 -----------------------------------------------
+eclipse.buildId=4.10.0.I20181206-0815
+java.version=1.8.0_91
+java.vendor=Oracle Corporation
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.jee.product -keyring /Users/Joe/.eclipse_keyring
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -product org.eclipse.epp.package.jee.product -keyring /Users/Joe/.eclipse_keyring
+
+!ENTRY org.eclipse.core.net 1 0 2019-03-13 15:23:37.065
+!MESSAGE System property http.nonProxyHosts has been set to local|*.local|169.254/16|*.169.254/16 by an external source. This value will be overwritten using the values from the preferences
+
+!ENTRY org.eclipse.jface.text 2 0 2019-03-13 15:23:40.869
+!MESSAGE Duplicate template id: 'org.eclipse.wst.xslt.templates.xpath.boolean'
+
+!ENTRY com.vaadin.designer 1 0 2019-03-13 15:23:45.273
+!MESSAGE Fetching all notifications
+
+!ENTRY com.vaadin.designer 1 0 2019-03-13 15:23:45.274
+!MESSAGE Requesting user info (notification settings URL)
+
+!ENTRY com.vaadin.designer 1 0 2019-03-13 15:23:45.751
+!MESSAGE HTTP Response code :200
+
+!ENTRY com.vaadin.designer 1 0 2019-03-13 15:23:45.869
+!MESSAGE HTTP Response code :200
+
+!ENTRY com.vaadin.designer 1 0 2019-03-13 15:23:45.870
+!MESSAGE Parse notifications
+
+!ENTRY com.vaadin.designer 1 0 2019-03-13 15:23:45.876
+!MESSAGE Save JSON notifications content to cache file /Users/Joe/Desktop/College/SeniorYearCollege/Spring/CS470/DC_Project/DyerCenter_CS470/DyerC/.metadata/.plugins/com.vaadin.integration.eclipse/notifications-cache.json
+
+!ENTRY com.vaadin.designer 1 0 2019-03-13 15:23:45.974
+!MESSAGE Icon https://vaadin.com/documents/10187/10395/tori-icon-blue-bg-90px/4597dffb-3868-4711-b422-8fc3e71844e6?t=1394217295000 is downloaded
+
+!ENTRY com.vaadin.designer 1 0 2019-03-13 15:23:45.999
+!MESSAGE Icon https://vaadin.com/images/notifications/followed-forum-threads.png is downloaded
+
+!ENTRY com.vaadin.designer 1 0 2019-03-13 15:23:46.209
+!MESSAGE Image https://vaadin.com/image/image_gallery?img_id=3851299&t=1385741714872 is downloaded
+
+!ENTRY com.vaadin.designer 1 0 2019-03-13 15:23:46.297
+!MESSAGE Image https://vaadin.com/images/notifications/empty-header.png is downloaded
+
+!ENTRY com.vaadin.designer 1 0 2019-03-13 15:23:46.458
+!MESSAGE Schedule fetching new notifications
+
+!ENTRY org.eclipse.core.jobs 2 2 2019-03-13 15:23:51.182
+!MESSAGE Job found still running after platform shutdown.  Jobs should be canceled by the plugin that scheduled them during shutdown: com.vaadin.designer2.eclipse.VisualDesignerPlugin$1

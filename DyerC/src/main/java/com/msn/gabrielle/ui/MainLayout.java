@@ -35,6 +35,7 @@ import com.msn.gabrielle.ui.views.reviewslist.ReviewsList;
  * The main layout contains the header with the navigation buttons, and the
  * child views below that.
  */
+
 @HtmlImport("frontend://styles/main-page-styles.html")
 @PWA(name = "Dyer Center", shortName = "DyerC")
 @Viewport("width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes")
@@ -61,6 +62,7 @@ public class MainLayout extends Div
 //        Div header = new Div(title, navigation);
 //        header.addClassName("main-layout__header");
 //        add(header);
+    	
 
         addClassName("main");
     }

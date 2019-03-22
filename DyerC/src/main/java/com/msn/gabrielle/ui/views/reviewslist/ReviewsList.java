@@ -116,18 +116,18 @@ public class ReviewsList extends PolymerTemplate<ReviewsModel> {
     }
 
     private void updateList() {
-        List<Review> reviews = ReviewService.getInstance()
+        List<Review> projects = ReviewService.getInstance()
                 .findReviews(search.getValue());
         if (search.isEmpty()) {
-            header.setText("Reviews");
-            header.add(new Span(reviews.size() + " in total"));
+            header.setText("Projects");
+            header.add(new Span(projects.size() + " in total"));
         } else {
             header.setText("Search for “" + search.getValue() + "”");
-            if (!reviews.isEmpty()) {
-                header.add(new Span(reviews.size() + " results"));
+            if (!projects.isEmpty()) {
+                header.add(new Span(projects.size() + " results"));
             }
         }
-        getModel().setReviews(reviews);
+        getModel().setReviews(projects);
     }
 
     @EventHandler

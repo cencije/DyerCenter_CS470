@@ -71,6 +71,7 @@ public class EmployeePage extends Div
 		
 		Div header = new Div(title, navigation);
 		header.addClassName("main-layout__header");
+		
 		add(header);
 
 		addClassName("main-layout");
