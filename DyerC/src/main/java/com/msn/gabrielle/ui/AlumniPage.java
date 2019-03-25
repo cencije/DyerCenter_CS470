@@ -50,7 +50,7 @@ public class AlumniPage extends Div
 		title.addClassName("main-layout__title");
 
 		RouterLink projects = new RouterLink(null, ProjectListAlum.class);
-		projects.add(new Icon(VaadinIcon.GROUP), new Text("Projects"));
+		projects.add(new Icon(VaadinIcon.FORM), new Text("Projects"));
 		projects.addClassName("main-layout__nav-item");
 		// Only show as active for the exact URL, but not for sub paths
 		projects.setHighlightCondition(HighlightConditions.sameLocation());

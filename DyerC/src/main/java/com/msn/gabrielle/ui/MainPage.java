@@ -63,12 +63,15 @@ public class MainPage extends Div
     	mainLayout.setHeightFull();
     	mainLayout.setWidthFull();
     	
+    	
+    	
     	buttonLayout = new HorizontalLayout();
     	studentButton = new Button("Student");
     	studentButton.addClickListener( e-> {
     		studentButton.getUI().ifPresent(ui -> ui.navigate("studentPage"));
     		
     	});
+    	
     	
     	alumniButton = new Button("Alumni");
     	alumniButton.addClickListener( e-> {
@@ -79,6 +82,10 @@ public class MainPage extends Div
     	employeeButton.addClickListener( e-> {
     		employeeButton.getUI().ifPresent(ui -> ui.navigate("employeePage"));
     	});
+    	
+    	studentButton.addClassName("buttons");
+    	alumniButton.addClassName("buttons");
+    	employeeButton.addClassName("buttons");
     	buttonLayout.add(studentButton, alumniButton,employeeButton);
 
     	mainLayout.add(buttonLayout);

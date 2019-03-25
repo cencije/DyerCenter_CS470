@@ -58,7 +58,7 @@ public class StudentPage extends Div
 		events.setHighlightCondition(HighlightConditions.sameLocation());
 
 		RouterLink projects = new RouterLink(null, ProjectListStud.class);
-		projects.add(new Icon(VaadinIcon.USER), new Text("Projects"));
+		projects.add(new Icon(VaadinIcon.FORM), new Text("Projects"));
 		projects.addClassName("main-layout__nav-item");
 		projects.setHighlightCondition(HighlightConditions.sameLocation());
 		
