@@ -65,6 +65,7 @@ public class EventsStud extends VerticalLayout{
 		HasText intervalLabel = new Span();
 	    // combo box to select a view for the calendar, like "monthly", "weekly", ...
 	    FullCalendar calendar = FullCalendarBuilder.create().build();
+	    calendar.setHeight(500);
 		setFlexGrow(1, calendar);
 	    ComboBox<CalendarView> viewBox = new ComboBox<>("", CalendarViewImpl.values());
 	    viewBox.addValueChangeListener(e -> {
