@@ -3,6 +3,7 @@ package com.msn.gabrielle.ui.views.Student;
 import java.util.Arrays;
 
 import com.msn.gabrielle.ui.*;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.HasText;
 import com.vaadin.flow.component.Tag;
@@ -17,7 +18,7 @@ import com.vaadin.flow.router.Route;
 @Route(value = "profilestud", layout = StudentPage.class)
 @PageTitle("Profile")
 public class ProfileStud extends VerticalLayout{
-	String profileName, profileMajor1, profileMajor2;
+	String profileName, profileEmail, profileMajor1, profileMajor2, profileMinor1, profileMinor2;
 	String[] arrayMajor = { "N/A", "AB International Studies/BS Engineering Major", "Africana Studies", 
 			"American Studies", "Anthropology and Sociology", "Art", "Asian Studies",
 			"Biochemistry", "Biology",
@@ -59,49 +60,79 @@ public class ProfileStud extends VerticalLayout{
 			"Women’s and Gender Studies", "Writing"};
 	public ProfileStud() {
 		loadProfileValues();
+		
+		Label lblName = new Label("Name:");
 		Label lblProfileName = new Label(profileName);
-		//lblProfileName.
-		add(lblProfileName);
-		Label lblMajor =  new Label(profileMajor1);
-		add(lblMajor);
+		Label lblEmail = new Label("Email:");
+		Label lblProfileEmail = new Label(profileEmail);
+		
+		Label lblMajor1 = new Label("Major 1: " + profileMajor1);
+		Label lblMajor2 = new Label("Major 2: " + profileMajor2);
+		Label lblMinor1 = new Label("Minor 1: " + profileMinor1);
+		Label lblMinor2 = new Label("Minor 2: " + profileMinor2);
 		ComboBox<String> cbMajor1 = new ComboBox<>("Major 1");
 		cbMajor1.setItems(Arrays.asList(arrayMajor));
-		cbMajor1.addValueChangeListener(event -> {
-		    if (!event.getSource().isEmpty()) {
-		        
-		    }
-		});
-		add(cbMajor1);
 		ComboBox<String> cbMajor2 = new ComboBox<>("Major 2 (If Applicable)");
-		
 		cbMajor2.setItems(Arrays.asList(arrayMajor));
-		cbMajor2.addValueChangeListener(event -> {
-		    if (!event.getSource().isEmpty()) {
-		        
-		    }
-		});
-		add(cbMajor2);
 		ComboBox<String> cbMinor1 = new ComboBox<>("Minor 1 (If Applicable)");
 		cbMinor1.setItems(Arrays.asList(arrayMinor));
-		cbMinor1.addValueChangeListener(event -> {
-		    if (!event.getSource().isEmpty()) {
-		        
-		    }
-		});
-		add(cbMinor1);
 		ComboBox<String> cbMinor2 = new ComboBox<>("Minor 2 (If Applicable)");
 		cbMinor2.setItems(Arrays.asList(arrayMinor));
-		cbMinor2.addValueChangeListener(event -> {
-		    if (!event.getSource().isEmpty()) {
-		        
-		    }
+		
+		Button btnUpdateFields = new Button("Update Fields", event -> {
+		    try {
+		    	lblMajor1.setText("Major 1: " + cbMajor1.getValue());
+		    	lblMajor2.setText("Major 2: " + cbMajor2.getValue());
+		    	lblMinor1.setText("Minor 1: " + cbMinor1.getValue());
+		    	lblMinor2.setText("Minor 2: " + cbMinor2.getValue());
+		        // Update in the database
+		    } catch (Exception e) { e.printStackTrace(); }
 		});
-		add(cbMinor2);
+		btnUpdateFields.setDisableOnClick(true);
+		btnUpdateFields.setEnabled(false);
+		cbMajor1.addValueChangeListener(event -> {
+		    if (!event.getSource().isEmpty()) { btnUpdateFields.setEnabled(true); }
+		});
+		cbMajor2.addValueChangeListener(event -> {
+		    if (!event.getSource().isEmpty()) { btnUpdateFields.setEnabled(true); }
+		});
+		cbMinor1.addValueChangeListener(event -> {
+		    if (!event.getSource().isEmpty()) { btnUpdateFields.setEnabled(true); }
+		});
+		cbMinor2.addValueChangeListener(event -> {
+		    if (!event.getSource().isEmpty()) { btnUpdateFields.setEnabled(true);  }
+		});
+		
+
+		HorizontalLayout hlName = new HorizontalLayout();
+		hlName.add(lblName); hlName.add(lblProfileName);
+		add(hlName);
+		HorizontalLayout hlEmail = new HorizontalLayout();
+		hlEmail.add(lblEmail); hlEmail.add(lblProfileEmail);
+		add(hlEmail);
+		HorizontalLayout hlMajors =  new HorizontalLayout();
+		hlMajors.add(lblMajor1); hlMajors.add(lblMajor2);
+		add(hlMajors);
+		HorizontalLayout hlMinors = new HorizontalLayout();
+		hlMinors.add(lblMinor1); hlMinors.add(lblMinor2);
+		add(hlMinors);
+		HorizontalLayout hlCBMajors = new HorizontalLayout();
+		hlCBMajors.add(cbMajor1); hlCBMajors.add(cbMajor2);
+		add(hlCBMajors);
+		HorizontalLayout hlCBMinors = new HorizontalLayout();
+		hlCBMinors.add(cbMinor1); hlCBMinors.add(cbMinor2);
+		add(hlCBMinors);
+		add(btnUpdateFields);
 	}
 	public void loadProfileValues() {
+		// Select * WHERE EMAILADDRESS = ' ';
 		profileName = "John Goodway";
-		profileMajor1 = "Computer Science";
-		profileMajor2 = "Spanish";
+		profileEmail = "goodwayj@lafayette.edu";
+		profileMajor1 = "N/A";
+		profileMajor2 = "N/A";
+		profileMinor1 = "N/A";
+		profileMinor2 = "N/A";
+		
 		
 	}
 }
