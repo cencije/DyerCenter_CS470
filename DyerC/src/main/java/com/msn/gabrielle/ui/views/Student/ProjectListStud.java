@@ -101,7 +101,7 @@ public class ProjectListStud extends VerticalLayout{
     	nameLayout.add(descriptionProject, descriptionField);
     	
     	VerticalLayout proposerLayout = new VerticalLayout();
-    	Label proposerProject = new Label("Project description: ");
+    	Label proposerProject = new Label("Name: ");
     	TextField proposerField = new TextField();
     	proposerField.addValueChangeListener(event ->
     		nameProposerStr = event.getValue());
@@ -111,7 +111,10 @@ public class ProjectListStud extends VerticalLayout{
     	Button saveButton = new Button("Save", event -> {
     		Projects newProj = new Projects(nameStr, descriptionStr, nameProposerStr);
     		projectList.add(newProj);
-    	    dialog.close();
+    		dialog.close();
+    		proposerField.clear();
+    		descriptionField.clear();
+    		nameField.clear();
     	    updateView();
     	});
     	Button cancelButton = new Button("Cancel", event -> {
