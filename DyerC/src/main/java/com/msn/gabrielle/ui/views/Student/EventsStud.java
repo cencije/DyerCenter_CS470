@@ -67,15 +67,8 @@ public class EventsStud extends VerticalLayout{
 	    FullCalendar calendar = FullCalendarBuilder.create().build();
 	    calendar.setHeight(500);
 		setFlexGrow(1, calendar);
-	    ComboBox<CalendarView> viewBox = new ComboBox<>("", CalendarViewImpl.values());
-	    viewBox.addValueChangeListener(e -> {
-	        CalendarView value = e.getValue();
-	        calendar.changeView(value == null ? CalendarViewImpl.MONTH : value);
-	    });
-	    viewBox.setValue(CalendarViewImpl.MONTH);
 	    Label month = new Label("MARCH 2019");
 	    add(month);
-	    add(viewBox);
 		add(calendar);
 
 	}

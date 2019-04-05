@@ -67,6 +67,8 @@ public class MainPage extends VerticalLayout
     	box.add(iAm);
     	box.setAlignItems(Alignment.CENTER);
     	
+    	
+    	
     	buttonLayout = new HorizontalLayout();
     	studentButton = new Button("Student");
     	studentButton.addClickListener( e-> {
@@ -74,6 +76,7 @@ public class MainPage extends VerticalLayout
     		studentButton.getUI().ifPresent(ui -> ui.navigate("studentPage"));
     		
     	});
+    	
     	
     	alumniButton = new Button("Alumni");
     	alumniButton.addClickListener( e-> {
@@ -86,11 +89,13 @@ public class MainPage extends VerticalLayout
     		mainLayout.remove(box);
     		employeeButton.getUI().ifPresent(ui -> ui.navigate("employeePage"));
     	});
-    	buttonLayout.add( studentButton, alumniButton,employeeButton);
-    	box.add(buttonLayout);
-    	box.setPadding(true);
-    	box.addClassName("box");
-    	mainLayout.addComponentAsFirst(box);
+    	
+    	studentButton.addClassName("buttons");
+    	alumniButton.addClassName("buttons");
+    	employeeButton.addClassName("buttons");
+    	buttonLayout.add(studentButton, alumniButton,employeeButton);
+
+    	mainLayout.add(buttonLayout);
     	//mainLayout.setHorizontalComponentAlignment(Alignment.CENTER, buttonLayout);
         add(mainLayout);
     }
