@@ -167,7 +167,7 @@ public class SkillsEmp extends VerticalLayout {
 			statementAdd.close();
 			c.close();
 			*/
-			System.out.println("Successful skill add to database!");
+			System.out.println("Successful skill removal from database!");
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.err.println(e.getClass().getName()+": "+e.getMessage());

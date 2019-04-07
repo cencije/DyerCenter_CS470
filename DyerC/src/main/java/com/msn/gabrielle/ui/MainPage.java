@@ -27,7 +27,6 @@ import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.page.Viewport;
@@ -47,7 +46,7 @@ import com.msn.gabrielle.ui.views.reviewslist.ReviewsList;
  */
 @Route(value = "", layout = MainLayout.class)
 @HtmlImport("frontend://styles/main-page-styles.html")
-public class MainPage extends Div
+public class MainPage extends VerticalLayout
         implements RouterLayout{
 	
 	private Button studentButton;
@@ -60,14 +59,20 @@ public class MainPage extends Div
 	
     public MainPage() {
     	mainLayout = new VerticalLayout();
-    	mainLayout.setHeightFull();
-    	mainLayout.setWidthFull();
+    	
+    	VerticalLayout box = new VerticalLayout();
+    	box.setWidth("500px");
+    	Label iAm = new Label("I am a...");
+    	iAm.addClassName("label");
+    	box.add(iAm);
+    	box.setAlignItems(Alignment.CENTER);
     	
     	
     	
     	buttonLayout = new HorizontalLayout();
     	studentButton = new Button("Student");
     	studentButton.addClickListener( e-> {
+    		box.setVisible(false);
     		studentButton.getUI().ifPresent(ui -> ui.navigate("studentPage"));
     		
     	});
@@ -75,11 +80,13 @@ public class MainPage extends Div
     	
     	alumniButton = new Button("Alumni");
     	alumniButton.addClickListener( e-> {
+    		mainLayout.remove(box);
     		alumniButton.getUI().ifPresent(ui -> ui.navigate("alumniPage"));
     	});
     	
     	employeeButton = new Button("Employee");
     	employeeButton.addClickListener( e-> {
+    		mainLayout.remove(box);
     		employeeButton.getUI().ifPresent(ui -> ui.navigate("employeePage"));
     	});
     	
@@ -90,7 +97,6 @@ public class MainPage extends Div
 
     	mainLayout.add(buttonLayout);
     	//mainLayout.setHorizontalComponentAlignment(Alignment.CENTER, buttonLayout);
-    	mainLayout.setAlignItems(Alignment.CENTER);
         add(mainLayout);
     }
    

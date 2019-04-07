@@ -61,7 +61,7 @@ public class CategoriesList extends VerticalLayout {
         initView();
 
         addSearchBar();
-        addContent();
+        //addContent();
 
         updateView();
     }
