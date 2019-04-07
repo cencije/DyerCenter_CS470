@@ -33,6 +33,7 @@ import com.vaadin.flow.server.PageConfigurator;
 import com.msn.gabrielle.ui.views.Employee.EventsEmp;
 import com.msn.gabrielle.ui.views.Employee.ProfileEmp;
 import com.msn.gabrielle.ui.views.Employee.ProjectApprove;
+import com.msn.gabrielle.ui.views.Employee.SkillsEmp;
 import com.msn.gabrielle.ui.views.categorieslist.CategoriesList;
 import com.msn.gabrielle.ui.views.reviewslist.ReviewsList;
 
@@ -61,12 +62,17 @@ public class EmployeePage extends Div
 		eventsemp.addClassName("main-layout__nav-item");
 		eventsemp.setHighlightCondition(HighlightConditions.sameLocation());
 		
+		RouterLink skillsEmp = new RouterLink(null, SkillsEmp.class);
+		skillsEmp.add(new Icon(VaadinIcon.TASKS), new Text("SkillSet"));
+		skillsEmp.addClassName("main-layout__nav-item");
+		skillsEmp.setHighlightCondition(HighlightConditions.sameLocation());
+		
 		RouterLink profileemp = new RouterLink(null, ProfileEmp.class);
 		profileemp.add(new Icon(VaadinIcon.USER), new Text("Profile"));
 		profileemp.addClassName("main-layout__nav-item");
 		profileemp.setHighlightCondition(HighlightConditions.sameLocation());
 
-		Div navigation = new Div(projects, eventsemp, profileemp);
+		Div navigation = new Div(projects, eventsemp, skillsEmp, profileemp); //, skillsEmp, );
 		navigation.addClassName("main-layout__nav");
 		
 		Div header = new Div(title, navigation);

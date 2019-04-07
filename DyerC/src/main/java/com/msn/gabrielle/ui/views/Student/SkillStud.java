@@ -14,4 +14,5 @@ public class SkillStud implements Serializable {
 	
 	public String getMajor() { return skillMajor; }
 	public String getName()  { return skillName; }
+	
 }
