@@ -161,6 +161,38 @@ public class ProjectListStud extends VerticalLayout{
     	dialog.add(confirmButton, cancelButton);
     	return dialog;
     }
+    
+    private Dialog viewDialog(Projects currentProj) {
+    	Dialog viewDialog = new Dialog();
+
+    	viewDialog.setCloseOnEsc(false);
+    	viewDialog.setCloseOnOutsideClick(false);
+    	
+    	VerticalLayout mainLay = new VerticalLayout();
+    	VerticalLayout nameLay = new VerticalLayout();
+    	Label nameProject = new Label("Project title: ");
+    	Label nameCurr = new Label(currentProj.getName());
+    	nameLay.add(nameProject,nameCurr );
+    	
+    	VerticalLayout descriptionLay = new VerticalLayout();
+    	Label descriptionProject = new Label("Project description: ");
+    	Label descriptionCurr = new Label(currentProj.getDescription());
+    	descriptionLay.add(descriptionProject, descriptionCurr);
+    	
+    	VerticalLayout proposerLay = new VerticalLayout();
+    	Label proposerProject = new Label("Project proposer: ");
+    	Label proposerCurr = new Label(currentProj.getProposedBy());
+    	proposerLay.add(proposerProject, proposerCurr);
+    	mainLay.add(nameLay, descriptionLay, proposerLay);
+    	
+    	NativeButton closeButton = new NativeButton("Close", event -> {
+    		viewDialog.close();
+    	});
+    	
+    	mainLay.add(closeButton);
+    	viewDialog.add(mainLay);
+    	return viewDialog;
+    }
 
     private void addContent() {
         VerticalLayout container = new VerticalLayout();
@@ -169,26 +201,25 @@ public class ProjectListStud extends VerticalLayout{
 
         grid.addColumn(Projects::getName).setHeader("Name").setWidth("8em")
                 .setResizable(true);
-//        grid.addColumn(new ComponentRenderer<>(this::createEditButton))
-//                .setFlexGrow(0);
+        grid.addColumn(new ComponentRenderer<>(this::createEditButton))
+                .setFlexGrow(0);
         grid.setSelectionMode(SelectionMode.NONE);
 
         container.add(header, grid);
         add(container);
     }
-//
-//    private Button createEditButton(Projects project) {
-//        Button edit = new Button("Edit", event -> form.open(project,
-//                AbstractEditorDialog.Operation.EDIT));
-//        edit.setIcon(new Icon("lumo", "edit"));
-//        edit.addClassName("review__edit");
-//        edit.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
-////        if (CategoryService.getInstance().getUndefinedCategory().getId()
-////                .equals(category.getId())) {
-////            edit.setEnabled(false);
-////        }
-//        return edit;
-//    }
+
+    private Button createEditButton(Projects project) {
+        Button edit = new Button("View", event -> viewDialog(project).open());
+        edit.setIcon(new Icon("lumo", "view"));
+        edit.addClassName("review__edit");
+        edit.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
+//        if (CategoryService.getInstance().getUndefinedCategory().getId()
+//                .equals(category.getId())) {
+//            edit.setEnabled(false);
+//        }
+        return edit;
+    }
 
     private String getReviewCount(Category category) {
         List<Review> reviewsInCategory = ReviewService.getInstance()
