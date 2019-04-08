@@ -17,6 +17,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.DriverManager;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import com.msn.gabrielle.ui.EmployeePage;
 import com.msn.gabrielle.ui.views.Student.SkillStud;
@@ -31,10 +32,12 @@ public class SkillsEmp extends VerticalLayout {
 	Notification nSkillExists;
 	Button btnNSkillExists;
 	
+	Grid<SkillStud> grid;
+	
 	ArrayList<SkillStud> skillsList = new ArrayList<SkillStud>();
 	public SkillsEmp() {
 		loadSkillsList();
-		Grid<SkillStud> grid = new Grid<>(SkillStud.class);
+		grid = new Grid<>(SkillStud.class);
 		grid.setItems(skillsList);
 	
 		tfSkillMajor = new TextField();
@@ -60,11 +63,10 @@ public class SkillsEmp extends VerticalLayout {
 					nSkillExists.open();
 				}
 				else {
-					
-					boolean isNew = checkSkill(major, skill);
-					if (isNew) { 
-						//addSkill(major, skill);
-						
+					boolean exists = checkSkill(major, skill);
+					if (!exists) { 
+						addSkill(major, skill);
+						updateGrid();
 						tfSkillMajor.clear(); tfSkillName.clear();
 					}
 					else {
@@ -75,7 +77,6 @@ public class SkillsEmp extends VerticalLayout {
 						nSkillExists.open();
 					}
 				}
-				
 			} catch (Exception e) { e.printStackTrace(); }
 		});
 		btnAddSkill.setEnabled(true);
@@ -84,12 +85,15 @@ public class SkillsEmp extends VerticalLayout {
 			
 			// if it exists
 			
-			String major = "LOL";
-			String skill = "XD";
+			String major = tfSkillMajor.getValue();
+			String skill = tfSkillName.getValue();
+			
 			// check database
 			boolean skillExists = checkSkill(major, skill);
 			if (skillExists) {
 				// Remove the skill from the database, update the Grid
+				deleteSkill(major, skill);
+				updateGrid();
 			}
 			else {
 				Label lblNotif = new Label("The entered skill does not exist!");
@@ -145,6 +149,10 @@ public class SkillsEmp extends VerticalLayout {
 			statementAdd.close();
 			c.close();
 			*/
+			
+			
+			skillsList.add(new SkillStud(major, name));
+			
 			System.out.println("Successful skill add to database!");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -167,6 +175,14 @@ public class SkillsEmp extends VerticalLayout {
 			statementAdd.close();
 			c.close();
 			*/
+			Iterator<SkillStud> itr = skillsList.iterator();
+			while (itr.hasNext()) {
+				SkillStud skillS = itr.next();
+			    if (skillS.getMajor().equals(major) && skillS.getName().equals(name)) {
+			    	skillExists = true;
+			    	break;
+			    }
+			}
 			System.out.println("Successful skill removal from database!");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -176,8 +192,41 @@ public class SkillsEmp extends VerticalLayout {
 		return skillExists;
 	}
 	
+	public void deleteSkill(String major, String name) {
+		
+		// Database check
+			try {
+				/*
+				Class.forName("org.postgresql.Driver");
+				Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
+				System.out.println("Adding profile to database!");
+				Statement statementAdd = c.createStatement();
+				String sqlAdd = "INSERT INTO SKILLSTABLE (MAJOR,NAME) VALUES " +
+				   "('"+ major + "', '" + name + "');";
+				statementAdd.executeUpdate(sqlAdd);
+				statementAdd.close();
+				c.close();
+				*/
+				int i = 0;
+				Iterator<SkillStud> itr = skillsList.iterator();
+				while (itr.hasNext()) {
+					
+					SkillStud skillS = itr.next();
+				    if (skillS.getMajor().equals(major) && skillS.getName().equals(name)) {
+				    	skillsList.remove(i);
+				    	break;
+				    }
+				    i++;
+				}
+				System.out.println("Successful skill removal from database!");
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.err.println(e.getClass().getName()+": "+e.getMessage());
+				System.exit(0);
+			}
+	}
     public void updateGrid() {
-    	
+    	grid.setItems(skillsList);
     	//Recall to the database to change values as necessary
     }
 }
