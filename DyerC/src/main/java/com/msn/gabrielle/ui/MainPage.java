@@ -19,12 +19,14 @@ import com.vaadin.flow.component.ClickNotifier;
 import com.vaadin.flow.component.Html;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.html.NativeButton;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -54,50 +56,49 @@ public class MainPage extends VerticalLayout
 	private Button employeeButton;
 	private Dialog dialog;
 	private Html img;
-	private HorizontalLayout buttonLayout;
 	private VerticalLayout mainLayout;
 	
-    public MainPage() {
-    	mainLayout = new VerticalLayout();
+    public MainPage() { 
+    	setSizeFull();
     	
-    	VerticalLayout box = new VerticalLayout();
-    	box.setWidth("500px");
-    	Label iAm = new Label("I am a...");
-    	iAm.addClassName("label");
-    	box.add(iAm);
-    	box.setAlignItems(Alignment.CENTER);
-    	
-    	
-    	
-    	buttonLayout = new HorizontalLayout();
-    	studentButton = new Button("Student");
-    	studentButton.addClickListener( e-> {
-    		box.setVisible(false);
-    		studentButton.getUI().ifPresent(ui -> ui.navigate("studentPage"));
-    		
-    	});
-    	
-    	
-    	alumniButton = new Button("Alumni");
-    	alumniButton.addClickListener( e-> {
-    		mainLayout.remove(box);
-    		alumniButton.getUI().ifPresent(ui -> ui.navigate("alumniPage"));
-    	});
-    	
-    	employeeButton = new Button("Employee");
-    	employeeButton.addClickListener( e-> {
-    		mainLayout.remove(box);
-    		employeeButton.getUI().ifPresent(ui -> ui.navigate("employeePage"));
-    	});
-    	
-    	studentButton.addClassName("buttons");
-    	alumniButton.addClassName("buttons");
-    	employeeButton.addClassName("buttons");
-    	buttonLayout.add(studentButton, alumniButton,employeeButton);
+    	Dialog viewDialog = new Dialog();
 
-    	mainLayout.add(buttonLayout);
+    	viewDialog.setCloseOnEsc(false);
+    	viewDialog.setCloseOnOutsideClick(false);
+    	VerticalLayout mainLay = new VerticalLayout();
+    	Label iAm = new Label("I am a...");
+    	mainLay.add(iAm);
+    	
+    	Button studentButton = new Button("Student");
+    	studentButton.addClickListener( e-> {
+    		this.getUI().ifPresent(ui -> ui.navigate("studentPage"));
+    		viewDialog.close();
+
+    	});
+    	studentButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
+    	
+    	Button alumniButton = new Button("Alumni");
+    	alumniButton.addClickListener( e-> {
+    		this.getUI().ifPresent(ui -> ui.navigate("alumniPage"));
+    		viewDialog.close();
+    	});
+    	alumniButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
+    	
+    	Button employeeButton = new Button("Employee");
+    	employeeButton.addClickListener( e-> {
+    		this.getUI().ifPresent(ui -> ui.navigate("employeePage"));
+    		viewDialog.close();
+    	});
+    	
+    	employeeButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
+    	HorizontalLayout buttonLay = new HorizontalLayout();
+    	buttonLay.add(studentButton, alumniButton, employeeButton);
+    	mainLay.add(buttonLay);
+
+    	viewDialog.add(mainLay);
+    	viewDialog.open();
+    	add(viewDialog);
     	//mainLayout.setHorizontalComponentAlignment(Alignment.CENTER, buttonLayout);
-        add(mainLayout);
     }
    
 }
