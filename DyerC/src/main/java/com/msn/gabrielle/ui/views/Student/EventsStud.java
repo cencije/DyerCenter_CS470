@@ -16,6 +16,7 @@
 package com.msn.gabrielle.ui.views.Student;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import org.vaadin.stefan.fullcalendar.CalendarView;
 import org.vaadin.stefan.fullcalendar.CalendarViewImpl;
@@ -38,10 +39,12 @@ import com.vaadin.flow.router.Route;
 @Route(value = "eventsstud", layout = StudentPage.class)
 @PageTitle("Events")
 public class EventsStud extends VerticalLayout{
+	
+	FullCalendar calendar = FullCalendarBuilder.create().build();
 
 	public EventsStud() {
         initView();
-        displayCalendar();
+        displayCalendar();   
     }
 	
 	private void initView() {
@@ -54,22 +57,68 @@ public class EventsStud extends VerticalLayout{
 //		FullCalendar calendar = FullCalendarBuilder.create().build();
 //		add(calendar);
 //
-//		// Create a initial sample entry
-//		Entry entry = new Entry();
-//		entry.setTitle("Some event");
-//		entry.setStart(LocalDate.now().withDayOfMonth(3).atTime(10, 0));
-//		entry.setEnd(entry.getStart().plusHours(2));
-//		entry.setColor("#ff3333");
-//
 //		calendar.addEntry(entry);
 		HasText intervalLabel = new Span();
 	    // combo box to select a view for the calendar, like "monthly", "weekly", ...
-	    FullCalendar calendar = FullCalendarBuilder.create().build();
+	    // FullCalendar calendar = FullCalendarBuilder.create().build();
 	    calendar.setHeight(500);
 		setFlexGrow(1, calendar);
-	    Label month = new Label("MARCH 2019");
-	    add(month);
+		
+		LocalDate x = LocalDate.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE;
+		String formattedDate = x.format(formatter);
+		Label currentMonth = new Label("");
+		String currentYear = new String(formattedDate.substring(0, 4));
+		
+		if(formattedDate.charAt(5) == '0' && formattedDate.charAt(6) == '1') {
+			currentMonth.setText("January " + currentYear);
+		}
+		if(formattedDate.charAt(5) == '0' && formattedDate.charAt(6) == '2') {
+			currentMonth.setText("February " + currentYear);
+		}
+		if(formattedDate.charAt(5) == '0' && formattedDate.charAt(6) == '3') {
+			currentMonth.setText("March " + currentYear);
+		}
+		if(formattedDate.charAt(5) == '0' && formattedDate.charAt(6) == '4') {
+			currentMonth.setText("April " + currentYear);
+		}
+		if(formattedDate.charAt(5) == '0' && formattedDate.charAt(6) == '5') {
+			currentMonth.setText("May " + currentYear);
+		}
+		if(formattedDate.charAt(5) == '0' && formattedDate.charAt(6) == '6') {
+			currentMonth.setText("June " + currentYear);
+		}
+		if(formattedDate.charAt(5) == '0' && formattedDate.charAt(6) == '7') {
+			currentMonth.setText("July " + currentYear);
+		}
+		if(formattedDate.charAt(5) == '0' && formattedDate.charAt(6) == '8') {
+			currentMonth.setText("August " + currentYear);
+		}
+		if(formattedDate.charAt(5) == '0' && formattedDate.charAt(6) == '9') {
+			currentMonth.setText("September " + currentYear);
+		}
+		if(formattedDate.charAt(5) == '1' && formattedDate.charAt(6) == '0') {
+			currentMonth.setText("October " + currentYear);
+		}
+		if(formattedDate.charAt(5) == '1' && formattedDate.charAt(6) == '1') {
+			currentMonth.setText("November " + currentYear);
+		}
+		if(formattedDate.charAt(5) == '1' && formattedDate.charAt(6) == '2') {
+			currentMonth.setText("December " + currentYear);
+		}
+	    		
+		add(currentMonth);
+	    
 		add(calendar);
+		
+		// Create a initial sample entry
+		Entry sampleEntry = new Entry();
+		sampleEntry.setTitle("Some event");
+		sampleEntry.setStart(LocalDate.now().withDayOfMonth(3).atTime(10, 30));
+		sampleEntry.setEnd(sampleEntry.getStart().plusHours(2));
+		sampleEntry.setColor("#ff3333");
+		calendar.addEntry(sampleEntry);
+		
 
 	}
 }

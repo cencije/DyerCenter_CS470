@@ -16,6 +16,7 @@
 package com.msn.gabrielle.ui.views.Employee;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import org.vaadin.stefan.fullcalendar.CalendarView;
 import org.vaadin.stefan.fullcalendar.CalendarViewImpl;
@@ -24,6 +25,7 @@ import org.vaadin.stefan.fullcalendar.FullCalendar;
 import org.vaadin.stefan.fullcalendar.FullCalendarBuilder;
 
 import com.msn.gabrielle.ui.*;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.HasText;
 import com.vaadin.flow.component.Tag;
@@ -32,15 +34,31 @@ import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.notification.Notification.Position;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 @Route(value = "eventsemp", layout = EmployeePage.class)
 @PageTitle("Events")
 public class EventsEmp extends VerticalLayout{
+	
+	private Button addEventButton;
+	VerticalLayout lay;
+	HorizontalLayout hlay;
+	FullCalendar calendar = FullCalendarBuilder.create().build();
 
 	public EventsEmp() {
         initView();
+        
+        lay = new VerticalLayout();
+        hlay = new HorizontalLayout();
+        addEventButton = new Button("Add an Event", event ->  {
+        	try {
+        		Label enterhere = new Label("Now you'll enter a new event");
+        		enterhere.setVisible(true);
+        	} catch(Exception e) { e.printStackTrace(); }  }       
+        );
+        
         displayCalendar();
     }
 	
@@ -50,9 +68,63 @@ public class EventsEmp extends VerticalLayout{
     }
 	
 	private void displayCalendar() {
-//		// Create a new calendar instance and attach it to our layout
-//		FullCalendar calendar = FullCalendarBuilder.create().build();
-//		add(calendar);
+		
+		LocalDate x = LocalDate.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE;
+		String formattedDate = x.format(formatter);
+		Label currentMonth = new Label("");
+		String currentYear = new String(formattedDate.substring(0, 4));
+		
+		if(formattedDate.charAt(5) == '0' && formattedDate.charAt(6) == '1') {
+			currentMonth.setText("January " + currentYear);
+		}
+		if(formattedDate.charAt(5) == '0' && formattedDate.charAt(6) == '2') {
+			currentMonth.setText("February " + currentYear);
+		}
+		if(formattedDate.charAt(5) == '0' && formattedDate.charAt(6) == '3') {
+			currentMonth.setText("March " + currentYear);
+		}
+		if(formattedDate.charAt(5) == '0' && formattedDate.charAt(6) == '4') {
+			currentMonth.setText("April " + currentYear);
+		}
+		if(formattedDate.charAt(5) == '0' && formattedDate.charAt(6) == '5') {
+			currentMonth.setText("May " + currentYear);
+		}
+		if(formattedDate.charAt(5) == '0' && formattedDate.charAt(6) == '6') {
+			currentMonth.setText("June " + currentYear);
+		}
+		if(formattedDate.charAt(5) == '0' && formattedDate.charAt(6) == '7') {
+			currentMonth.setText("July " + currentYear);
+		}
+		if(formattedDate.charAt(5) == '0' && formattedDate.charAt(6) == '8') {
+			currentMonth.setText("August " + currentYear);
+		}
+		if(formattedDate.charAt(5) == '0' && formattedDate.charAt(6) == '9') {
+			currentMonth.setText("September " + currentYear);
+		}
+		if(formattedDate.charAt(5) == '1' && formattedDate.charAt(6) == '0') {
+			currentMonth.setText("October " + currentYear);
+		}
+		if(formattedDate.charAt(5) == '1' && formattedDate.charAt(6) == '1') {
+			currentMonth.setText("November" + currentYear);
+		}
+		if(formattedDate.charAt(5) == '1' && formattedDate.charAt(6) == '2') {
+			currentMonth.setText("December " + currentYear);
+		}
+	    	
+		//calendar.addEntry(entry);
+		HasText intervalLabel = new Span();
+	    calendar.setHeight(500);
+		setFlexGrow(1, calendar);
+
+		//Add all of the components to the page
+		hlay.add(currentMonth);
+		hlay.add(addEventButton);
+        lay.add(hlay);
+        lay.add(calendar);
+        add(hlay);
+        add(lay);
+		
 //
 //		// Create a initial sample entry
 //		Entry entry = new Entry();
@@ -60,22 +132,14 @@ public class EventsEmp extends VerticalLayout{
 //		entry.setStart(LocalDate.now().withDayOfMonth(3).atTime(10, 0));
 //		entry.setEnd(entry.getStart().plusHours(2));
 //		entry.setColor("#ff3333");
-//
-//		calendar.addEntry(entry);
-		HasText intervalLabel = new Span();
-	    // combo box to select a view for the calendar, like "monthly", "weekly", ...
-	    FullCalendar calendar = FullCalendarBuilder.create().build();
-		setFlexGrow(1, calendar);
-	    ComboBox<CalendarView> viewBox = new ComboBox<>("", CalendarViewImpl.values());
-	    viewBox.addValueChangeListener(e -> {
-	        CalendarView value = e.getValue();
-	        calendar.changeView(value == null ? CalendarViewImpl.MONTH : value);
-	    });
-	    viewBox.setValue(CalendarViewImpl.MONTH);
-	    Label month = new Label("MARCH 2019");
-	    add(month);
-	    add(viewBox);
-		add(calendar);
-
+	
+        
+     // Create a initial sample entry
+     		Entry sampleEntry = new Entry();
+     		sampleEntry.setTitle("Some event");
+     		sampleEntry.setStart(LocalDate.now().withDayOfMonth(3).atTime(10, 30));
+     		sampleEntry.setEnd(sampleEntry.getStart().plusHours(2));
+     		sampleEntry.setColor("#ff3333");
+     		calendar.addEntry(sampleEntry);
 	}
 }
