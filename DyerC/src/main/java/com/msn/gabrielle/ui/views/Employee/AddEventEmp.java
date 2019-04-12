@@ -1,6 +1,7 @@
 package com.msn.gabrielle.ui.views.Employee;
 
 import com.msn.gabrielle.ui.*;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.HasText;
 import com.vaadin.flow.component.Tag;
@@ -9,6 +10,7 @@ import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.notification.Notification.Position;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import java.util.ArrayList;
@@ -18,7 +20,8 @@ import java.util.ArrayList;
 public class AddEventEmp extends VerticalLayout {
 	
 	String eventName, eventLocation, eventDescription;
-	String[] arrayLocations = { "Colton Chapel", "Marlo Room"};
+	VerticalLayout vLabelLayout;
+	HorizontalLayout hlayout;
 	
 	public AddEventEmp() {
 		Label addTitleLbl = new Label("Title: ");
@@ -27,10 +30,20 @@ public class AddEventEmp extends VerticalLayout {
 		//locations.setItems(Arrays.asList(arrayLocations));;
 		
 		Label addDescLbl = new Label("Description: ");
+		//TextField x = new TextField();
+		
+		vLabelLayout = new VerticalLayout();
+		hlayout = new HorizontalLayout();
+		add(vLabelLayout);
+		vLabelLayout.add(addTitleLbl, addLocLbl, addDescLbl);
+		
+		
 	}
 	
-	VerticalLayout vLabelLayout = new VerticalLayout();
+	
 	//vLabelLayout.add(addTitleLbl);
+	
+	
 
 	
 }

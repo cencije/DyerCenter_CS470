@@ -59,7 +59,7 @@ public class MainPage extends VerticalLayout
     	viewDialog.setCloseOnEsc(false);
     	viewDialog.setCloseOnOutsideClick(false);
     	VerticalLayout mainLay = new VerticalLayout();
-    	Label iAm = new Label("I am a...");
+    	Label iAm = new Label("I am a(n)...");
     	mainLay.add(iAm);
     	
     	Button studentButton = new Button("Student");
