@@ -51,13 +51,6 @@ import com.msn.gabrielle.ui.views.reviewslist.ReviewsList;
 public class MainPage extends VerticalLayout
         implements RouterLayout{
 	
-	private Button studentButton;
-	private Button alumniButton;
-	private Button employeeButton;
-	private Dialog dialog;
-	private Html img;
-	private VerticalLayout mainLayout;
-	
     public MainPage() { 
     	setSizeFull();
     	
@@ -66,7 +59,7 @@ public class MainPage extends VerticalLayout
     	viewDialog.setCloseOnEsc(false);
     	viewDialog.setCloseOnOutsideClick(false);
     	VerticalLayout mainLay = new VerticalLayout();
-    	Label iAm = new Label("I am a...");
+    	Label iAm = new Label("I am a(n)...");
     	mainLay.add(iAm);
     	
     	Button studentButton = new Button("Student");
