@@ -4,6 +4,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.html.NativeButton;
+import com.vaadin.flow.component.html.OrderedList;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.Notification.Position;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -111,8 +112,10 @@ public class SkillsEmp extends VerticalLayout {
 		hlBTNSkills = new HorizontalLayout();
 		hlBTNSkills.add(btnDeleteSkill); hlBTNSkills.add(btnAddSkill);
 		
+		Label lblSkillsTable = new Label("Skills Table");
+
 		vlSkills = new VerticalLayout();
-		vlSkills.add(grid);
+		vlSkills.add(lblSkillsTable); vlSkills.add(grid);
 		add(hlTFSkills); add(hlBTNSkills); add(vlSkills);
 	}
 	public void loadSkillsList() {
@@ -149,7 +152,6 @@ public class SkillsEmp extends VerticalLayout {
 			statementAdd.close();
 			c.close();
 			*/
-			
 			
 			skillsList.add(new SkillStud(major, name));
 			
