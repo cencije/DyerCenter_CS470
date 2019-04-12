@@ -52,9 +52,6 @@ public class ProjectListStud extends VerticalLayout{
     private String descriptionStr;
     private String nameProposerStr;
 
-//    private final ProjectEditorStud form = new ProjectEditorStud(
-//            this::saveProject, this::deleteProject);
-
     public ProjectListStud() {
         initView();
 
@@ -78,7 +75,25 @@ public class ProjectListStud extends VerticalLayout{
         searchField.addValueChangeListener(e -> updateView());
         searchField.setValueChangeMode(ValueChangeMode.EAGER);
         searchField.addFocusShortcut(Key.KEY_F, KeyModifier.CONTROL);
+        	
+        Button newButton = new Button("New project proposal", new Icon("lumo", "plus"));
+        newButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        newButton.addClassName("view-toolbar__button");
+        newButton.addClickListener(event-> dialog().open());
+        /*
+            This is a falFl-back method:
+            '+' is not a event.code (DOM events), so as a fall-back shortcuts
+            will perform a character-based comparison. Since Key.ADD changes
+            locations frequently based on the keyboard language, we opted to use
+            a character instead.
+         */
+        newButton.addClickShortcut(Key.of("+"));
         
+        viewToolbar.add(searchField, newButton);
+        add(viewToolbar);
+    }
+    
+    private Dialog dialog() {
         Dialog dialog = new Dialog();
 
     	dialog.setCloseOnEsc(false);
@@ -124,41 +139,6 @@ public class ProjectListStud extends VerticalLayout{
     	projectForum.add(nameLayout, description, proposerLayout, buttons);
     	dialog.add(projectForum);
     	add(dialog);
-        	
-        Button newButton = new Button("New project proposal", new Icon("lumo", "plus"));
-        newButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        newButton.addClassName("view-toolbar__button");
-        newButton.addClickListener(event-> dialog.open());
-        /*
-            This is a falFl-back method:
-            '+' is not a event.code (DOM events), so as a fall-back shortcuts
-            will perform a character-based comparison. Since Key.ADD changes
-            locations frequently based on the keyboard language, we opted to use
-            a character instead.
-         */
-        newButton.addClickShortcut(Key.of("+"));
-        
-        viewToolbar.add(searchField, newButton);
-        add(viewToolbar);
-    }
-    
-    private Dialog dialog() {
-    	Dialog dialog = new Dialog();
-
-    	dialog.setCloseOnEsc(false);
-    	dialog.setCloseOnOutsideClick(false);
-
-    	Label messageLabel = new Label();
-
-    	NativeButton confirmButton = new NativeButton("Confirm", event -> {
-    	    messageLabel.setText("Confirmed!");
-    	    dialog.close();
-    	});
-    	NativeButton cancelButton = new NativeButton("Cancel", event -> {
-    	    messageLabel.setText("Cancelled...");
-    	    dialog.close();
-    	});
-    	dialog.add(confirmButton, cancelButton);
     	return dialog;
     }
     
@@ -214,25 +194,11 @@ public class ProjectListStud extends VerticalLayout{
         edit.setIcon(new Icon("lumo", "view"));
         edit.addClassName("review__edit");
         edit.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
-//        if (CategoryService.getInstance().getUndefinedCategory().getId()
-//                .equals(category.getId())) {
-//            edit.setEnabled(false);
-//        }
         return edit;
     }
 
-    private String getReviewCount(Category category) {
-        List<Review> reviewsInCategory = ReviewService.getInstance()
-                .findReviews(category.getName());
-        int sum = reviewsInCategory.stream().mapToInt(Review::getCount).sum();
-        return Integer.toString(sum);
-    }
-
     private void updateView() {
-//        List<Projects> projects = CategoryService.getInstance()
-//                .findCategories(searchField.getValue());
-//        grid.setItems(projects);
-    	grid.setItems(projectList);
+    	grid.setItems(getSearchValues(searchField.getValue()));
     	
         if (searchField.getValue().length() > 0) {
             header.setText("Search for “" + searchField.getValue() + "”");
@@ -240,31 +206,18 @@ public class ProjectListStud extends VerticalLayout{
             header.setText("Project Proposals");
         }
     }
-
-    private void saveProject(Projects project,
-            AbstractEditorDialog.Operation operation) {
-        //CategoryService.getInstance().saveCategory(category);
-    	//SAVE PROJECT HERE
+    
+    private List<Projects> getSearchValues(String value){
+    	if (value.isEmpty()) {
+    		return projectList;
+    	}
     	
-        Notification.show(
-                "Project proposal successfully " + operation.getNameInText() + "ed.",
-                3000, Position.BOTTOM_START);
-        updateView();
-    }
-
-    private void deleteProject(Projects project) {
-        List<Review> reviewsInCategory = ReviewService.getInstance()
-                .findReviews(project.getName());
-
-        reviewsInCategory.forEach(review -> {
-            review.setCategory(
-                    CategoryService.getInstance().getUndefinedCategory());
-            ReviewService.getInstance().saveReview(review);
-        });
-        //CategoryService.getInstance().deleteCategory(project);
-
-        Notification.show("Project proposal successfully deleted.", 3000,
-                Position.BOTTOM_START);
-        updateView();
+    	List<Projects> listToDisplay = new ArrayList();
+    	for (int i = 0; i < projectList.size(); i++) {
+    		if (projectList.get(i).getName().toLowerCase().contains(value.toLowerCase())) {
+    			listToDisplay.add(projectList.get(i));
+    		}
+    	}
+		return listToDisplay;
     }
 }
