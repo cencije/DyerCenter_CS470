@@ -214,8 +214,11 @@ public class ProjectsListEmp extends VerticalLayout {
     	
         if (searchField.getValue().length() > 0) {
             header.setText("Search for “" + searchField.getValue() + "”");
+            header.addClassName("main-layout-project-title");
+
         } else {
             header.setText("Project Proposals");
+            header.addClassName("main-layout-project-title");
         }
     }
     

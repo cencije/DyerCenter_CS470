@@ -30,12 +30,11 @@
     </repositories>
 
     <pluginRepositories>
-        <!-- Repository needed for the prerelease versions of Vaadin -->
         <pluginRepository>
             <id>vaadin-prereleases</id>
             <url>https://maven.vaadin.com/vaadin-prereleases</url>
         </pluginRepository>
-    </pluginRepositories>
+    </pluginRepositories>  
 
     <dependencyManagement>
         <dependencies>
@@ -56,10 +55,6 @@
         </dependency>
         <dependency>
    			<groupId>com.vaadin</groupId>
-   			<artifactId>vaadin-dialog-flow</artifactId>
-		</dependency>
-		<dependency>
-    		<groupId>com.vaadin</groupId>
    			<artifactId>vaadin-dialog-flow</artifactId>
 		</dependency>
 		<dependency>
