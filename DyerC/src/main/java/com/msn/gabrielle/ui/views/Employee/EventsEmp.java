@@ -24,6 +24,7 @@ import org.vaadin.stefan.fullcalendar.CalendarViewImpl;
 import org.vaadin.stefan.fullcalendar.Entry;
 import org.vaadin.stefan.fullcalendar.FullCalendar;
 import org.vaadin.stefan.fullcalendar.FullCalendarBuilder;
+import com.vaadin.flow.shared.Registration;
 
 import com.msn.gabrielle.ui.*;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -46,6 +47,7 @@ import com.vaadin.flow.component.textfield.*;
 
 @Route(value = "eventsemp", layout = EmployeePage.class)
 @PageTitle("Events")
+@HtmlImport("frontend://styles/calendar-style.html")
 public class EventsEmp extends VerticalLayout{
 	
 	private Button addEventButton, saveEvent, closeD;
@@ -72,8 +74,6 @@ public class EventsEmp extends VerticalLayout{
         
         Label addTitleLbl = new Label("Event Title:");
 		Label addLocLbl = new Label("Location:");
-		Label addDateLbl = new Label("Date:");
-		Label addTimeLbl = new Label("Time:");
 		Label addDescLbl = new Label("Description:");
         
 		TextField titleField = new TextField();
@@ -143,9 +143,25 @@ public class EventsEmp extends VerticalLayout{
         	//		datime, desc);
         	Entry ne = new Entry();
         	ne.setTitle(tit);
+        	ne.setDescription(loc);
         	ne.setStart(LocalDate.now().withDayOfMonth(d).atTime(h, minute));
         	ne.setEnd(ne.getStart().plusHours(4));
         	calendar.addEntry(ne);
+        	Dialog d = new Dialog();
+        	VerticalLayout eventClickedVLay = new VerticalLayout();
+        	Label titleLabel = new Label(tit);
+        	Label locLabel = new Label(loc);
+        	HorizontalLayout timeHLay = new HorizontalLayout();
+        	Label timeLabel = new Label(hour.toString());
+        	Label minLabel = new Label(min.toString());
+        	timeHLay.add(timeLabel, minLabel);
+        	Label desLabel = new Label(desc);
+        	eventClickedVLay.add(titleLabel, locLabel, timeHLay, desLabel);
+        	calendar.addEntryClickedListener(EntryClickedEvent -> {
+        		d.add(eventClickedVLay);
+        		add(d);
+        		d.open();
+        	});
         	
         	titleField.clear();
         	locField.clear();
@@ -235,6 +251,8 @@ public class EventsEmp extends VerticalLayout{
 		//calendar.addEntry(entry);
 		HasText intervalLabel = new Span();
 	    calendar.setHeight(500);
+	    calendar.addClassName("calendar-color");
+	    
 		setFlexGrow(1, calendar);
 
 		//Add all of the components to the page
@@ -244,6 +262,14 @@ public class EventsEmp extends VerticalLayout{
         lay.add(calendar);
         add(hlay);
         add(lay);
+        
+        calendar.addDayNumberClickedListener(event -> {
+        	Dialog d = new Dialog();
+        	d.setCloseOnEsc(false);
+            d.setCloseOnOutsideClick(false);
+            Label sup = new Label("sup");
+            d.add(sup);
+        });
 		
 //
 //		// Create a initial sample entry

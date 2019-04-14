@@ -20,4 +20,29 @@ public class Events {
 		this.description = description;
 	}
 	
+	public void setTitle(String newt) {
+		title = newt;
+	}
+	
+	public String getTitle() {
+		return this.title;
+	}
+	
+	public void setLocation(String newl) {
+		location = newl;
+		
+	}
+	
+	public String getLocation() {
+		return this.location;
+	}
+	
+	public void setDescription(String newd) {
+		description = newd;
+		
+	}
+	
+	public String getDescription() {
+		return this.description;
+	}
 }
