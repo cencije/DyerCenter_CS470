@@ -25,7 +25,7 @@
 
             .view-toolbar {
                 display: flex;
-                background-color: #910029;
+                background-color: #1D1D1D;
                 color: white;
                 box-shadow: 0 1px 0 0 var(--lumo-contrast-10pct);
                 margin: 0 calc(-50vw + 50%);
@@ -35,19 +35,28 @@
                 flex: none;
             }
 
-            .view-toolbar__search-field {
+            .view-toolbar__search-field  {
             	color: black;
-            	background-color: white;
                 flex: auto;
                 min-width: 0;
                 margin-right: 16px;
             }
+            
+            .input_textfield [type=text] {
+  				width: 100%;
+  				padding: 12px 20px;
+ 				margin: 8px 0;
+  				box-sizing: border-box;
+  				border: none;
+  				background-color: #3CBC8D;
+  				color: white;
+			}
             .view-container {
                 flex: auto;
             }
             
             .view-toolbar__button{
-            	background-color: #7e8385;
+            	background-color: #A2998B;
             }
         </style>
     </template>
@@ -80,10 +89,11 @@
         }
 
         .main-layout__title {
-            font-size: 1em;
+            font-size: 1.75em;
+            font-family: "ITC Caslon 224";
             margin: 0;
             /* Allow the nav-items to take all the space so they are centered */
-            width: 0;
+            width: .2;
             line-height: 1;
             color: white;
             letter-spacing: -0.02em;
@@ -133,7 +143,7 @@
             -ms-user-select: none;
             user-select: none;
             font-size: var(--lumo-font-size-s);
-            color: #7e8385;
+            color: #A2998B;
             font-weight: 500;
             line-height: 1.3;
         }

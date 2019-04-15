@@ -17,6 +17,7 @@
 <link rel="import" href="../bower_components/vaadin-lumo-styles/color.html">
 <link rel="import" href="../bower_components/vaadin-lumo-styles/typography.html">
 
+
 <dom-module id="view-styles">
     <template>
         <style>
@@ -25,9 +26,11 @@
 
             .view-toolbar {
                 display: flex;
-                background-color: #1D1D1D;
+                background-color: white;
                 color: white;
-                box-shadow: 0 1px 0 0 var(--lumo-contrast-10pct);
+                /* box-shadow: 0 1px 0 0 var(--lumo-contrast-10pct); */
+                box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+                
                 margin: 0 calc(-50vw + 50%);
                 padding: 8px calc(50vw - 50% + 16px);
                 position: relative;
@@ -35,20 +38,21 @@
                 flex: none;
             }
 
-            .view-toolbar__search-field {
+            .view-toolbar__search-field  {
             	color: black;
-            	background-color: white;
                 flex: auto;
                 min-width: 0;
                 margin-right: 16px;
             }
+ 
             .view-container {
                 flex: auto;
             }
             
             .view-toolbar__button{
-            	background-color: #7e8385;
-            }
+            	background-color: #A2998B;
+  				box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+			}
         </style>
     </template>
 </dom-module>
@@ -64,7 +68,7 @@
         body {
             /* Avoid horizontal scrollbars, mainly on IE11 */
             overflow-x: hidden;
-            background-color: #1D1D1D;
+            background-color: white;
             color:white;
         }
 	`	
@@ -80,10 +84,11 @@
         }
 
         .main-layout__title {
-            font-size: 1em;
+            font-size: 1.75em;
+            font-family: "ITC Caslon 224";
             margin: 0;
             /* Allow the nav-items to take all the space so they are centered */
-            width: 0;
+            width: .2;
             line-height: 1;
             color: white;
             letter-spacing: -0.02em;
@@ -91,7 +96,7 @@
         }
         
         .main-layout-project-title {
-        	color: white;
+        	color: #1D1D1D;
         }
 
         .main-layout > * {
@@ -102,6 +107,7 @@
             display: flex;
             flex: none;
             align-items: center;
+            
             height: var(--main-layout-header-height);
 
             /* Stretch to fill the entire browser viewport, while keeping the content constrained to
@@ -133,7 +139,7 @@
             -ms-user-select: none;
             user-select: none;
             font-size: var(--lumo-font-size-s);
-            color: #7e8385;
+            color: #A2998B;
             font-weight: 500;
             line-height: 1.3;
         }

@@ -48,7 +48,7 @@ public class StudentPage extends Div
         implements RouterLayout{
 		
     public StudentPage() {
-		H2 title = new H2("Dyer Center Student");
+		H2 title = new H2("DYER CENTER");
 		title.addClassName("main-layout__title");
 		
 		RouterLink events = new RouterLink(null, EventsStud.class);
