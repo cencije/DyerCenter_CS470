@@ -38,7 +38,7 @@ import com.vaadin.flow.templatemodel.Encode;
 import com.vaadin.flow.templatemodel.TemplateModel;
 import com.msn.gabrielle.backend.Review;
 import com.msn.gabrielle.backend.ReviewService;
-import com.msn.gabrielle.ui.AlumniPage;
+import com.msn.gabrielle.ui.MainPage;
 import com.msn.gabrielle.ui.common.AbstractEditorDialog;
 import com.msn.gabrielle.ui.encoders.LocalDateToStringEncoder;
 import com.msn.gabrielle.ui.encoders.LongToStringEncoder;
@@ -50,7 +50,7 @@ import com.msn.gabrielle.ui.views.reviewslist.ReviewsList.ReviewsModel;
  *
  * Implemented using a simple template.
  */
-@Route(value = "reviews", layout = AlumniPage.class)
+@Route(value = "reviews", layout = MainPage.class)
 @PageTitle("Review List")
 @Tag("reviews-list")
 @HtmlImport("frontend://src/views/reviewslist/reviews-list.html")
@@ -88,7 +88,7 @@ public class ReviewsList extends PolymerTemplate<ReviewsModel> {
             locations frequently based on the keyboard layout's language, we
             opted to use a character instead.
          */
-        addReview.addClickShortcut(Key.of("+"));
+        //addReview.addClickShortcut(Key.of("+"));
 
 
         // Set review button and edit button text from Java

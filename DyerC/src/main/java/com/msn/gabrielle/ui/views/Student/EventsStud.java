@@ -38,6 +38,7 @@ import com.vaadin.flow.router.Route;
 
 @Route(value = "eventsstud", layout = StudentPage.class)
 @PageTitle("Events")
+@HtmlImport("frontend://styles/shared-styles.html")
 public class EventsStud extends VerticalLayout{
 	
 	FullCalendar calendar = FullCalendarBuilder.create().build();

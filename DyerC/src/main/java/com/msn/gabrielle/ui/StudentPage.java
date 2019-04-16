@@ -31,6 +31,7 @@ import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.server.InitialPageSettings;
 import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.server.PageConfigurator;
+import com.vaadin.server.Page;
 import com.msn.gabrielle.ui.views.Alumni.ProfileAlum;
 import com.msn.gabrielle.ui.views.Student.EventsStud;
 import com.msn.gabrielle.ui.views.Student.ProfileStud;

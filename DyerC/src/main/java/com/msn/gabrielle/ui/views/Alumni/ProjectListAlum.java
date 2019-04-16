@@ -6,7 +6,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 @Route(value = "projectsalum", layout = AlumniPage.class)
-@PageTitle("Projects")
+@PageTitle("Projects Alumni")
 public class ProjectListAlum extends VerticalLayout{
 	public ProjectListAlum() {
 		

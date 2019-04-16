@@ -41,14 +41,14 @@ import com.msn.gabrielle.ui.views.reviewslist.ReviewsList;
  * The main layout contains the header with the navigation buttons, and the
  * child views below that.
  */
-@Route(value = "employeePage", layout = MainLayout.class)
+@Route(value = "employeePage")
 @HtmlImport("frontend://styles/shared-styles.html")
 
 public class EmployeePage extends Div
         implements RouterLayout{
 		
     public EmployeePage() {
-		H2 title = new H2("Dyer Center Employee");
+		H2 title = new H2("DYER CENTER");
 		title.addClassName("main-layout__title");
 
 		RouterLink projects = new RouterLink(null, ProjectsListEmp.class);
