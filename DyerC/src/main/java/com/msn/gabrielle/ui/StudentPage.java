@@ -31,6 +31,7 @@ import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.server.InitialPageSettings;
 import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.server.PageConfigurator;
+import com.vaadin.server.Page;
 import com.msn.gabrielle.ui.views.Alumni.ProfileAlum;
 import com.msn.gabrielle.ui.views.Student.EventsStud;
 import com.msn.gabrielle.ui.views.Student.ProfileStud;
@@ -48,7 +49,7 @@ public class StudentPage extends Div
         implements RouterLayout{
 		
     public StudentPage() {
-		H2 title = new H2("Dyer Center Student");
+		H2 title = new H2("DYER CENTER");
 		title.addClassName("main-layout__title");
 		
 		RouterLink events = new RouterLink(null, EventsStud.class);

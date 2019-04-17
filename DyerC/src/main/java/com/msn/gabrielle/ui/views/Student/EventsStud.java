@@ -39,6 +39,7 @@ import com.vaadin.flow.router.Route;
 
 @Route(value = "eventsstud", layout = StudentPage.class)
 @PageTitle("Events")
+@HtmlImport("frontend://styles/shared-styles.html")
 public class EventsStud extends VerticalLayout{
 	
 	FullCalendar calendar = FullCalendarBuilder.create().build();
@@ -115,11 +116,11 @@ public class EventsStud extends VerticalLayout{
 		// Create a initial sample entry
 		Entry sampleEntry = new Entry();
 		sampleEntry.setTitle("Example Event");
-		sampleEntry.setStart(LocalDate.now().withDayOfMonth(20).atTime(12, 15));
+		sampleEntry.setStart(LocalDate.now().withDayOfMonth(24).atTime(12, 15));
 		sampleEntry.setEnd(sampleEntry.getStart().plusHours(2));
 		calendar.addEntry(sampleEntry);
 		
-		calendar.addDayNumberClickedListener(event -> {
+		calendar.addEntryClickedListener(event -> {
 			Dialog d = new Dialog();
 			d.add(sampleEntry.getTitle());
 			d.add(sampleEntry.getStart().toString());
