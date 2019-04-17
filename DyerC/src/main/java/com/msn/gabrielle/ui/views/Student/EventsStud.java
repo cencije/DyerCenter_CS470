@@ -120,10 +120,17 @@ public class EventsStud extends VerticalLayout{
 		sampleEntry.setEnd(sampleEntry.getStart().plusHours(2));
 		calendar.addEntry(sampleEntry);
 		
+		Dialog d = new Dialog();
+		Label title = new Label(sampleEntry.getTitle());
+		Label time = new Label(sampleEntry.getStart().toString());
+		Label loc = new Label("Hugel 100");
+		Label desc = new Label("Talk, lunch will be provided");
+		VerticalLayout lay = new VerticalLayout();
+		lay.add(title, time, loc, desc);
+		d.add(lay);
+		add(d);
+		
 		calendar.addEntryClickedListener(event -> {
-			Dialog d = new Dialog();
-			d.add(sampleEntry.getTitle());
-			d.add(sampleEntry.getStart().toString());
 			d.open();
 		});
 		
