@@ -32,7 +32,7 @@ import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.server.PageConfigurator;
 import com.msn.gabrielle.ui.views.Employee.EventsEmp;
 import com.msn.gabrielle.ui.views.Employee.ProfileEmp;
-import com.msn.gabrielle.ui.views.Employee.ProjectApprove;
+import com.msn.gabrielle.ui.views.Employee.ProjectsListEmp;
 import com.msn.gabrielle.ui.views.Employee.SkillsEmp;
 import com.msn.gabrielle.ui.views.categorieslist.CategoriesList;
 import com.msn.gabrielle.ui.views.reviewslist.ReviewsList;
@@ -51,7 +51,7 @@ public class EmployeePage extends Div
 		H2 title = new H2("Dyer Center Employee");
 		title.addClassName("main-layout__title");
 
-		RouterLink projects = new RouterLink(null, ProjectApprove.class);
+		RouterLink projects = new RouterLink(null, ProjectsListEmp.class);
 		projects.add(new Icon(VaadinIcon.FORM), new Text("Projects"));
 		projects.addClassName("main-layout__nav-item");
 		// Only show as active for the exact URL, but not for sub paths

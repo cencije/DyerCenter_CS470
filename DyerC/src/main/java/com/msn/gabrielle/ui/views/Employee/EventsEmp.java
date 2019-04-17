@@ -152,8 +152,8 @@ public class EventsEmp extends VerticalLayout{
         	Label titleLabel = new Label(tit);
         	Label locLabel = new Label(loc);
         	HorizontalLayout timeHLay = new HorizontalLayout();
-        	Label timeLabel = new Label(hour.toString());
-        	Label minLabel = new Label(min.toString());
+        	Label timeLabel = new Label();
+        	Label minLabel = new Label();
         	timeHLay.add(timeLabel, minLabel);
         	Label desLabel = new Label(desc);
         	eventClickedVLay.add(titleLabel, locLabel, timeHLay, desLabel);
@@ -162,7 +162,9 @@ public class EventsEmp extends VerticalLayout{
         		add(d);
         		d.open();
         	});
-        	
+        	tit = null;
+        	loc = null;
+        	desc = null;
         	titleField.clear();
         	locField.clear();
         	descField.clear();
@@ -270,15 +272,6 @@ public class EventsEmp extends VerticalLayout{
             Label sup = new Label("sup");
             d.add(sup);
         });
-		
-//
-//		// Create a initial sample entry
-//		Entry entry = new Entry();
-//		entry.setTitle("Some event");
-//		entry.setStart(LocalDate.now().withDayOfMonth(3).atTime(10, 0));
-//		entry.setEnd(entry.getStart().plusHours(2));
-//		entry.setColor("#ff3333");
-	
         
      // Create a initial sample entry
      		Entry sampleEntry = new Entry();

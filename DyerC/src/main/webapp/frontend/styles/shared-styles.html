@@ -25,7 +25,8 @@
 
             .view-toolbar {
                 display: flex;
-                background-color: var(--lumo-base-color);
+                background-color: #1D1D1D;
+                color: white;
                 box-shadow: 0 1px 0 0 var(--lumo-contrast-10pct);
                 margin: 0 calc(-50vw + 50%);
                 padding: 8px calc(50vw - 50% + 16px);
@@ -35,6 +36,8 @@
             }
 
             .view-toolbar__search-field {
+            	color: black;
+            	background-color: white;
                 flex: auto;
                 min-width: 0;
                 margin-right: 16px;
@@ -42,40 +45,27 @@
             .view-container {
                 flex: auto;
             }
+            
+            .view-toolbar__button{
+            	background-color: #7e8385;
+            }
         </style>
     </template>
 </dom-module>
-
-<!--  JULES here is the code that works, I'm not sure how to properly put this section 
-<custom-style>
-    <style include="image-styles">
-        html {
-            height: auto;
-            --main-layout-header-height: 64px;
-            background-color: transparent !important;
-        }
-         body {
-            /* Avoid horizontal scrollbars, mainly on IE11 */
-            overflow-x: hidden;
-            background: url("dyer-teamwork.jpg") !important;
-            
-        }
-    </style>
-</custom-style>
--->
 
 <custom-style>
     <style include="view-styles">
         html {
             height: auto;
             --main-layout-header-height: 64px;
-            background-color: #fff;
+            background-color: #e4f1fe;
         }
 
         body {
             /* Avoid horizontal scrollbars, mainly on IE11 */
             overflow-x: hidden;
-            background-color: #fff;
+            background-color: #1D1D1D;
+            color:white;
         }
 	`	
         .main-layout {
@@ -95,8 +85,13 @@
             /* Allow the nav-items to take all the space so they are centered */
             width: 0;
             line-height: 1;
+            color: white;
             letter-spacing: -0.02em;
             font-weight: 500;
+        }
+        
+        .main-layout-project-title {
+        	color: white;
         }
 
         .main-layout > * {
@@ -114,7 +109,8 @@
             margin: 0 calc(-50vw + 50%);
             padding: 0 calc(50vw - 50% + 16px);
 
-            background-color: var(--lumo-base-color);
+            background-color: #910029;
+            color: white;
             box-shadow: 0 1px 0 0 var(--lumo-contrast-5pct);
         }
 
@@ -137,7 +133,7 @@
             -ms-user-select: none;
             user-select: none;
             font-size: var(--lumo-font-size-s);
-            color: var(--lumo-secondary-text-color);
+            color: #7e8385;
             font-weight: 500;
             line-height: 1.3;
         }
@@ -151,7 +147,7 @@
         }
 
         .main-layout__nav-item[highlight] {
-            color: var(--lumo-primary-text-color);
+            color: white;
             cursor: default;
         }
 

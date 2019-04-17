@@ -1,20 +1,16 @@
-package com.msn.gabrielle.ui.views.Student;
+package com.msn.gabrielle.ui.views.Employee;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import com.msn.gabrielle.backend.Category;
-import com.msn.gabrielle.backend.CategoryService;
+import org.vaadin.teemu.switchui.Switch;
+
 import com.msn.gabrielle.backend.Projects;
-import com.msn.gabrielle.backend.Review;
-import com.msn.gabrielle.backend.ReviewService;
 import com.msn.gabrielle.ui.*;
-import com.msn.gabrielle.ui.common.AbstractEditorDialog;
-import com.msn.gabrielle.ui.views.categorieslist.CategoryEditorDialog;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
+import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.data.value.ValueChangeMode;
@@ -35,14 +31,12 @@ import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.html.NativeButton;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.Icon;
-import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.component.notification.Notification.Position;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
-@Route(value = "projectsstud", layout = StudentPage.class)
-@PageTitle("Projects")
-public class ProjectListStud extends VerticalLayout{
+@Route(value = "projectemp", layout = EmployeePage.class)
+@PageTitle("Projects Employee")
+public class ProjectsListEmp extends VerticalLayout {
 	private final TextField searchField = new TextField("",
             "Search projects");
     private final H2 header = new H2("Project Proposals");
@@ -52,9 +46,10 @@ public class ProjectListStud extends VerticalLayout{
     private String descriptionStr;
     private String nameProposerStr;
 
-    public ProjectListStud() {
+    public ProjectsListEmp() {
         initView();
-
+        
+        addStudentToggle();
         addSearchBar();
         addContent();
 
@@ -65,7 +60,24 @@ public class ProjectListStud extends VerticalLayout{
         addClassName("categories-list");
         setDefaultHorizontalComponentAlignment(Alignment.STRETCH);
     }
-
+    
+    private void addStudentToggle() {
+        Div radio = new Div();
+    	RadioButtonGroup<String> group = new RadioButtonGroup<>();
+    	group.setItems("Student", "Employee");
+    	NativeButton button = new NativeButton("Switch validity state",
+    	        event -> group.setInvalid(!group.isInvalid()));
+    	radio.add(group);
+        add(radio);
+    }
+    
+    private String textSwitch(Button toggle) {
+    	if(toggle.getText().contentEquals("Employee")) {
+    		return "Student";
+    	}
+    	return "Employee";
+    }
+    
     private void addSearchBar() {
         Div viewToolbar = new Div();
         viewToolbar.addClassName("view-toolbar");
@@ -203,6 +215,7 @@ public class ProjectListStud extends VerticalLayout{
         if (searchField.getValue().length() > 0) {
             header.setText("Search for “" + searchField.getValue() + "”");
             header.addClassName("main-layout-project-title");
+
         } else {
             header.setText("Project Proposals");
             header.addClassName("main-layout-project-title");
@@ -214,7 +227,7 @@ public class ProjectListStud extends VerticalLayout{
     		return projectList;
     	}
     	
-    	List<Projects> listToDisplay = new ArrayList<>();
+    	List<Projects> listToDisplay = new ArrayList();
     	for (int i = 0; i < projectList.size(); i++) {
     		if (projectList.get(i).getName().toLowerCase().contains(value.toLowerCase())) {
     			listToDisplay.add(projectList.get(i));
