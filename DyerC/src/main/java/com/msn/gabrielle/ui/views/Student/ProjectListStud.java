@@ -63,6 +63,8 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
     private String nameProposerStr;
     private DatePicker datePickerFirst;
     private DatePicker datePickerSecond;
+    private TextField locationTF;
+    private TextArea area;
    
     
     public interface ProjectsModel extends TemplateModel{
@@ -98,14 +100,12 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
     	dialog.setCloseOnOutsideClick(false);
     	
     	VerticalLayout projectForum = new VerticalLayout();
-    	projectForum.add(projectTitle());
-    	projectForum.add(duration());
-    	TextArea area = new TextArea("Big Area");
-
-    	// Put some content in it
-    	area.setValue("A row\n"+
-    	              "Another row\n"+
-    	              "Yet another row");
+    	HorizontalLayout titleDuration = new HorizontalLayout();
+    	titleDuration.add(projectTitle(), duration());
+    	projectForum.add(titleDuration);
+    	projectForum.add(location());
+    	projectForum.add(projectDescription());
+    	
     	
     	HorizontalLayout buttons = new HorizontalLayout();
     	Button saveButton = new Button("Save", event -> {
@@ -119,38 +119,58 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
     	    dialog.close();
     	});
     	buttons.add(saveButton, cancelButton);
-    	dialog.add(projectForum, area, buttons);
+    	dialog.add(projectForum, buttons);
     	dialog.open();
     	return dialog;
     }
     
     TextField pTField;
     /**
-     * Layout for project title & text field
+     * Layout for project title & text field for project dialog
      * @return vertical layout
      */
     public VerticalLayout projectTitle() {
     	VerticalLayout pT = new VerticalLayout();
-    	pT.add(new Label("Title: "));
-    	pTField = new TextField();
+    	pTField = new TextField("Title: ");
     	pT.add(pTField);
     	return pT;
     }
     
     /**
-     * Layout for duration of project
+     * Layout for duration of project dialog
      * @return vertical layout
      */
     public VerticalLayout duration() {
     	VerticalLayout dur = new VerticalLayout();
     	HorizontalLayout datePicker = new HorizontalLayout();
-    	datePickerFirst = new DatePicker();
-    	Label to = new Label(" to ");
-    	datePickerSecond = new DatePicker();
-    	datePicker.add(datePickerFirst,to, datePickerSecond);
-    	Label duration = new Label("Duration: ");
-    	dur.add(duration, datePicker);
+    	datePickerFirst = new DatePicker("Start Date ");
+    	datePickerSecond = new DatePicker("End Date ");
+    	datePicker.add(datePickerFirst, datePickerSecond);
+    	dur.add(datePicker);
     	return dur;
+    }
+    
+    /**
+     * Layout for location of project dialog
+     * @return vertical layout
+     */
+    public VerticalLayout location() {
+    	VerticalLayout loc = new VerticalLayout();
+    	locationTF = new TextField("Location: ");
+    	locationTF.setWidthFull();
+    	loc.add(locationTF);
+    	return loc;
+    }
+    
+    public VerticalLayout projectDescription() {
+    	VerticalLayout descrip = new VerticalLayout();
+    	area = new TextArea("Description: ");
+    	area.setValue(""+
+    	              "\n"+
+    	              "\n");
+    	area.setWidthFull();
+    	descrip.add(area);
+    	return descrip;
     }
     
     /**
@@ -160,6 +180,8 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
     	pTField.clear();
     	datePickerFirst.clear();
     	datePickerSecond.clear();
+    	locationTF.clear();
+    	area.clear();
     }
     
     private void updateList() {
