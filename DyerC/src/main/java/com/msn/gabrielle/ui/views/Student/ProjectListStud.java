@@ -170,36 +170,11 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
     	return viewDialog;
     }
     
-    public void saveUpdate(Review review,
-            AbstractEditorDialog.Operation operation) {
-        ReviewService.getInstance().saveReview(review);
-        updateList();
-        Notification.show(
-                "Beverage successfully " + operation.getNameInText() + "ed.",
-                3000, Position.BOTTOM_START);
-    }
-
-    public void deleteUpdate(Review review) {
-        ReviewService.getInstance().deleteReview(review);
-        updateList();
-        Notification.show("Beverage successfully deleted.", 3000,
-                Position.BOTTOM_START);
-    }
-
-    private Button createEditButton(Projects project) {
-        Button edit = new Button("View", event -> viewDialog(project).open());
-        edit.setIcon(new Icon("lumo", "view"));
-        edit.addClassName("review__edit");
-        edit.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
-        return edit;
-    }
-
-    
     private void updateList() {
-    	List<Projects> projects = getSearchValues(searchField.getValue());
+    	List<Projects> projects = getSearchValues(search.getValue());
     	
-    	if (searchField.getValue().length() > 0) {
-    		header.setText("Search for “" + searchField.getValue() + "”");
+    	if (search.getValue().length() > 0) {
+    		header.setText("Search for “" + search.getValue() + "”");
             header.addClassName("main-layout-project-title");
         } else {
         	header.setText("Project Proposals");
@@ -213,7 +188,7 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
     		return projectList;
     	}
     	
-    	List<Projects> listToDisplay = new ArrayList();
+    	List<Projects> listToDisplay = new ArrayList<Projects>();
     	for (int i = 0; i < projectList.size(); i++) {
     		if (projectList.get(i).getName().toLowerCase().contains(value.toLowerCase())) {
     			listToDisplay.add(projectList.get(i));

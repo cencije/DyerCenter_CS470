@@ -17,6 +17,7 @@ package com.msn.gabrielle.ui.views.Employee;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.time.format.DateTimeFormatter;
 
 import org.vaadin.stefan.fullcalendar.CalendarView;
@@ -132,7 +133,6 @@ public class EventsEmp extends VerticalLayout{
 		
 		dateLayout.add(monthLbl, month, dateLbl, day);
 		timeLayout.add(hourLbl, hour, minLbl, min);
-
 		
         Dialog dialog = new Dialog();
         dialog.setCloseOnEsc(false);
