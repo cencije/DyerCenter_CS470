@@ -20,6 +20,7 @@ import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.data.value.ValueChangeMode;
@@ -30,6 +31,7 @@ import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
+import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
@@ -55,11 +57,12 @@ import com.msn.gabrielle.ui.views.Student.ProjectListStud.ProjectsModel;
 public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
 	private TextField searchField = new TextField("",
             "Search projects");
-    //private H2 header = new H2("Project Proposals");
     private List<Projects> projectList = new ArrayList<Projects>();
     private String nameStr;
     private String descriptionStr;
     private String nameProposerStr;
+    private DatePicker datePickerFirst;
+    private DatePicker datePickerSecond;
    
     
     public interface ProjectsModel extends TemplateModel{
@@ -94,80 +97,69 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
     	dialog.setCloseOnEsc(false);
     	dialog.setCloseOnOutsideClick(false);
     	
-    	HorizontalLayout projectForum = new HorizontalLayout();
-    	VerticalLayout nameLayout = new VerticalLayout();
-    	Label nameProject = new Label("Project title: ");
-    	TextField nameField = new TextField();
-    	nameField.addValueChangeListener(event ->
-    		nameStr = event.getValue());
-    	nameField.setMaxLength(45);
-    	nameLayout.add(nameProject, nameField);
+    	VerticalLayout projectForum = new VerticalLayout();
+    	projectForum.add(projectTitle());
+    	projectForum.add(duration());
+    	TextArea area = new TextArea("Big Area");
+
+    	// Put some content in it
+    	area.setValue("A row\n"+
+    	              "Another row\n"+
+    	              "Yet another row");
     	
-    	VerticalLayout description = new VerticalLayout();
-    	Label descriptionProject = new Label("Project description: ");
-    	TextField descriptionField = new TextField();
-    	descriptionField.addValueChangeListener(event ->
-    		descriptionStr = event.getValue());
-    	nameLayout.add(descriptionProject, descriptionField);
-    	
-    	VerticalLayout proposerLayout = new VerticalLayout();
-    	Label proposerProject = new Label("Name: ");
-    	TextField proposerField = new TextField();
-    	proposerField.addValueChangeListener(event ->
-    		nameProposerStr = event.getValue());
-    	proposerLayout.add(proposerProject, proposerField);
-    	
-    	VerticalLayout buttons = new VerticalLayout();
+    	HorizontalLayout buttons = new HorizontalLayout();
     	Button saveButton = new Button("Save", event -> {
     		Projects newProj = new Projects(nameStr, descriptionStr, nameProposerStr);
     		projectList.add(newProj);
     		dialog.close();
-    		proposerField.clear();
-    		descriptionField.clear();
-    		nameField.clear();
+    		clearAll();
     		updateList();
     	});
     	Button cancelButton = new Button("Cancel", event -> {
     	    dialog.close();
     	});
     	buttons.add(saveButton, cancelButton);
-    	projectForum.add(nameLayout, description, proposerLayout, buttons);
-    	dialog.add(projectForum);
-    	//add(dialog);
+    	dialog.add(projectForum, area, buttons);
     	dialog.open();
     	return dialog;
     }
     
-    private Dialog viewDialog(Projects currentProj) {
-    	Dialog viewDialog = new Dialog();
-
-    	viewDialog.setCloseOnEsc(false);
-    	viewDialog.setCloseOnOutsideClick(false);
-    	
-    	VerticalLayout mainLay = new VerticalLayout();
-    	VerticalLayout nameLay = new VerticalLayout();
-    	Label nameProject = new Label("Project title: ");
-    	Label nameCurr = new Label(currentProj.getName());
-    	nameLay.add(nameProject,nameCurr );
-    	
-    	VerticalLayout descriptionLay = new VerticalLayout();
-    	Label descriptionProject = new Label("Project description: ");
-    	Label descriptionCurr = new Label(currentProj.getDescription());
-    	descriptionLay.add(descriptionProject, descriptionCurr);
-    	
-    	VerticalLayout proposerLay = new VerticalLayout();
-    	Label proposerProject = new Label("Project proposer: ");
-    	Label proposerCurr = new Label(currentProj.getProposedBy());
-    	proposerLay.add(proposerProject, proposerCurr);
-    	mainLay.add(nameLay, descriptionLay, proposerLay);
-    	
-    	NativeButton closeButton = new NativeButton("Close", event -> {
-    		viewDialog.close();
-    	});
-    	
-    	mainLay.add(closeButton);
-    	viewDialog.add(mainLay);
-    	return viewDialog;
+    TextField pTField;
+    /**
+     * Layout for project title & text field
+     * @return vertical layout
+     */
+    public VerticalLayout projectTitle() {
+    	VerticalLayout pT = new VerticalLayout();
+    	pT.add(new Label("Title: "));
+    	pTField = new TextField();
+    	pT.add(pTField);
+    	return pT;
+    }
+    
+    /**
+     * Layout for duration of project
+     * @return vertical layout
+     */
+    public VerticalLayout duration() {
+    	VerticalLayout dur = new VerticalLayout();
+    	HorizontalLayout datePicker = new HorizontalLayout();
+    	datePickerFirst = new DatePicker();
+    	Label to = new Label(" to ");
+    	datePickerSecond = new DatePicker();
+    	datePicker.add(datePickerFirst,to, datePickerSecond);
+    	Label duration = new Label("Duration: ");
+    	dur.add(duration, datePicker);
+    	return dur;
+    }
+    
+    /**
+     * clear all the fields in project dialog
+     */
+    public void clearAll() {
+    	pTField.clear();
+    	datePickerFirst.clear();
+    	datePickerSecond.clear();
     }
     
     private void updateList() {
