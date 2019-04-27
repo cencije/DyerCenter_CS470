@@ -11,10 +11,10 @@ public class SQLTablesManager {
 	public void determineDBStates() {
 		
 		createProfileTables();
-		dropProfileTables(true, false, false);
+		//dropProfileTables(true, false, false);
 	}
 	
-	public boolean createProfileTables() {
+	public void createProfileTables() {
 		
 		try {
 			Class.forName("org.postgresql.Driver");
@@ -86,7 +86,6 @@ public class SQLTablesManager {
 			System.exit(0);
 		}
 		
-		return true;
 	}
 	public void dropProfileTables(boolean boolStudent, boolean boolAlumni, boolean boolEmployee) {
 		
@@ -147,6 +146,16 @@ public class SQLTablesManager {
 				System.exit(0);
 			}
 		}
+	}
+	
+	public void createEventsTables() {
+		
+	}
+	public void createProjectTables() {
+		
+	}
+	public void createSkillTables() {
+		
 	}
 	
 }

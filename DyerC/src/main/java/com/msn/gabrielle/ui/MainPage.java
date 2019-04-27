@@ -103,31 +103,4 @@ public class MainPage extends VerticalLayout
     	sqlTM.determineDBStates();
     	
     }
-   
-    public void connectDB() {
-    	String title = "ExampleTitle";
-    	String description = "ExampleDescription";
-    	String author = "ExampleAuthor";
-    	String date = "1997-09-26";
-    	String time = "06:15:00";
-    	try {
-	         Class.forName("org.postgresql.Driver");
-	         Connection c = DriverManager
-	            .getConnection("jdbc:postgresql://localhost:5432/postgres",
-	            "postgres", "PostgresMall");
-	         System.out.println("Adding project to database!");
-	         Statement statementAdd = c.createStatement();
-	         String sqlAdd = "INSERT INTO PROJECTS (ID,TITLE,DESCRIPTION,PROJECTAUTHOR,POSTDATE,POSTTIME) VALUES " +
-              "(1, '" + title + "', '" + description + "', '" +
-              author + "', '" + date + "', '" + time + "');";
-	         statementAdd.executeUpdate(sqlAdd);
-	         statementAdd.close();
-	         c.close();
-	         System.out.println("Successful project add to database!");
-	   } catch (Exception e) {
-	         e.printStackTrace();
-	         System.err.println(e.getClass().getName()+": "+e.getMessage());
-	         System.exit(0);
-	   }
-    }
 }
