@@ -128,7 +128,7 @@ public class SQLTablesManager {
 				System.exit(0);
 			}
 		}
-		if (boolAlumni) {
+		if (boolEmployee) {
 			try {
 				Class.forName("org.postgresql.Driver");
 				Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres",
