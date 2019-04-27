@@ -97,8 +97,11 @@ public class MainPage extends VerticalLayout
     	viewDialog.open();
     	add(viewDialog);
     	System.out.println("CALLING THE DB!");
-    	connectDB();
+    	//connectDB();
     	//mainLayout.setHorizontalComponentAlignment(Alignment.CENTER, buttonLayout);
+    	SQLTablesManager sqlTM = new SQLTablesManager();
+    	sqlTM.determineDBStates();
+    	
     }
    
     public void connectDB() {
