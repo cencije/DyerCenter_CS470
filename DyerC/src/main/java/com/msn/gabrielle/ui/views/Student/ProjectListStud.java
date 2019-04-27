@@ -65,7 +65,10 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
     private DatePicker datePickerSecond;
     private TextField locationTF;
     private TextArea area;
-   
+    private TextField name;   
+    private ComboBox<String> comboBox;
+    private ComboBox<String> cB;
+    private Grid<SkillStud> firstGrid;
     
     public interface ProjectsModel extends TemplateModel{
     	@Encode(value = LongToStringEncoder.class, path = "id")
@@ -102,10 +105,10 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
     	VerticalLayout projectForum = new VerticalLayout();
     	HorizontalLayout titleDuration = new HorizontalLayout();
     	titleDuration.add(projectTitle(), duration());
-    	projectForum.add(titleDuration);
-    	projectForum.add(location());
-    	projectForum.add(projectDescription());
-    	
+    	HorizontalLayout nameUnPaid = new HorizontalLayout();
+    	nameUnPaid.add(salary(), proposerName());
+    	projectForum.add(titleDuration, location(), projectDescription(), nameUnPaid);
+    	projectForum.add(skills());
     	
     	HorizontalLayout buttons = new HorizontalLayout();
     	Button saveButton = new Button("Save", event -> {
@@ -133,6 +136,7 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
     	VerticalLayout pT = new VerticalLayout();
     	pTField = new TextField("Title: ");
     	pT.add(pTField);
+    	pTField.setWidthFull();
     	return pT;
     }
     
@@ -162,6 +166,10 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
     	return loc;
     }
     
+    /**
+     * Layout for project description for project dialog
+     * @return
+     */
     public VerticalLayout projectDescription() {
     	VerticalLayout descrip = new VerticalLayout();
     	area = new TextArea("Description: ");
@@ -174,6 +182,49 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
     }
     
     /**
+     * Layout for salary combo box for project dialog
+     * @return vertical layout
+     */
+    public VerticalLayout salary() {
+    	VerticalLayout sL = new VerticalLayout();
+    	comboBox = new ComboBox<>("Pay: ");
+    	comboBox.setItems("Paid", "Unpaid", "Unknown");
+    	sL.add(comboBox);
+    	return sL;
+    }
+    
+    /**
+     * Layout for proposer of the projects name for project dialog
+     * @return vertical layout
+     */
+    public VerticalLayout proposerName() {
+    	VerticalLayout vL = new VerticalLayout();
+    	name = new TextField("Name: ");
+    	name.setWidthFull();
+    	vL.add(name);
+    	return vL;
+    }
+    
+    /**
+     * Layout for skills for project layout dialog
+     * @return vertical layout
+     */
+    public VerticalLayout skills() {
+    	VerticalLayout vL = new VerticalLayout();
+    	List<SkillStud> personList = new ArrayList<SkillStud>(); //personService.fetchAll();
+		personList.add(new SkillStud("CompSci", "Coding"));
+		personList.add(new SkillStud("Anthropology & Sociology", "Social Constructs"));
+		cB = new ComboBox<String>("Skills required: ");
+		cB.setPlaceholder("Category");
+		firstGrid = new Grid<>();
+		firstGrid.setItems(personList);
+		firstGrid.setSelectionMode(SelectionMode.MULTI);
+		vL.add(cB, firstGrid);
+		vL.setWidthFull();
+		return vL;
+    }
+    
+    /**
      * clear all the fields in project dialog
      */
     public void clearAll() {
@@ -182,8 +233,16 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
     	datePickerSecond.clear();
     	locationTF.clear();
     	area.clear();
+    	name.clear();
+    	comboBox.clear();
+    	cB.clear();
+    	firstGrid.deselectAll();
     }
     
+    /**
+     * updates the project list on main page, changes list if search bar
+     * has a value entered
+     */
     private void updateList() {
     	List<Projects> projects = getSearchValues(search.getValue());
     	
