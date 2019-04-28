@@ -4,14 +4,18 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 
+import com.msn.gabrielle.ui.views.Student.SQLProjectStud;
+
 public class SQLTablesManager {
 
 	public SQLTablesManager() { }
 	
 	public void determineDBStates() {
-		
+		//dropProfileTables(true, true, true);
 		createProfileTables();
-		//dropProfileTables(true, false, false);
+		SQLProjectStud sqlPS = new SQLProjectStud();
+		sqlPS.insertNewProfile("Name", "email", "password", "phoneNo", null, "m2", null, "min2");
+		
 	}
 	
 	public void createProfileTables() {
@@ -26,12 +30,12 @@ public class SQLTablesManager {
 			"(ID INT PRIMARY KEY     NOT NULL, " +
 			" NAME           TEXT    NOT NULL, " +
 			" EMAIL          TEXT    NOT NULL, " +
-			" PASSWORD       TEXT     		 , " +
+			" PASSWORD       TEXT    NOT NULL, " +
 			" PHONENO        TEXT     		 , " +
 			" MAJOR1         TEXT     		 , " +
 			" MAJOR2         TEXT     		 , " +
 			" MINOR1         TEXT     		 , " +
-			" MINOR2         TEXT     		 ) ";
+			" MINOR2         TEXT     		 ); ";
 			statementCreate_TPS.executeUpdate(stringCreateTPS);
 			statementCreate_TPS.close();
 			c.close();
@@ -52,8 +56,8 @@ public class SQLTablesManager {
 			"(ID INT PRIMARY KEY     NOT NULL, " +
 			" NAME           TEXT    NOT NULL, " +
 			" EMAIL          TEXT    NOT NULL, " +
-			" PASSWORD       TEXT     		 , " +
-			" PHONENO        TEXT     		 ) ";
+			" PASSWORD       TEXT    NOT NULL, " +
+			" PHONENO        TEXT     		 ); ";
 			statementCreate_TPS.executeUpdate(stringCreateTPA);
 			statementCreate_TPS.close();
 			c.close();
@@ -74,8 +78,8 @@ public class SQLTablesManager {
 			"(ID INT PRIMARY KEY     NOT NULL, " +
 			" NAME           TEXT    NOT NULL, " +
 			" EMAIL          TEXT    NOT NULL, " +
-			" PASSWORD       TEXT     		 , " +
-			" PHONENO        TEXT     		 ) ";
+			" PASSWORD       TEXT    NOT NULL, " +
+			" PHONENO        TEXT     		 ); ";
 			statementCreate_TPE.executeUpdate(stringCreateTPE);
 			statementCreate_TPE.close();
 			c.close();
@@ -96,14 +100,14 @@ public class SQLTablesManager {
 															"postgres", "PostgresMall");
 				System.out.println("Dropping Table TABLE_PROFILE_STUDENT!");
 				Statement statementDrop_TPS = c.createStatement();
-				String stringDropTPS = "DROP TABLE IF EXISTS TABLE_PROFILE_STUDENT;";
+				String stringDropTPS = "DROP TABLE IF EXISTS TABLE_PROFILE_STUDENTS;";
 				statementDrop_TPS.executeUpdate(stringDropTPS);
 				statementDrop_TPS.close();
 				c.close();
-				System.out.println("Successful Drop of TABLE_PROFILE_STUDENT");
+				System.out.println("Successful Drop of TABLE_PROFILE_STUDENTS");
 			} catch (Exception e) {
 				e.printStackTrace();
-				System.err.println("FAILED: Drop of TABLE_PROFILE_STUDENT");
+				System.err.println("FAILED: Drop of TABLE_PROFILE_STUDENTS");
 				System.err.println(e.getClass().getName()+": "+e.getMessage());
 				System.exit(0);
 			}
