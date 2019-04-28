@@ -14,8 +14,8 @@ public class SQLTablesManager {
 		//dropProfileTables(true, true, true);
 		createProfileTables();
 		SQLProjectStud sqlPS = new SQLProjectStud();
-		sqlPS.insertNewProfile("Name", "email", "password", "phoneNo", null, "m2", null, "min2");
-		
+		//sqlPS.insertNewProfile("fqfgqg", "email", "password", "phoneNo", null, "m2", null, "min2");
+		sqlPS.getProfileValues("email");
 	}
 	
 	public void createProfileTables() {
