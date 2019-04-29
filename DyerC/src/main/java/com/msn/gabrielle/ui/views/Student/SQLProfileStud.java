@@ -50,6 +50,8 @@ public class SQLProfileStud {
 	}
 
 	public void getProfileValues(String email) {
+		String eID = "", eName = "", eEmail = "", ePword = "", 
+			   ePhone = "", eMaj1 = "", eMaj2 = "", eMin1 = "", eMin2 = "";
 		try {
 			Class.forName("org.postgresql.Driver");
 			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
@@ -57,20 +59,21 @@ public class SQLProfileStud {
 			Statement statementSelectEmail = c.createStatement();
 			String sqlSelectEmail = "SELECT * FROM TABLE_PROFILE_STUDENTS WHERE EMAIL ='" + email + "';";
 
-			ResultSet rsCount = statementSelectEmail.executeQuery(sqlSelectEmail);
-			ResultSetMetaData rsmdEmail = rsCount.getMetaData();
+			ResultSet rsEmail = statementSelectEmail.executeQuery(sqlSelectEmail);
+			ResultSetMetaData rsmdEmail = rsEmail.getMetaData();
 
 			int cols = rsmdEmail.getColumnCount();
-			while(rsCount.next()) {
-				String eID	  =	rsCount.getString(1);
-				String eName  =	rsCount.getString(2);
-				String eEmail =	rsCount.getString(3);
-				String ePword =	rsCount.getString(4);
-				String ePhone =	rsCount.getString(5);
-				String eMaj1  =	rsCount.getString(6);
-				String eMaj2  = rsCount.getString(7);
-				String eMin1  = rsCount.getString(8);
-				String eMin2  = rsCount.getString(9);
+			
+			while(rsEmail.next()) {
+				eID	   = rsEmail.getString(1);
+				eName  = rsEmail.getString(2);
+				eEmail = rsEmail.getString(3);
+				ePword = rsEmail.getString(4);
+				ePhone = rsEmail.getString(5);
+				eMaj1  = rsEmail.getString(6);
+				eMaj2  = rsEmail.getString(7);
+				eMin1  = rsEmail.getString(8);
+				eMin2  = rsEmail.getString(9);
 				System.out.println(eID + " " + eName + " " + eEmail + " " + ePword + " " + ePhone + " " +
 						eMaj1 + " " + eMaj2 + " " + eMin1 + " " + eMin2);
 				/*
@@ -90,6 +93,42 @@ public class SQLProfileStud {
 			System.err.println(e.getClass().getName()+": "+e.getMessage());
 			System.exit(0);
 		}
+		
+		try {
+			Class.forName("org.postgresql.Driver");
+			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
+			System.out.println("-----------------------------------------------------------------");
+			System.out.println("Finding Skills from TABLE_SKILLS_STUDENT / TABLE_PROFILE_STUDENTS");
+			Statement statementSelectSkills = c.createStatement();
+			String sqlSelectSkills = "SELECT * FROM TABLE_SKILLS_STUDENT INNER JOIN " + 
+									 "TABLE_PROFILE_STUDENTS ON TABLE_SKILLS_STUDENT.STUDENT_ID=TABLE_PROFILE_STUDENTS.ID " +
+									 "WHERE ID = '" + eID + "';";
 
+			ResultSet rsSkills = statementSelectSkills.executeQuery(sqlSelectSkills);
+			ResultSetMetaData rsmdSkills = rsSkills.getMetaData();
+
+			int cols = rsmdSkills.getColumnCount();
+			while(rsSkills.next()) {
+				String sID		 = rsSkills.getString(1);
+				String sCategory = rsSkills.getString(2);
+				String sSkill	 = rsSkills.getString(3);
+				System.out.println(sID + " " + sCategory + " " + sSkill);
+				/*
+				for (int i = 1; i <= cols; i++) {
+
+				if (rsCount.getString(i).equals("")) System.out.print("NULL");
+				else System.out.print(rsCount.getString(i));
+				System.out.print("	");
+				}*/
+
+			}
+			statementSelectSkills.close();
+			c.close();
+			System.out.println("Successful Find Skills from TABLE_SKILLS_STUDENT / TABLE_PROFILE_STUDENTS");
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println(e.getClass().getName()+": "+e.getMessage());
+			System.exit(0);
+		}
 	}
 }

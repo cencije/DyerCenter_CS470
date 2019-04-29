@@ -18,7 +18,8 @@ public class SQLTablesManager {
 		createEventsTables();
 		SQLProfileStud sqlPS = new SQLProfileStud();
 		//sqlPS.insertNewProfile("fqfgqg", "email", "password", "phoneNo", null, "m2", null, "min2");
-		sqlPS.getProfileValues("ggg");
+		sqlPS.getProfileValues("lol");
+		//dropSkillTables(false, true);
 	}
 	
 	public void createProfileTables() {
@@ -217,9 +218,9 @@ public class SQLTablesManager {
 			System.out.println("Creating/Checking Existence of TABLE_SKILLS_STUDENT");
 			Statement statementCreate_TSS = c.createStatement();
 			String stringCreateTSS = "CREATE TABLE IF NOT EXISTS TABLE_SKILLS_STUDENT" +
-			"(STUDENT_ID INT PRIMARY KEY NOT NULL,   " +
-			" CATEGORY           TEXT    NOT NULL,   " +
-			" SKILL_NAME         TEXT    NOT NULL ); ";
+			"(STUDENT_ID INT		 NOT NULL, " +
+			" CATEGORY   TEXT    NOT NULL, " +
+			" SKILL_NAME TEXT    NOT NULL ); ";
 			statementCreate_TSS.executeUpdate(stringCreateTSS);
 			statementCreate_TSS.close();
 			c.close();
@@ -228,6 +229,48 @@ public class SQLTablesManager {
 			e.printStackTrace();
 			System.err.println(e.getClass().getName()+": "+e.getMessage());
 			System.exit(0);
+		}
+	}
+	
+	public void dropSkillTables(boolean boolMaster, boolean boolStudent) {
+		
+		if (boolMaster) {
+			try {
+				Class.forName("org.postgresql.Driver");
+				Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres",
+															"postgres", "PostgresMall");
+				System.out.println("Dropping Table TABLE_SKILLS_MASTER");
+				Statement statementDrop_TSM = c.createStatement();
+				String stringDropTSM = "DROP TABLE IF EXISTS TABLE_SKILLS_MASTER;";
+				statementDrop_TSM.executeUpdate(stringDropTSM);
+				statementDrop_TSM.close();
+				c.close();
+				System.out.println("Successful Drop of TABLE_SKILLS_MASTER");
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.err.println("FAILED: Drop of TABLE_SKILLS_MASTER");
+				System.err.println(e.getClass().getName()+": "+e.getMessage());
+				System.exit(0);
+			}
+		}
+		if (boolStudent) {
+			try {
+				Class.forName("org.postgresql.Driver");
+				Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres",
+															"postgres", "PostgresMall");
+				System.out.println("Dropping Table TABLE_SKILLS_STUDENT");
+				Statement statementDrop_TSS = c.createStatement();
+				String stringDropTSS = "DROP TABLE IF EXISTS TABLE_SKILLS_STUDENT;";
+				statementDrop_TSS.executeUpdate(stringDropTSS);
+				statementDrop_TSS.close();
+				c.close();
+				System.out.println("Successful Drop of TABLE_SKILLS_STUDENT");
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.err.println("FAILED: Drop of TABLE_SKILLS_STUDENT");
+				System.err.println(e.getClass().getName()+": "+e.getMessage());
+				System.exit(0);
+			}
 		}
 	}
 	
