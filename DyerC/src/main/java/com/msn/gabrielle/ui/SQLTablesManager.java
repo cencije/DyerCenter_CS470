@@ -19,6 +19,7 @@ public class SQLTablesManager {
 		SQLProfileStud sqlPS = new SQLProfileStud();
 		//sqlPS.insertNewProfile("fqfgqg", "email", "password", "phoneNo", null, "m2", null, "min2");
 		sqlPS.getProfileValues("lol");
+		sqlPS.updateName("HAHA", "lol");
 		//dropSkillTables(false, true);
 	}
 	

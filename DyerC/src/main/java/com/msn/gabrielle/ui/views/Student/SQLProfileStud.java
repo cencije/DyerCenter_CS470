@@ -22,7 +22,8 @@ public class SQLProfileStud {
 		try {
 			Class.forName("org.postgresql.Driver");
 			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
-			System.out.println("Adding profile to database!");
+			System.out.println("-----------------------------------------------------------------");
+			System.out.println("Inserting profile to database");
 			Statement statementCount = c.createStatement();
 			String sqlCount = "SELECT MAX(ID) FROM TABLE_PROFILE_STUDENTS;";
 			ResultSet rsCount = statementCount.executeQuery(sqlCount);
@@ -55,7 +56,8 @@ public class SQLProfileStud {
 		try {
 			Class.forName("org.postgresql.Driver");
 			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
-			System.out.println("Adding profile to database!");
+			System.out.println("-----------------------------------------------------------------");
+			System.out.println("Selecting on Email from TABLE_PROFILE_STUDENTS");
 			Statement statementSelectEmail = c.createStatement();
 			String sqlSelectEmail = "SELECT * FROM TABLE_PROFILE_STUDENTS WHERE EMAIL ='" + email + "';";
 
@@ -113,18 +115,34 @@ public class SQLProfileStud {
 				String sCategory = rsSkills.getString(2);
 				String sSkill	 = rsSkills.getString(3);
 				System.out.println(sID + " " + sCategory + " " + sSkill);
-				/*
-				for (int i = 1; i <= cols; i++) {
-
-				if (rsCount.getString(i).equals("")) System.out.print("NULL");
-				else System.out.print(rsCount.getString(i));
-				System.out.print("	");
-				}*/
 
 			}
 			statementSelectSkills.close();
 			c.close();
 			System.out.println("Successful Find Skills from TABLE_SKILLS_STUDENT / TABLE_PROFILE_STUDENTS");
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println(e.getClass().getName()+": "+e.getMessage());
+			System.exit(0);
+		}
+	}
+	
+	
+	public void updateName(String newName, String studentEmail) {
+		
+		try {
+			Class.forName("org.postgresql.Driver");
+			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
+			System.out.println("-----------------------------------------------------------------");
+			System.out.println("Updating Profile Name in TABLE_PROFILE_STUDENTS");
+			Statement statementUpdateName = c.createStatement();
+			String sqlUpdateName = "UPDATE TABLE_PROFILE_STUDENTS SET NAME = '" + newName + 
+									 "' WHERE EMAIL = '" + studentEmail + "'; ";
+
+			statementUpdateName.executeUpdate(sqlUpdateName);
+			statementUpdateName.close();
+			c.close();
+			System.out.println("Successful Update Profile Name in TABLE_PROFILE_STUDENTS");
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.err.println(e.getClass().getName()+": "+e.getMessage());
