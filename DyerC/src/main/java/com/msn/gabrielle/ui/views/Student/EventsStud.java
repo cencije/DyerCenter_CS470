@@ -23,6 +23,7 @@ import org.vaadin.stefan.fullcalendar.CalendarViewImpl;
 import org.vaadin.stefan.fullcalendar.Entry;
 import org.vaadin.stefan.fullcalendar.FullCalendar;
 import org.vaadin.stefan.fullcalendar.FullCalendarBuilder;
+import com.vaadin.flow.component.dialog.*;
 
 import com.msn.gabrielle.ui.*;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -114,11 +115,24 @@ public class EventsStud extends VerticalLayout{
 		
 		// Create a initial sample entry
 		Entry sampleEntry = new Entry();
-		sampleEntry.setTitle("Some event");
-		sampleEntry.setStart(LocalDate.now().withDayOfMonth(3).atTime(10, 30));
+		sampleEntry.setTitle("Example Event");
+		sampleEntry.setStart(LocalDate.now().withDayOfMonth(24).atTime(12, 15));
 		sampleEntry.setEnd(sampleEntry.getStart().plusHours(2));
-		sampleEntry.setColor("#ff3333");
 		calendar.addEntry(sampleEntry);
+		
+		Dialog d = new Dialog();
+		Label title = new Label(sampleEntry.getTitle());
+		Label time = new Label(sampleEntry.getStart().toString());
+		Label loc = new Label("Hugel 100");
+		Label desc = new Label("Talk, lunch will be provided");
+		VerticalLayout lay = new VerticalLayout();
+		lay.add(title, time, loc, desc);
+		d.add(lay);
+		add(d);
+		
+		calendar.addEntryClickedListener(event -> {
+			d.open();
+		});
 		
 
 	}

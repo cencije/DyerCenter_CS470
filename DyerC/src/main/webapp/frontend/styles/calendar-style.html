@@ -1,0 +1,25 @@
+<link rel="import" href="../bower_components/vaadin-lumo-styles/color.html">
+<link rel="import" href="../bower_components/vaadin-lumo-styles/typography.html">
+
+<custom-style>
+	<style include="calendar-style">
+		html {
+			height: auto;
+			--main-layout-header-height: 64px;
+        	background-color: transparent !important;
+        }
+        body {
+            /* Avoid horizontal scrollbars, mainly on IE11 */
+            overflow-x: hidden;   
+        }
+        
+        .fc-view-basicDay .fc-today {
+        	background: #3fc380;
+        }
+        
+        .calendar-color {
+        	background-color: white;
+        }
+        
+    </style>
+</custom-style>
