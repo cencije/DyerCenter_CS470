@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 
+import com.msn.gabrielle.ui.views.Student.SQLProfileStud;
 import com.msn.gabrielle.ui.views.Student.SQLProjectStud;
 
 public class SQLTablesManager {
@@ -13,9 +14,11 @@ public class SQLTablesManager {
 	public void determineDBStates() {
 		//dropProfileTables(true, true, true);
 		createProfileTables();
-		SQLProjectStud sqlPS = new SQLProjectStud();
+		createSkillTables();
+		createEventsTables();
+		SQLProfileStud sqlPS = new SQLProfileStud();
 		//sqlPS.insertNewProfile("fqfgqg", "email", "password", "phoneNo", null, "m2", null, "min2");
-		sqlPS.getProfileValues("email");
+		sqlPS.getProfileValues("ggg");
 	}
 	
 	public void createProfileTables() {
@@ -24,7 +27,7 @@ public class SQLTablesManager {
 			Class.forName("org.postgresql.Driver");
 			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres",
 														"postgres", "PostgresMall");
-			System.out.println("Adding project to database!");
+			System.out.println("Creating/Checking Existence of TABLE_PROFILE_STUDENTS");
 			Statement statementCreate_TPS = c.createStatement();
 			String stringCreateTPS = "CREATE TABLE IF NOT EXISTS TABLE_PROFILE_STUDENTS" +
 			"(ID INT PRIMARY KEY     NOT NULL, " +
@@ -50,7 +53,7 @@ public class SQLTablesManager {
 			Class.forName("org.postgresql.Driver");
 			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres",
 														"postgres", "PostgresMall");
-			System.out.println("Adding project to database!");
+			System.out.println("Creating/Checking Existence of TABLE_PROFILE_ALUMNI");
 			Statement statementCreate_TPS = c.createStatement();
 			String stringCreateTPA = "CREATE TABLE IF NOT EXISTS TABLE_PROFILE_ALUMNI" +
 			"(ID INT PRIMARY KEY     NOT NULL, " +
@@ -72,7 +75,7 @@ public class SQLTablesManager {
 			Class.forName("org.postgresql.Driver");
 			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres",
 														"postgres", "PostgresMall");
-			System.out.println("Adding project to database!");
+			System.out.println("Creating/Checking Existence of TABLE_PROFILE_EMPLOYEE");
 			Statement statementCreate_TPE = c.createStatement();
 			String stringCreateTPE = "CREATE TABLE IF NOT EXISTS TABLE_PROFILE_EMPLOYEE" +
 			"(ID INT PRIMARY KEY     NOT NULL, " +
@@ -98,7 +101,7 @@ public class SQLTablesManager {
 				Class.forName("org.postgresql.Driver");
 				Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres",
 															"postgres", "PostgresMall");
-				System.out.println("Dropping Table TABLE_PROFILE_STUDENT!");
+				System.out.println("Dropping Table TABLE_PROFILE_STUDENT");
 				Statement statementDrop_TPS = c.createStatement();
 				String stringDropTPS = "DROP TABLE IF EXISTS TABLE_PROFILE_STUDENTS;";
 				statementDrop_TPS.executeUpdate(stringDropTPS);
@@ -117,7 +120,7 @@ public class SQLTablesManager {
 				Class.forName("org.postgresql.Driver");
 				Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres",
 															"postgres", "PostgresMall");
-				System.out.println("Dropping Table IF EXISTS TABLE_PROFILE_ALUMNI!");
+				System.out.println("Dropping Table IF EXISTS TABLE_PROFILE_ALUMNI");
 				Statement statementDrop_TPA = c.createStatement();
 				String stringDropTPA = "DROP TABLE TABLE_PROFILE_ALUMNI;";
 				statementDrop_TPA.executeUpdate(stringDropTPA);
@@ -154,12 +157,78 @@ public class SQLTablesManager {
 	
 	public void createEventsTables() {
 		
+		try {
+			Class.forName("org.postgresql.Driver");
+			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres",
+														"postgres", "PostgresMall");
+			System.out.println("Creating/Checking Existence of TABLE_SKILLS_MASTER");
+			Statement statementCreate_TEM = c.createStatement();
+			String stringCreateTEM = "CREATE TABLE IF NOT EXISTS TABLE_EVENTS_MASTER" +
+			"(EVENT_ID INT PRIMARY KEY NOT NULL,   " +
+			" TITLE         TEXT       NOT NULL,   " +
+			" LOCATION      TEXT       NOT NULL,   " +
+			" DESCRIPTION   TEXT   			   ,   " +
+			" URL           TEXT    		   ,   " +
+			" DAY           INTEGER    NOT NULL,   " +
+			" MONTH         INTEGER    NOT NULL,   " +
+			" YEAR          INTEGER    NOT NULL,   " +
+			" HOUR          INTEGER    NOT NULL,   " +
+			" MINUTE        INTEGER    NOT NULL);  ";
+			statementCreate_TEM.executeUpdate(stringCreateTEM);
+			statementCreate_TEM.close();
+			c.close();
+			System.out.println("Successful Creation/Existence of TABLE_EVENTS_MASTER");
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println(e.getClass().getName()+": "+e.getMessage());
+			System.exit(0);
+		}
+		
 	}
 	public void createProjectTables() {
 		
 	}
 	public void createSkillTables() {
 		
+		try {
+			Class.forName("org.postgresql.Driver");
+			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres",
+														"postgres", "PostgresMall");
+			System.out.println("Creating/Checking Existence of TABLE_SKILLS_MASTER");
+			Statement statementCreate_TSM = c.createStatement();
+			String stringCreateTSM = "CREATE TABLE IF NOT EXISTS TABLE_SKILLS_MASTER" +
+			"(SKILL_ID INT PRIMARY KEY   NOT NULL,   " +
+			" CATEGORY           TEXT    NOT NULL,   " +
+			" SKILL_NAME         TEXT    NOT NULL ); ";
+			statementCreate_TSM.executeUpdate(stringCreateTSM);
+			statementCreate_TSM.close();
+			c.close();
+			System.out.println("Successful Creation/Existence of TABLE_SKILLS_MASTER");
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println(e.getClass().getName()+": "+e.getMessage());
+			System.exit(0);
+		}
+		
+		try {
+			Class.forName("org.postgresql.Driver");
+			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres",
+														"postgres", "PostgresMall");
+			System.out.println("Creating/Checking Existence of TABLE_SKILLS_STUDENT");
+			Statement statementCreate_TSS = c.createStatement();
+			String stringCreateTSS = "CREATE TABLE IF NOT EXISTS TABLE_SKILLS_STUDENT" +
+			"(STUDENT_ID INT PRIMARY KEY NOT NULL,   " +
+			" CATEGORY           TEXT    NOT NULL,   " +
+			" SKILL_NAME         TEXT    NOT NULL ); ";
+			statementCreate_TSS.executeUpdate(stringCreateTSS);
+			statementCreate_TSS.close();
+			c.close();
+			System.out.println("Successful Creation/Existence of TABLE_SKILLS_STUDENT");
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println(e.getClass().getName()+": "+e.getMessage());
+			System.exit(0);
+		}
 	}
 	
 }
