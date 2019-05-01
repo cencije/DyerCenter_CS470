@@ -63,6 +63,7 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
     private String nameProposerStr;
     private DatePicker datePickerFirst;
     private DatePicker datePickerSecond;
+    private TextField pTField;
     private TextField locationTF;
     private TextArea area;
     private TextField name;   
@@ -127,7 +128,6 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
     	return dialog;
     }
     
-    TextField pTField;
     /**
      * Layout for project title & text field for project dialog
      * @return vertical layout

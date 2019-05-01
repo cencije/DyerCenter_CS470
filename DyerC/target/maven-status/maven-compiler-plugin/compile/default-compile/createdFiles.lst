@@ -25,6 +25,7 @@ com/msn/gabrielle/ui/views/Student/ProjectListStud.class
 com/msn/gabrielle/ui/views/Employee/EventsEmp.class
 com/msn/gabrielle/ui/views/Employee/ProjectsListEmp.class
 com/msn/gabrielle/ui/SQLTablesManager.class
+com/msn/gabrielle/ui/views/Student/SQLProfileStud.class
 com/msn/gabrielle/ui/views/Employee/AddEventEmp.class
 com/msn/gabrielle/ui/EmployeePage.class
 com/msn/gabrielle/backend/CategoryService$SingletonHolder.class
