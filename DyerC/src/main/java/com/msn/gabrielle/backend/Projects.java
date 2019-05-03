@@ -17,12 +17,11 @@ public class Projects implements Serializable {
     
     private String date = "";
     
-    private List<String> 
-
+    
     public Projects() {
+    	
     }
-
-    public Projects(String name, String String description, String proposedBy) {
+    public Projects(String name, String description, String proposedBy) {
         this.name = name;
         this.description = description;
         this.proposedBy = proposedBy;

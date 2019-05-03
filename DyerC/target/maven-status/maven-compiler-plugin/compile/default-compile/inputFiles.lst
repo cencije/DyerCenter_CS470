@@ -3,9 +3,11 @@
 /home/geeja/DC/DyerCenter_CS470/DyerC/src/main/java/com/msn/gabrielle/ui/SQLTablesManager.java
 /home/geeja/DC/DyerCenter_CS470/DyerC/src/main/java/com/msn/gabrielle/ui/views/Employee/AddEventEmp.java
 /home/geeja/DC/DyerCenter_CS470/DyerC/src/main/java/com/msn/gabrielle/ui/views/Student/SQLEventStudent.java
+/home/geeja/DC/DyerCenter_CS470/DyerC/src/main/java/com/msn/gabrielle/ui/views/Student/SkillsLoader.java
 /home/geeja/DC/DyerCenter_CS470/DyerC/src/main/java/com/msn/gabrielle/ui/common/AbstractEditorDialog.java
 /home/geeja/DC/DyerCenter_CS470/DyerC/src/main/java/com/msn/gabrielle/ui/encoders/LocalDateToStringEncoder.java
 /home/geeja/DC/DyerCenter_CS470/DyerC/src/main/java/com/msn/gabrielle/ui/encoders/LongToStringEncoder.java
+/home/geeja/DC/DyerCenter_CS470/DyerC/src/main/java/com/msn/gabrielle/ui/views/Employee/ProjectProposalEmp.java
 /home/geeja/DC/DyerCenter_CS470/DyerC/src/main/java/com/msn/gabrielle/ui/views/Student/ProjectEditorDialog.java
 /home/geeja/DC/DyerCenter_CS470/DyerC/src/main/java/com/msn/gabrielle/backend/CategoryService.java
 /home/geeja/DC/DyerCenter_CS470/DyerC/src/main/java/com/msn/gabrielle/backend/Category.java
@@ -14,7 +16,6 @@
 /home/geeja/DC/DyerCenter_CS470/DyerC/src/main/java/com/msn/gabrielle/ui/AlumniPage.java
 /home/geeja/DC/DyerCenter_CS470/DyerC/src/main/java/com/msn/gabrielle/ui/views/reviewslist/ReviewEditorDialog.java
 /home/geeja/DC/DyerCenter_CS470/DyerC/src/main/java/com/msn/gabrielle/backend/Review.java
-/home/geeja/DC/DyerCenter_CS470/DyerC/src/main/java/com/msn/gabrielle/ui/views/Employee/ProfileEmp.java
 /home/geeja/DC/DyerCenter_CS470/DyerC/src/main/java/com/msn/gabrielle/ui/MainPage.java
 /home/geeja/DC/DyerCenter_CS470/DyerC/src/main/java/com/msn/gabrielle/ui/views/Student/SQLProjectStud.java
 /home/geeja/DC/DyerCenter_CS470/DyerC/src/main/java/com/msn/gabrielle/ui/views/Student/SkillStud.java

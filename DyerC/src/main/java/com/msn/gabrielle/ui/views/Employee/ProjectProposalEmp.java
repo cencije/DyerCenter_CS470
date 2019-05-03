@@ -10,6 +10,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.component.HasComponents;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
@@ -31,6 +32,11 @@ public class ProjectProposalEmp extends VerticalLayout {
 	private TextField name;
 	private ComboBox<String> cB;
 	private Grid firstGrid;
+    private List<Projects> projectList = new ArrayList<Projects>();
+	private DatePicker dialog;
+	private String nameStr;
+	private String descriptionStr;
+	private String nameProposerStr;
 	
 	public ProjectProposalEmp() {
 		HorizontalLayout hL = new HorizontalLayout();
@@ -45,9 +51,7 @@ public class ProjectProposalEmp extends VerticalLayout {
     	Button saveButton = new Button("Save", event -> {
     		Projects newProj = new Projects(nameStr, descriptionStr, nameProposerStr);
     		projectList.add(newProj);
-    		dialog.close();
     		clearAll();
-    		updateList();
     	});
 	}
     /**

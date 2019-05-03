@@ -12,7 +12,6 @@ com/msn/gabrielle/backend/ReviewService.class
 com/msn/gabrielle/ui/views/Employee/SkillsEmp.class
 com/msn/gabrielle/ui/encoders/LocalDateToStringEncoder.class
 com/msn/gabrielle/backend/Review.class
-com/msn/gabrielle/ui/views/Employee/ProfileEmp.class
 com/msn/gabrielle/ui/views/Student/ProjectListStud$ProjectsModel.class
 com/msn/gabrielle/ui/common/ConfirmationDialog.class
 com/msn/gabrielle/ui/MainPage.class
@@ -26,6 +25,7 @@ com/msn/gabrielle/ui/views/Employee/EventsEmp.class
 com/msn/gabrielle/ui/views/Employee/ProjectsListEmp.class
 com/msn/gabrielle/ui/SQLTablesManager.class
 com/msn/gabrielle/ui/views/Student/SQLProfileStud.class
+com/msn/gabrielle/ui/views/Employee/ProjectProposalEmp.class
 com/msn/gabrielle/ui/views/Employee/AddEventEmp.class
 com/msn/gabrielle/ui/EmployeePage.class
 com/msn/gabrielle/backend/CategoryService$SingletonHolder.class
@@ -42,3 +42,4 @@ com/msn/gabrielle/ui/views/categorieslist/CategoryEditorDialog.class
 com/msn/gabrielle/ui/views/reviewslist/ReviewEditorDialog.class
 com/msn/gabrielle/ui/views/Alumni/ProjectListAlum.class
 com/msn/gabrielle/ui/views/reviewslist/ReviewsList$ReviewsModel.class
+com/msn/gabrielle/ui/views/Student/SkillsLoader.class

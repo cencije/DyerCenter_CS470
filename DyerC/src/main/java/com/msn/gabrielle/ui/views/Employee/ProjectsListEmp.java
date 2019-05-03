@@ -47,7 +47,10 @@ public class ProjectsListEmp extends VerticalLayout {
     private String nameProposerStr;
 
     public ProjectsListEmp() {
-        initView();
+        nameStr = "";
+        descriptionStr = "";
+        nameProposerStr = "";
+    	initView();
         
         addStudentToggle();
         addSearchBar();
