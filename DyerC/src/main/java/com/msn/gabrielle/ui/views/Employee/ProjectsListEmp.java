@@ -52,7 +52,8 @@ public class ProjectsListEmp extends VerticalLayout {
         addStudentToggle();
         addSearchBar();
         addContent();
-
+        projectList.add(new Projects("Web App", "Need help", "Geeja"));
+        projectList.add(new Projects("Database: SQL", "Needs DB experience", "Geeja"));
         updateView();
     }
 

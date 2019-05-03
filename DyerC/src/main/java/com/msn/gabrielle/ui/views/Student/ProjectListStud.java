@@ -81,6 +81,9 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
       search.setValueChangeMode(ValueChangeMode.EAGER);
       search.addFocusShortcut(Key.KEY_F, KeyModifier.CONTROL);
         //initView();
+      projectList.add(new Projects("Web App", "Help", "geeja"));
+      projectList.add(new Projects("Database: SQL", "Help", "geeja"));
+
       getElement().setProperty("reviewButtonText", "New project");
       getElement().setProperty("editButtonText", "View");
       addReview.addClickListener(e -> 
