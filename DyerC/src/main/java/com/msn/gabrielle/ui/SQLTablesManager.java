@@ -6,6 +6,7 @@ import java.sql.Statement;
 
 import com.msn.gabrielle.ui.views.Student.SQLProfileStud;
 import com.msn.gabrielle.ui.views.Student.SQLProjectStud;
+import com.msn.gabrielle.ui.views.Student.SkillsLoader;
 
 public class SQLTablesManager {
 
@@ -20,6 +21,8 @@ public class SQLTablesManager {
 		//sqlPS.insertNewProfile("fqfgqg", "email", "password", "phoneNo", null, "m2", null, "min2");
 		sqlPS.getProfileValues("lol");
 		sqlPS.updateName("HAHA", "lol");
+		SkillsLoader sl = new SkillsLoader();
+		//sl.loadInJSONValues();
 		//dropSkillTables(false, true);
 	}
 	
