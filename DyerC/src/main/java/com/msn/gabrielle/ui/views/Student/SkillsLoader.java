@@ -26,7 +26,7 @@ public class SkillsLoader {
         String currentPath = testFile.getAbsolutePath();
         System.out.println("current path is: " + currentPath);
         System.out.println("Present Project Directory : "+ System.getProperty("user.dir"));
-        try (FileReader reader = new FileReader("./src/main/resources/categories.json"))
+        try (FileReader reader = new FileReader("categories.json"))
         {
             //Read JSON file
             Object obj = jsonParser.parse(reader);
@@ -53,7 +53,7 @@ public class SkillsLoader {
 			System.out.println("Inserting Skill into database");
 
 			Statement statementCount = c.createStatement();
-			String sqlCount = "SELECT MAX(ID) FROM TABLE_SKILLS_MASTER;";
+			String sqlCount = "SELECT MAX(SKILL_ID) FROM TABLE_SKILLS_MASTER;";
 			ResultSet rsCount = statementCount.executeQuery(sqlCount);
 			rsCount.next();
 			int idNumber = rsCount.getInt(1) + 1;
@@ -76,11 +76,12 @@ public class SkillsLoader {
 	    					+ "(" + idNumber + ", '" + heading + "', '" + stringSkill + "');";
 	    			statementInsertStudent.executeUpdate(sqlInsertStudent);
 	    			statementInsertStudent.close();
-	    			c.close();
+
 	    			System.out.println("Successful Count from TABLE_SKILLS_MASTER");
 	    			idNumber++;
 	        	}
 	        }
+	        c.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.err.println(e.getClass().getName()+": "+e.getMessage());
