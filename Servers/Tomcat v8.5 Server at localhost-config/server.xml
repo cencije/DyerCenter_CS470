@@ -149,7 +149,18 @@
              Note: The pattern used is equivalent to using pattern="common" -->
         <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs" pattern="%h %l %u %t &quot;%r&quot; %s %b" prefix="localhost_access_log" suffix=".txt"/>
 
-      <Context docBase="DyerC" path="/sd-dyercenter" reloadable="true" source="org.eclipse.jst.jee.server:DyerC"/></Host>
+      <Context docBase="DyerC" path="/sd-dyercenter" reloadable="true" source="org.eclipse.jst.jee.server:DyerC">
+          <!-- If you're using Confluence 5.7 or below; change maxTotal to maxActive -->
+          <Resource name="jdbc/confluence" auth="Container" type="javax.sql.DataSource"
+              username="postgres"
+              password="postgres"
+              driverClassName="net.sourceforge.jtds.jdbc.Driver"
+              url="jdbc:jtds:sqlserver://localhost:8080/sd-dyercenter/"
+              maxTotal="25"
+              maxIdle="10"
+              validationQuery="select 1" />
+      </Context>
+      </Host>
     </Engine>
   </Service>
 </Server>

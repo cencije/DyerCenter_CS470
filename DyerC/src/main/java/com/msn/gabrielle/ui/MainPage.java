@@ -39,8 +39,14 @@ import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.server.InitialPageSettings;
 import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.server.PageConfigurator;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
+
 import com.msn.gabrielle.ui.views.categorieslist.CategoriesList;
 import com.msn.gabrielle.ui.views.reviewslist.ReviewsList;
+import com.msn.gabrielle.ui.SQLTablesManager;
 
 /**
  * The main layout contains the header with the navigation buttons, and the
@@ -91,7 +97,13 @@ public class MainPage extends VerticalLayout
     	viewDialog.add(mainLay);
     	viewDialog.open();
     	add(viewDialog);
+    	//System.out.println("CALLING THE DB!");
+    	//connectDB();
     	//mainLayout.setHorizontalComponentAlignment(Alignment.CENTER, buttonLayout);
+    	/*
+    	SQLTablesManager sqlTM = new SQLTablesManager();
+    	sqlTM.determineDBStates();
+    	*/
+    	
     }
-   
 }

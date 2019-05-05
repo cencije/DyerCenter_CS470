@@ -20,6 +20,7 @@ import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.data.value.ValueChangeMode;
@@ -30,6 +31,7 @@ import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
+import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
@@ -55,12 +57,18 @@ import com.msn.gabrielle.ui.views.Student.ProjectListStud.ProjectsModel;
 public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
 	private TextField searchField = new TextField("",
             "Search projects");
-    //private H2 header = new H2("Project Proposals");
     private List<Projects> projectList = new ArrayList<Projects>();
     private String nameStr;
     private String descriptionStr;
     private String nameProposerStr;
-   
+    private DatePicker datePickerFirst;
+    private DatePicker datePickerSecond;
+    private TextField locationTF;
+    private TextArea area;
+    private TextField name;   
+    private ComboBox<String> comboBox;
+    private ComboBox<String> cB;
+    private Grid<SkillStud> firstGrid;
     
     public interface ProjectsModel extends TemplateModel{
     	@Encode(value = LongToStringEncoder.class, path = "id")
@@ -97,112 +105,152 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
     	dialog.setCloseOnEsc(false);
     	dialog.setCloseOnOutsideClick(false);
     	
-    	HorizontalLayout projectForum = new HorizontalLayout();
-    	VerticalLayout nameLayout = new VerticalLayout();
-    	Label nameProject = new Label("Project title: ");
-    	TextField nameField = new TextField();
-    	nameField.addValueChangeListener(event ->
-    		nameStr = event.getValue());
-    	nameField.setMaxLength(45);
-    	nameLayout.add(nameProject, nameField);
+    	VerticalLayout projectForum = new VerticalLayout();
+    	HorizontalLayout titleDuration = new HorizontalLayout();
+    	titleDuration.add(projectTitle(), duration());
+    	HorizontalLayout nameUnPaid = new HorizontalLayout();
+    	nameUnPaid.add(salary(), proposerName());
+    	projectForum.add(titleDuration, location(), projectDescription(), nameUnPaid);
+    	projectForum.add(skills());
     	
-    	VerticalLayout description = new VerticalLayout();
-    	Label descriptionProject = new Label("Project description: ");
-    	TextField descriptionField = new TextField();
-    	descriptionField.addValueChangeListener(event ->
-    		descriptionStr = event.getValue());
-    	nameLayout.add(descriptionProject, descriptionField);
-    	
-    	VerticalLayout proposerLayout = new VerticalLayout();
-    	Label proposerProject = new Label("Name: ");
-    	TextField proposerField = new TextField();
-    	proposerField.addValueChangeListener(event ->
-    		nameProposerStr = event.getValue());
-    	proposerLayout.add(proposerProject, proposerField);
-    	
-    	VerticalLayout buttons = new VerticalLayout();
+    	HorizontalLayout buttons = new HorizontalLayout();
     	Button saveButton = new Button("Save", event -> {
     		Projects newProj = new Projects(nameStr, descriptionStr, nameProposerStr);
     		projectList.add(newProj);
     		dialog.close();
-    		proposerField.clear();
-    		descriptionField.clear();
-    		nameField.clear();
+    		clearAll();
     		updateList();
     	});
     	Button cancelButton = new Button("Cancel", event -> {
     	    dialog.close();
     	});
     	buttons.add(saveButton, cancelButton);
-    	projectForum.add(nameLayout, description, proposerLayout, buttons);
-    	dialog.add(projectForum);
-    	//add(dialog);
+    	dialog.add(projectForum, buttons);
     	dialog.open();
     	return dialog;
     }
     
-    private Dialog viewDialog(Projects currentProj) {
-    	Dialog viewDialog = new Dialog();
-
-    	viewDialog.setCloseOnEsc(false);
-    	viewDialog.setCloseOnOutsideClick(false);
-    	
-    	VerticalLayout mainLay = new VerticalLayout();
-    	VerticalLayout nameLay = new VerticalLayout();
-    	Label nameProject = new Label("Project title: ");
-    	Label nameCurr = new Label(currentProj.getName());
-    	nameLay.add(nameProject,nameCurr );
-    	
-    	VerticalLayout descriptionLay = new VerticalLayout();
-    	Label descriptionProject = new Label("Project description: ");
-    	Label descriptionCurr = new Label(currentProj.getDescription());
-    	descriptionLay.add(descriptionProject, descriptionCurr);
-    	
-    	VerticalLayout proposerLay = new VerticalLayout();
-    	Label proposerProject = new Label("Project proposer: ");
-    	Label proposerCurr = new Label(currentProj.getProposedBy());
-    	proposerLay.add(proposerProject, proposerCurr);
-    	mainLay.add(nameLay, descriptionLay, proposerLay);
-    	
-    	NativeButton closeButton = new NativeButton("Close", event -> {
-    		viewDialog.close();
-    	});
-    	
-    	mainLay.add(closeButton);
-    	viewDialog.add(mainLay);
-    	return viewDialog;
+    TextField pTField;
+    /**
+     * Layout for project title & text field for project dialog
+     * @return vertical layout
+     */
+    public VerticalLayout projectTitle() {
+    	VerticalLayout pT = new VerticalLayout();
+    	pTField = new TextField("Title: ");
+    	pT.add(pTField);
+    	pTField.setWidthFull();
+    	return pT;
     }
     
-    public void saveUpdate(Review review,
-            AbstractEditorDialog.Operation operation) {
-        ReviewService.getInstance().saveReview(review);
-        updateList();
-        Notification.show(
-                "Beverage successfully " + operation.getNameInText() + "ed.",
-                3000, Position.BOTTOM_START);
+    /**
+     * Layout for duration of project dialog
+     * @return vertical layout
+     */
+    public VerticalLayout duration() {
+    	VerticalLayout dur = new VerticalLayout();
+    	HorizontalLayout datePicker = new HorizontalLayout();
+    	datePickerFirst = new DatePicker("Start Date ");
+    	datePickerSecond = new DatePicker("End Date ");
+    	datePicker.add(datePickerFirst, datePickerSecond);
+    	dur.add(datePicker);
+    	return dur;
     }
-
-    public void deleteUpdate(Review review) {
-        ReviewService.getInstance().deleteReview(review);
-        updateList();
-        Notification.show("Beverage successfully deleted.", 3000,
-                Position.BOTTOM_START);
-    }
-
-    private Button createEditButton(Projects project) {
-        Button edit = new Button("View", event -> viewDialog(project).open());
-        edit.setIcon(new Icon("lumo", "view"));
-        edit.addClassName("review__edit");
-        edit.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
-        return edit;
-    }
-
     
+    /**
+     * Layout for location of project dialog
+     * @return vertical layout
+     */
+    public VerticalLayout location() {
+    	VerticalLayout loc = new VerticalLayout();
+    	locationTF = new TextField("Location: ");
+    	locationTF.setWidthFull();
+    	loc.add(locationTF);
+    	return loc;
+    }
+    
+    /**
+     * Layout for project description for project dialog
+     * @return
+     */
+    public VerticalLayout projectDescription() {
+    	VerticalLayout descrip = new VerticalLayout();
+    	area = new TextArea("Description: ");
+    	area.setValue(""+
+    	              "\n"+
+    	              "\n");
+    	area.setWidthFull();
+    	descrip.add(area);
+    	return descrip;
+    }
+    
+    /**
+     * Layout for salary combo box for project dialog
+     * @return vertical layout
+     */
+    public VerticalLayout salary() {
+    	VerticalLayout sL = new VerticalLayout();
+    	comboBox = new ComboBox<>("Pay: ");
+    	comboBox.setItems("Paid", "Unpaid", "Unknown");
+    	sL.add(comboBox);
+    	return sL;
+    }
+    
+    /**
+     * Layout for proposer of the projects name for project dialog
+     * @return vertical layout
+     */
+    public VerticalLayout proposerName() {
+    	VerticalLayout vL = new VerticalLayout();
+    	name = new TextField("Name: ");
+    	name.setWidthFull();
+    	vL.add(name);
+    	return vL;
+    }
+    
+    /**
+     * Layout for skills for project layout dialog
+     * @return vertical layout
+     */
+    public VerticalLayout skills() {
+    	VerticalLayout vL = new VerticalLayout();
+    	List<SkillStud> personList = new ArrayList<SkillStud>(); //personService.fetchAll();
+		personList.add(new SkillStud("CompSci", "Coding"));
+		personList.add(new SkillStud("Anthropology & Sociology", "Social Constructs"));
+		cB = new ComboBox<String>("Skills required: ");
+		cB.setPlaceholder("Category");
+		firstGrid = new Grid<>();
+		firstGrid.setItems(personList);
+		firstGrid.setSelectionMode(SelectionMode.MULTI);
+		vL.add(cB, firstGrid);
+		vL.setWidthFull();
+		return vL;
+    }
+    
+    /**
+     * clear all the fields in project dialog
+     */
+    public void clearAll() {
+    	pTField.clear();
+    	datePickerFirst.clear();
+    	datePickerSecond.clear();
+    	locationTF.clear();
+    	area.clear();
+    	name.clear();
+    	comboBox.clear();
+    	cB.clear();
+    	firstGrid.deselectAll();
+    }
+    
+    /**
+     * updates the project list on main page, changes list if search bar
+     * has a value entered
+     */
     private void updateList() {
-    	List<Projects> projects = getSearchValues(searchField.getValue());
+    	List<Projects> projects = getSearchValues(search.getValue());
     	
-    	if (searchField.getValue().length() > 0) {
-    		header.setText("Search for “" + searchField.getValue() + "”");
+    	if (search.getValue().length() > 0) {
+    		header.setText("Search for “" + search.getValue() + "”");
             header.addClassName("main-layout-project-title");
         } else {
         	header.setText("Project Proposals");
@@ -216,7 +264,7 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
     		return projectList;
     	}
     	
-    	List<Projects> listToDisplay = new ArrayList<>();
+    	List<Projects> listToDisplay = new ArrayList<Projects>();
     	for (int i = 0; i < projectList.size(); i++) {
     		if (projectList.get(i).getName().toLowerCase().contains(value.toLowerCase())) {
     			listToDisplay.add(projectList.get(i));
