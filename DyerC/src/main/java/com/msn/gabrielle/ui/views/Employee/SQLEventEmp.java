@@ -16,13 +16,17 @@ public class SQLEventEmp {
 	
 	public SQLEventEmp() {}
 	
+	public ArrayList<Events> getAllEvents() {
+		loadAll();
+		return listAllEvents;
+	}
 	public void loadAll() {
 		
 		listAllEvents.clear();
 		try {
 			Class.forName("org.postgresql.Driver");
 			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
-			System.out.println("Adding profile to database!");
+			System.out.println("Loading All Events from TABLE_EVENTS_MASTER!");
 			Statement statementSelectMonth = c.createStatement();
 			String sqlSelectMonth = "SELECT * FROM TABLE_EVENTS_MASTER;";
 

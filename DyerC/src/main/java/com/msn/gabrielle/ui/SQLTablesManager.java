@@ -29,6 +29,7 @@ public class SQLTablesManager {
 		sl.loadInJSONValues();
 		
 		
+		
 	}
 	
 	public void createProfileTables() {

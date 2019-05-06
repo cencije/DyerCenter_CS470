@@ -67,6 +67,10 @@ public class EventsEmp extends VerticalLayout{
 	public EventsEmp() {
         initView();
         
+        SQLEventEmp sqlEE = new SQLEventEmp();
+        //sqlEE.loadAll();
+        eventsList = sqlEE.getAllEvents();
+        
         lay = new VerticalLayout();
         hlay = new HorizontalLayout();
         ButtonsLay = new HorizontalLayout();
