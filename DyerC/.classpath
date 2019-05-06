@@ -29,8 +29,8 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="/Users/juliannapuleo/Desktop/Senior/SPR2019/CS470/CS470_DC/DyerCenter_CS470/mail.jar"/>
-	<classpathentry exported="true" kind="lib" path="/Users/juliannapuleo/Desktop/Senior/SPR2019/CS470/CS470_DC/DyerCenter_CS470/activation.jar"/>
-	<classpathentry kind="lib" path="/Users/juliannapuleo/Desktop/Senior/SPR2019/CS470/CS470_DC/DyerCenter_CS470/postgresql-42.2.5.jar"/>
+	<classpathentry kind="lib" path="/Users/Joe/Desktop/College/SeniorYearCollege/Spring/CS470/DC_Project/DyerCenter_CS470/mail.jar"/>
+	<classpathentry kind="lib" path="/Users/Joe/Desktop/College/SeniorYearCollege/Spring/CS470/DC_Project/DyerCenter_CS470/activation.jar"/>
+	<classpathentry kind="lib" path="/Users/Joe/Desktop/College/SeniorYearCollege/Spring/CS470/DC_Project/DyerCenter_CS470/postgresql-42.2.5.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

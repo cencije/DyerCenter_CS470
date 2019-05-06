@@ -23,6 +23,8 @@ public class SQLTablesManager {
 		sqlPS.getProfileValues("lol");
 		sqlPS.updateName("HAHA", "lol");
 		
+		
+		// Code to load in the Skills List
 		SkillsLoader sl = new SkillsLoader();
 		sl.loadInJSONValues();
 		
