@@ -31,9 +31,7 @@ public class SQLEventEmp {
 			String sqlSelectMonth = "SELECT * FROM TABLE_EVENTS_MASTER;";
 
 			ResultSet rsMonth = statementSelectMonth.executeQuery(sqlSelectMonth);
-			//ResultSetMetaData rsmdMonth = rsMonth.getMetaData();
 
-			//int cols = rsmdMonth.getColumnCount();
 			while(rsMonth.next()) {
 				String mID			=	rsMonth.getString(1);
 				String mTitle		=	rsMonth.getString(2);
@@ -74,9 +72,7 @@ public class SQLEventEmp {
 			String sqlSelectMonth = "SELECT * FROM TABLE_EVENTS_MASTER WHERE MONTH ='" + monthNo + "';";
 
 			ResultSet rsMonth = statementSelectMonth.executeQuery(sqlSelectMonth);
-			//ResultSetMetaData rsmdMonth = rsMonth.getMetaData();
 
-			//int cols = rsmdMonth.getColumnCount();
 			while(rsMonth.next()) {
 				String mID			=	rsMonth.getString(1);
 				String mTitle		=	rsMonth.getString(2);
@@ -105,31 +101,31 @@ public class SQLEventEmp {
 		}
 	}
 
-	public void insertEvent() {
+	public void insertEvent(String mTitle, String mLocation, String mDesc, String mURL,
+							String mDay, String mMonth, String mYear, String mHour, String mMinute ) {
 		try {
 			Class.forName("org.postgresql.Driver");
 			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
 			System.out.println("-----------------------------------------------------------------");
-			System.out.println("Inserting Skill into database");
+			System.out.println("Inserting Event into database");
 
 			Statement statementCount = c.createStatement();
-			String sqlCount = "SELECT MAX(SKILL_ID) FROM TABLE_SKILLS_MASTER;";
+			String sqlCount = "SELECT MAX(EVENT_ID) FROM TABLE_EVENTS_MASTER;";
 			ResultSet rsCount = statementCount.executeQuery(sqlCount);
 			rsCount.next();
 			int idNumber = rsCount.getInt(1) + 1;
 			statementCount.close();
-		/*
-				"(EVENT_ID INT PRIMARY KEY NOT NULL,   " +
-				" TITLE         TEXT       NOT NULL,   " +
-				" LOCATION      TEXT       NOT NULL,   " +
-				" DESCRIPTION   TEXT   			   ,   " +
-				" URL           TEXT    		   ,   " +
-				" DAY           INTEGER    NOT NULL,   " +
-				" MONTH         INTEGER    NOT NULL,   " +
-				" YEAR          INTEGER    NOT NULL,   " +
-				" HOUR          INTEGER    NOT NULL,   " +
-				" MINUTE        INTEGER    NOT NULL);  ";
-		*/
+			Statement statementInsertStudent = c.createStatement();
+			
+			String sqlInsertStudent = "INSERT INTO TABLE_EVENTS_MASTER "
+					+ "(EVENT_ID,TITLE,LOCATION,DESCRIPTION,URL,DAY,MONTH,YEAR,HOUR,MINUTE) VALUES "
+					+ "(" + idNumber + ", '" + mTitle + "', '" + mLocation 
+					+ "', '" + mDesc + "', '" + mURL + "', '" + mDay + "', '" + mMonth 
+					+ "', '" + mYear + "', '" + mHour + "', '" + mMinute + "');";
+			statementInsertStudent.executeUpdate(sqlInsertStudent);
+			statementInsertStudent.close();
+			c.close();
+			System.out.println("Successful Insertion to TABLE_EVENTS_MASTER");
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.err.println(e.getClass().getName()+": "+e.getMessage());

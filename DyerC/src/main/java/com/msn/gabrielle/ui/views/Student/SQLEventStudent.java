@@ -27,9 +27,7 @@ public class SQLEventStudent {
 			String sqlSelectMonth = "SELECT * FROM TABLE_EVENTS_MASTER;";
 
 			ResultSet rsMonth = statementSelectMonth.executeQuery(sqlSelectMonth);
-			//ResultSetMetaData rsmdMonth = rsMonth.getMetaData();
-
-			//int cols = rsmdMonth.getColumnCount();
+			
 			while(rsMonth.next()) {
 				String mID			=	rsMonth.getString(1);
 				String mTitle		=	rsMonth.getString(2);
@@ -69,9 +67,7 @@ public class SQLEventStudent {
 			String sqlSelectMonth = "SELECT * FROM TABLE_EVENTS_MASTER WHERE MONTH ='" + monthNo + "';";
 
 			ResultSet rsMonth = statementSelectMonth.executeQuery(sqlSelectMonth);
-			//ResultSetMetaData rsmdMonth = rsMonth.getMetaData();
 
-			//int cols = rsmdMonth.getColumnCount();
 			while(rsMonth.next()) {
 				String mID			=	rsMonth.getString(1);
 				String mTitle		=	rsMonth.getString(2);
