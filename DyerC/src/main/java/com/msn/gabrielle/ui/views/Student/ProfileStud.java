@@ -36,6 +36,8 @@ import com.vaadin.flow.router.Route;
 public class ProfileStud extends VerticalLayout{
 	String profileName, profileEmail, profileMajor1, profileMajor2, profileMinor1, profileMinor2;
 	
+	SQLProfileStud sqlPS = new SQLProfileStud();
+	
 	Notification nDuplicateValues;
 	
 	String[] arrayMajor = { "AB International Studies/BS Engineering Major", "Africana Studies", 
@@ -141,12 +143,14 @@ public class ProfileStud extends VerticalLayout{
 		    	}
 		    		
 		    	else if (!(Maj1.equals(Maj2) && !Maj1.equals("Undecided")) && !Maj1.equals(Min1) && !Maj1.equals(Min2) &&
-		    			 !(Maj2.equals(Min1) && Maj2.equals("N/A")) && !(Maj2.equals(Min2) && 
-		    			   Maj2.equals("N/A")) && !(Min1.equals(Min2) && !Min1.equals("N/A") )) {
-			    	lblMajor1.setText("Major 1: " + cbMajor1.getValue());
-			    	lblMajor2.setText("Major 2: " + cbMajor2.getValue());
-			    	lblMinor1.setText("Minor 1: " + cbMinor1.getValue());
-			    	lblMinor2.setText("Minor 2: " + cbMinor2.getValue());
+		    			 !(Maj2.equals(Min1) && !Maj2.equals("N/A")) && !(Maj2.equals(Min2) && 
+		    			   !Maj2.equals("N/A")) && !(Min1.equals(Min2) && !Min1.equals("N/A") )) {
+		    		sqlPS.updateMajorsMinors(profileEmail, Maj1, Maj2, Min1, Min2);
+			    	lblMajor1.setText("Major 1: " + Maj1);
+			    	lblMajor2.setText("Major 2: " + Maj2);
+			    	lblMinor1.setText("Minor 1: " + Min1);
+			    	lblMinor2.setText("Minor 2: " + Min2);
+			    	
 		    	}
 		    	else {
 		    		Label lblNotif = new Label("Majors / Minors cannot be duplicates!");

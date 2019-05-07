@@ -151,6 +151,29 @@ public class SQLProfileStud {
 		}
 	}
 	
+	public void updateMajorsMinors(String studentEmail, String maj1, String maj2, 
+								   String min1, String min2) {
+		try {
+			Class.forName("org.postgresql.Driver");
+			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
+			System.out.println("-----------------------------------------------------------------");
+			System.out.println("Updating Profile Name in TABLE_PROFILE_STUDENTS");
+			Statement statementUpdateName = c.createStatement();
+			String sqlUpdateName = "UPDATE TABLE_PROFILE_STUDENTS SET" +
+									"   MAJOR1 = '" + maj1 + "', MAJOR2 = '" + maj2 + 
+									"', MINOR1 = '" + min1 + "', MINOR2 = '" + min2 + "' " +
+									" WHERE EMAIL = '" + studentEmail + "'; ";
+
+			statementUpdateName.executeUpdate(sqlUpdateName);
+			statementUpdateName.close();
+			c.close();
+			System.out.println("Successful Update Major/Minor Name in TABLE_PROFILE_STUDENTS");
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println(e.getClass().getName()+": "+e.getMessage());
+			System.exit(0);
+		}
+	}
 	public void addSkillToProfile(String studentEmail, ArrayList<String> skillList) {
 		
 	}
