@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 public class SQLProfileStud {
 
@@ -148,5 +149,9 @@ public class SQLProfileStud {
 			System.err.println(e.getClass().getName()+": "+e.getMessage());
 			System.exit(0);
 		}
+	}
+	
+	public void addSkillToProfile(String studentEmail, ArrayList<String> skillList) {
+		
 	}
 }

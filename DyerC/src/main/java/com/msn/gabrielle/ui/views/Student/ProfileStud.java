@@ -26,6 +26,8 @@ import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.html.NativeButton;
 import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.Notification.Position;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
@@ -33,13 +35,36 @@ import com.vaadin.flow.router.Route;
 @PageTitle("Profile")
 public class ProfileStud extends VerticalLayout{
 	String profileName, profileEmail, profileMajor1, profileMajor2, profileMinor1, profileMinor2;
-	String[] arrayMajor = { "N/A", "AB International Studies/BS Engineering Major", "Africana Studies", 
+	
+	Notification nDuplicateValues;
+	
+	String[] arrayMajor = { "AB International Studies/BS Engineering Major", "Africana Studies", 
 			"American Studies", "Anthropology and Sociology", "Art", "Asian Studies",
 			"Biochemistry", "Biology",
 			"Chemical Engineering", "Chemistry", "Civil Engineering", "Computer Science",
 			"Economics", "English", "Electrical & Computer Engineering", "Engineering Studies",
 			"English", "Environmental Science", "Environmental Studies",
-			"Film and Media Studies", "Fo", "French",
+			"Film and Media Studies", "French",
+			"Geology", "German", "Government and Law", "Government and Law: French",
+			"Government and Law: German", "Government and Law: Spanish",
+			"History",
+			"International Affairs",
+			"Mathematics", "Mathematics and Economics, A.B. Joint Major","Mechanical Engineering",
+			"Military Science", "Music",
+			"Neuroscience", 
+			"Philosophy", "Physics", "Policy Studies", "Psychology", 
+			"Religion and Politics", "Religious Studies", "Russian and East European Studies",
+			"Spanish", 
+			"Theater",
+			"Women’s and Gender Studies",
+			"Undecided" };
+	String[] arrayMajor2 = { "N/A", "AB International Studies/BS Engineering Major", "Africana Studies", 
+			"American Studies", "Anthropology and Sociology", "Art", "Asian Studies",
+			"Biochemistry", "Biology",
+			"Chemical Engineering", "Chemistry", "Civil Engineering", "Computer Science",
+			"Economics", "English", "Electrical & Computer Engineering", "Engineering Studies",
+			"English", "Environmental Science", "Environmental Studies",
+			"Film and Media Studies", "French",
 			"Geology", "German", "Government and Law", "Government and Law: French",
 			"Government and Law: German", "Government and Law: Spanish",
 			"History",
@@ -86,19 +111,50 @@ public class ProfileStud extends VerticalLayout{
 		Label lblMinor2 = new Label("Minor 2: " + profileMinor2);
 		ComboBox<String> cbMajor1 = new ComboBox<>("Major 1");
 		cbMajor1.setItems(Arrays.asList(arrayMajor));
-		ComboBox<String> cbMajor2 = new ComboBox<>("Major 2 (If Applicable)");
-		cbMajor2.setItems(Arrays.asList(arrayMajor));
-		ComboBox<String> cbMinor1 = new ComboBox<>("Minor 1 (If Applicable)");
+		ComboBox<String> cbMajor2 = new ComboBox<>("Major 2");
+		cbMajor2.setItems(arrayMajor2);
+		ComboBox<String> cbMinor1 = new ComboBox<>("Minor 1");
 		cbMinor1.setItems(Arrays.asList(arrayMinor));
-		ComboBox<String> cbMinor2 = new ComboBox<>("Minor 2 (If Applicable)");
+		ComboBox<String> cbMinor2 = new ComboBox<>("Minor 2");
 		cbMinor2.setItems(Arrays.asList(arrayMinor));
 		
 		Button btnUpdateFields = new Button("Update Fields", event -> {
 		    try {
-		    	lblMajor1.setText("Major 1: " + cbMajor1.getValue());
-		    	lblMajor2.setText("Major 2: " + cbMajor2.getValue());
-		    	lblMinor1.setText("Minor 1: " + cbMinor1.getValue());
-		    	lblMinor2.setText("Minor 2: " + cbMinor2.getValue());
+		    	String Maj1 = cbMajor1.getValue();
+		    	String Maj2 = cbMajor2.getValue();
+		    	String Min1 = cbMinor1.getValue();
+		    	String Min2 = cbMinor2.getValue();
+		    	if (Maj1 == null || Maj2 == null || Min1 == null || Min2 == null) {
+		    		Label lblNotif = new Label("Please enter a major & minor or select 'Undecided' & 'N/A' respectively!");
+		    		nDuplicateValues = new Notification(lblNotif);
+					nDuplicateValues.setDuration(3000);
+					nDuplicateValues.setPosition(Position.MIDDLE);
+					nDuplicateValues.open();
+		    	}
+		    	else if ((Maj1.equals("Undecided") && !Maj2.equals("N/A")) ||
+		    			 (Min1.equals("N/A") && !Min2.equals("N/A"))) {
+		    		Label lblNotif = new Label("Major/Minor 2 must be 'Undecided' or 'N/A' if Major/Minor 1 is 'Undecided' or 'N/A'");
+		    		nDuplicateValues = new Notification(lblNotif);
+					nDuplicateValues.setDuration(3000);
+					nDuplicateValues.setPosition(Position.MIDDLE);
+					nDuplicateValues.open();
+		    	}
+		    		
+		    	else if (!(Maj1.equals(Maj2) && !Maj1.equals("Undecided")) && !Maj1.equals(Min1) && !Maj1.equals(Min2) &&
+		    			 !(Maj2.equals(Min1) && Maj2.equals("N/A")) && !(Maj2.equals(Min2) && 
+		    			   Maj2.equals("N/A")) && !(Min1.equals(Min2) && !Min1.equals("N/A") )) {
+			    	lblMajor1.setText("Major 1: " + cbMajor1.getValue());
+			    	lblMajor2.setText("Major 2: " + cbMajor2.getValue());
+			    	lblMinor1.setText("Minor 1: " + cbMinor1.getValue());
+			    	lblMinor2.setText("Minor 2: " + cbMinor2.getValue());
+		    	}
+		    	else {
+		    		Label lblNotif = new Label("Majors / Minors cannot be duplicates!");
+		    		nDuplicateValues = new Notification(lblNotif);
+					nDuplicateValues.setDuration(3000);
+					nDuplicateValues.setPosition(Position.MIDDLE);
+					nDuplicateValues.open();
+		    	}
 		        // Update in the database
 		    } catch (Exception e) { e.printStackTrace(); }
 		});
@@ -150,19 +206,19 @@ public class ProfileStud extends VerticalLayout{
 		filterField.setValueChangeMode(ValueChangeMode.EAGER);
 		filterField.addValueChangeListener(event -> {
 		    Optional<SkillStud> foundPerson = personList.stream()
-		            .filter(person -> person.getMajor().toLowerCase()
+		            .filter(person -> person.getCategory().toLowerCase()
 		                    .startsWith(event.getValue().toLowerCase()))
 		            .findFirst();
 		    
 		    firstGrid.getSelectionModel().deselectAll();
 		    Set<SkillStud> foundpersons = personList.stream()
-		            .filter(person -> person.getMajor().toLowerCase()
+		            .filter(person -> person.getCategory().toLowerCase()
 		                    .startsWith(event.getValue().toLowerCase()))
 		            .collect(Collectors.toSet());
 		    firstGrid.asMultiSelect().setValue(foundpersons);
 		});
 
-		firstGrid.addColumn(SkillStud::getMajor).setHeader("Major");
+		firstGrid.addColumn(SkillStud::getCategory).setHeader("Category");
 		firstGrid.addColumn(SkillStud::getName).setHeader("Skill Name");
 
 		Button deselectBtn = new Button("Deselect all");

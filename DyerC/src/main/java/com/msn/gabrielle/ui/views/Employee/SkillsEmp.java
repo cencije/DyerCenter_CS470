@@ -27,7 +27,7 @@ import com.msn.gabrielle.ui.views.Student.SkillStud;
 @PageTitle("Skills List")
 public class SkillsEmp extends VerticalLayout { 
 	Button btnAddSkill, btnDeleteSkill;
-	TextField tfSkillMajor, tfSkillName;
+	TextField tfSkillCategory, tfSkillName;
 	HorizontalLayout hlTFSkills, hlBTNSkills;
 	VerticalLayout vlSkills;
 	Notification nSkillExists;
@@ -41,9 +41,9 @@ public class SkillsEmp extends VerticalLayout {
 		grid = new Grid<>(SkillStud.class);
 		grid.setItems(skillsList);
 	
-		tfSkillMajor = new TextField();
-		tfSkillMajor.setLabel("Skill Major");
-		tfSkillMajor.setPlaceholder("Enter the Skill's Major");
+		tfSkillCategory = new TextField();
+		tfSkillCategory.setLabel("Skill Category");
+		tfSkillCategory.setPlaceholder("Enter the Skill's Category");
 		
 		tfSkillName = new TextField();
 		tfSkillName.setLabel("Skill Name");
@@ -53,10 +53,10 @@ public class SkillsEmp extends VerticalLayout {
 		
 		btnAddSkill = new Button("Add New Skill", event -> {
 			try {
-				String major = tfSkillMajor.getValue();
+				String category = tfSkillCategory.getValue();
 				String skill = tfSkillName.getValue();
 				
-				if (major.trim().equals("") || skill.trim().equals("")) {
+				if (category.trim().equals("") || skill.trim().equals("")) {
 					Label lblNotif = new Label("Please fill out both text fields!");
 					nSkillExists = new Notification(lblNotif);
 					nSkillExists.setDuration(3000);
@@ -64,11 +64,11 @@ public class SkillsEmp extends VerticalLayout {
 					nSkillExists.open();
 				}
 				else {
-					boolean exists = checkSkill(major, skill);
+					boolean exists = checkSkill(category, skill);
 					if (!exists) { 
-						addSkill(major, skill);
+						addSkill(category, skill);
 						updateGrid();
-						tfSkillMajor.clear(); tfSkillName.clear();
+						tfSkillCategory.clear(); tfSkillName.clear();
 					}
 					else {
 						Label lblNotif = new Label("The entered skill already exists!");
@@ -86,14 +86,14 @@ public class SkillsEmp extends VerticalLayout {
 			
 			// if it exists
 			
-			String major = tfSkillMajor.getValue();
+			String category = tfSkillCategory.getValue();
 			String skill = tfSkillName.getValue();
 			
 			// check database
-			boolean skillExists = checkSkill(major, skill);
+			boolean skillExists = checkSkill(category, skill);
 			if (skillExists) {
 				// Remove the skill from the database, update the Grid
-				deleteSkill(major, skill);
+				deleteSkill(category, skill);
 				updateGrid();
 			}
 			else {
@@ -108,7 +108,7 @@ public class SkillsEmp extends VerticalLayout {
 		btnDeleteSkill.setEnabled(true);
 		
 		hlTFSkills = new HorizontalLayout();
-		hlTFSkills.add(tfSkillMajor); hlTFSkills.add(tfSkillName);
+		hlTFSkills.add(tfSkillCategory); hlTFSkills.add(tfSkillName);
 		hlBTNSkills = new HorizontalLayout();
 		hlBTNSkills.add(btnDeleteSkill); hlBTNSkills.add(btnAddSkill);
 		
@@ -129,16 +129,16 @@ public class SkillsEmp extends VerticalLayout {
 	    ResultSet rst;
 	    rst = stm.executeQuery(sql);
 	    while (rst.next()) {
-	        SkillStud skill = new SkillStud(rst.getString("skillMajor"), rst.getString("skillName"));
+	        SkillStud skill = new SkillStud(rst.getString("skillCategory"), rst.getString("skillName"));
 	        skillsList.add(skill);
 	    }
 	    */
 		
-		skillsList.add(new SkillStud("Skill Major 1", "Skill Name 1"));
-		skillsList.add(new SkillStud("Skill Major 2", "Skill Name 2"));
+		skillsList.add(new SkillStud("Skill Category 1", "Skill Name 1"));
+		skillsList.add(new SkillStud("Skill Category 2", "Skill Name 2"));
 	}
 	
-	public void addSkill(String major, String name) {
+	public void addSkill(String category, String name) {
 		
 		try {
 			/*
@@ -147,13 +147,13 @@ public class SkillsEmp extends VerticalLayout {
 			System.out.println("Adding profile to database!");
 			Statement statementAdd = c.createStatement();
 			String sqlAdd = "INSERT INTO SKILLSTABLE (MAJOR,NAME) VALUES " +
-			   "('"+ major + "', '" + name + "');";
+			   "('"+ category + "', '" + name + "');";
 			statementAdd.executeUpdate(sqlAdd);
 			statementAdd.close();
 			c.close();
 			*/
 			
-			skillsList.add(new SkillStud(major, name));
+			skillsList.add(new SkillStud(category, name));
 			
 			System.out.println("Successful skill add to database!");
 		} catch (Exception e) {
@@ -162,7 +162,7 @@ public class SkillsEmp extends VerticalLayout {
 			System.exit(0);
 		}
 	}
-	public boolean checkSkill(String major, String name) {
+	public boolean checkSkill(String category, String name) {
 		boolean skillExists = false;
 		// Database check
 		try {
@@ -172,7 +172,7 @@ public class SkillsEmp extends VerticalLayout {
 			System.out.println("Adding profile to database!");
 			Statement statementAdd = c.createStatement();
 			String sqlAdd = "INSERT INTO SKILLSTABLE (MAJOR,NAME) VALUES " +
-			   "('"+ major + "', '" + name + "');";
+			   "('"+ category + "', '" + name + "');";
 			statementAdd.executeUpdate(sqlAdd);
 			statementAdd.close();
 			c.close();
@@ -180,7 +180,7 @@ public class SkillsEmp extends VerticalLayout {
 			Iterator<SkillStud> itr = skillsList.iterator();
 			while (itr.hasNext()) {
 				SkillStud skillS = itr.next();
-			    if (skillS.getMajor().equals(major) && skillS.getName().equals(name)) {
+			    if (skillS.getCategory().equals(category) && skillS.getName().equals(name)) {
 			    	skillExists = true;
 			    	break;
 			    }
@@ -194,7 +194,7 @@ public class SkillsEmp extends VerticalLayout {
 		return skillExists;
 	}
 	
-	public void deleteSkill(String major, String name) {
+	public void deleteSkill(String category, String name) {
 		
 		// Database check
 			try {
@@ -204,7 +204,7 @@ public class SkillsEmp extends VerticalLayout {
 				System.out.println("Adding profile to database!");
 				Statement statementAdd = c.createStatement();
 				String sqlAdd = "INSERT INTO SKILLSTABLE (MAJOR,NAME) VALUES " +
-				   "('"+ major + "', '" + name + "');";
+				   "('"+ category + "', '" + name + "');";
 				statementAdd.executeUpdate(sqlAdd);
 				statementAdd.close();
 				c.close();
@@ -214,7 +214,7 @@ public class SkillsEmp extends VerticalLayout {
 				while (itr.hasNext()) {
 					
 					SkillStud skillS = itr.next();
-				    if (skillS.getMajor().equals(major) && skillS.getName().equals(name)) {
+				    if (skillS.getCategory().equals(category) && skillS.getName().equals(name)) {
 				    	skillsList.remove(i);
 				    	break;
 				    }
