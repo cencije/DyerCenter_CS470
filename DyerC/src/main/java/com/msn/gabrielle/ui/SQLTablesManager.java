@@ -14,7 +14,7 @@ public class SQLTablesManager {
 	
 	public void determineDBStates() {
 		//dropProfileTables(true, true, true);
-		dropSkillTables(true, false);
+		//dropSkillTables(true, false);
 		createProfileTables();
 		createSkillTables();
 		createEventsTables();
@@ -25,8 +25,10 @@ public class SQLTablesManager {
 		
 		
 		// Code to load in the Skills List
-		SkillsLoader sl = new SkillsLoader();
-		sl.loadInJSONValues();
+		/*
+			SkillsLoader sl = new SkillsLoader();
+			sl.loadInJSONValues();
+		 */
 		
 		
 		
