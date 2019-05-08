@@ -2,6 +2,7 @@ package com.msn.gabrielle.ui.views.Student;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -197,25 +198,26 @@ public class ProfileStud extends VerticalLayout{
 		vlNonGridSide.add(btnUpdateFields);
 		
 		
-		List<SkillStud> personList = new ArrayList<SkillStud>(); //personService.fetchAll();
+		List<SkillStud> listSkills = new ArrayList<SkillStud>(); //personService.fetchAll();
 
-		personList.add(new SkillStud("CompSci", "Coding"));
-		personList.add(new SkillStud("Anthropology & Sociology", "Social Constructs"));
-		Label hGrid = new Label("Skills List");
+		
+		listSkills.add(new SkillStud("CompSci", "Coding"));
+		listSkills.add(new SkillStud("Anthropology & Sociology", "Social Constructs"));
+		Label lblSkillsGrid = new Label("Skills List");
 		Grid<SkillStud> firstGrid = new Grid<>();
-		firstGrid.setItems(personList);
+		firstGrid.setItems(listSkills);
 		firstGrid.setSelectionMode(SelectionMode.MULTI);
 
 		TextField filterField = new TextField();
 		filterField.setValueChangeMode(ValueChangeMode.EAGER);
 		filterField.addValueChangeListener(event -> {
-		    Optional<SkillStud> foundPerson = personList.stream()
+		    Optional<SkillStud> foundPerson = listSkills.stream()
 		            .filter(person -> person.getCategory().toLowerCase()
 		                    .startsWith(event.getValue().toLowerCase()))
 		            .findFirst();
 		    
 		    firstGrid.getSelectionModel().deselectAll();
-		    Set<SkillStud> foundpersons = personList.stream()
+		    Set<SkillStud> foundpersons = listSkills.stream()
 		            .filter(person -> person.getCategory().toLowerCase()
 		                    .startsWith(event.getValue().toLowerCase()))
 		            .collect(Collectors.toSet());
@@ -232,10 +234,23 @@ public class ProfileStud extends VerticalLayout{
 		selectAllBtn.addClickListener(
 		        event -> ((GridMultiSelectionModel<SkillStud>) firstGrid
 		                .getSelectionModel()).selectAll());
+		Button btnUpdateSkills = new Button("Update Skills");
+		btnUpdateSkills.addClickListener(
+				event -> {
+					List<SkillStud> listSelectedSkills = new ArrayList<SkillStud>();
+					Set<SkillStud> skillSet = new HashSet<SkillStud>();
+					skillSet = firstGrid.getSelectedItems();
+					for (SkillStud ss : skillSet) { 
+						listSelectedSkills.add(ss); 
+						System.out.println(ss.skillCategory + " " + ss.skillName);
+					}
+					
+				}
+		);
 		HorizontalLayout hlGridBtns = new HorizontalLayout();
-		hlGridBtns.add(deselectBtn); hlGridBtns.add(selectAllBtn);
+		hlGridBtns.add(deselectBtn); hlGridBtns.add(selectAllBtn); hlGridBtns.add(btnUpdateSkills); 
 		VerticalLayout vlGrid = new VerticalLayout();
-		vlGrid.add(hGrid); vlGrid.add(firstGrid);
+		vlGrid.add(lblSkillsGrid); vlGrid.add(filterField); vlGrid.add(firstGrid);
 		vlGrid.add(hlGridBtns);
 		HorizontalLayout hlFinalLayout = new HorizontalLayout();
 		hlFinalLayout.add(vlNonGridSide); hlFinalLayout.add(vlGrid);
