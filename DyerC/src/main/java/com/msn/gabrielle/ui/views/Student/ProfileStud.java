@@ -38,6 +38,7 @@ public class ProfileStud extends VerticalLayout{
 	String profileName, profileEmail, profileMajor1, profileMajor2, profileMinor1, profileMinor2;
 	
 	SQLProfileStud sqlPS = new SQLProfileStud();
+	//SQL
 	
 	Notification nDuplicateValues;
 	
@@ -237,14 +238,14 @@ public class ProfileStud extends VerticalLayout{
 		Button btnUpdateSkills = new Button("Update Skills");
 		btnUpdateSkills.addClickListener(
 				event -> {
-					List<SkillStud> listSelectedSkills = new ArrayList<SkillStud>();
+					ArrayList<SkillStud> listSelectedSkills = new ArrayList<SkillStud>();
 					Set<SkillStud> skillSet = new HashSet<SkillStud>();
 					skillSet = firstGrid.getSelectedItems();
 					for (SkillStud ss : skillSet) { 
 						listSelectedSkills.add(ss); 
 						System.out.println(ss.skillCategory + " " + ss.skillName);
 					}
-					
+					sqlPS.addSkillsToProfile(profileEmail, listSelectedSkills);
 				}
 		);
 		HorizontalLayout hlGridBtns = new HorizontalLayout();

@@ -24,7 +24,7 @@ public class SQLProfileStud {
 			Class.forName("org.postgresql.Driver");
 			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
 			System.out.println("-----------------------------------------------------------------");
-			System.out.println("Inserting profile to database");
+			System.out.println("Couting Max ID in TABLE_PROFILE_STUDENTS");
 			Statement statementCount = c.createStatement();
 			String sqlCount = "SELECT MAX(ID) FROM TABLE_PROFILE_STUDENTS;";
 			ResultSet rsCount = statementCount.executeQuery(sqlCount);
@@ -32,7 +32,9 @@ public class SQLProfileStud {
 			//System.out.println("TOTAL COUNT IS: " + rsCount.getInt(1));
 			idNumber = rsCount.getInt(1) + 1;
 			statementCount.close();
-
+			System.out.println("Successful Count from TABLE_PROFILE_STUDENTS");
+			System.out.println("-----------------------------------------------------------------");
+			System.out.println("Inserting profile into TABLE_PROFILE_STUDENTS");
 			Statement statementInsertStudent = c.createStatement();
 			String sqlInsertStudent = "INSERT INTO TABLE_PROFILE_STUDENTS "
 					+ "(ID,NAME,EMAIL,PASSWORD,PHONENO,MAJOR1,MAJOR2,MINOR1,MINOR2) VALUES "
@@ -42,7 +44,7 @@ public class SQLProfileStud {
 			statementInsertStudent.executeUpdate(sqlInsertStudent);
 			statementInsertStudent.close();
 			c.close();
-			System.out.println("Successful Count from TABLE_PROFILE_STUDENTS");
+			System.out.println("Successful insetion into TABLE_PROFILE_STUDENTS");
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.err.println(e.getClass().getName()+": "+e.getMessage());
@@ -174,7 +176,50 @@ public class SQLProfileStud {
 			System.exit(0);
 		}
 	}
-	public void addSkillToProfile(String studentEmail, ArrayList<String> skillList) {
+	public void addSkillsToProfile(String studentEmail, ArrayList<SkillStud> skillList) {
 		
+		String eID = "DUMMYVALUE";
+		try {
+			Class.forName("org.postgresql.Driver");
+			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
+			System.out.println("-----------------------------------------------------------------");
+			System.out.println("Selecting on Email from TABLE_PROFILE_STUDENTS");
+			Statement statementSelectEmail = c.createStatement();
+			String sqlSelectEmail = "SELECT * FROM TABLE_PROFILE_STUDENTS WHERE EMAIL ='" + studentEmail + "';";
+
+			ResultSet rsEmail = statementSelectEmail.executeQuery(sqlSelectEmail);
+			
+			while(rsEmail.next()) { eID	= rsEmail.getString(1); }
+			statementSelectEmail.close();
+			
+			System.out.println("Successful Find Email from TABLE_PROFILE_STUDENTS");
+			System.out.println("-----------------------------------------------------------------");
+			System.out.println("Removing Skills from TABLE_SKILLS_STUDENT");
+			Statement statementRemoveSkills = c.createStatement();
+			String sqlRemoveSkills= "DELETE FROM TABLE_SKILLS_STUDENT WHERE STUDENT_ID = '" + eID + "'; ";
+
+			statementRemoveSkills.executeUpdate(sqlRemoveSkills);
+			statementRemoveSkills.close();
+			
+			System.out.println("Successful Skills Removal from TABLE_SKILLS_STUDENT");
+			System.out.println("-----------------------------------------------------------------");
+			
+			System.out.println("Adding Skills for " + eID + " t TABLE_SKILLS_STUDENT");
+			
+			for (int i = 0; i < skillList.size(); i++) {
+				Statement statementAddSkills = c.createStatement();
+				String sqlAddSkills = "INSERT INTO TABLE_SKILLS_STUDENT "
+						+ "(STUDENT_ID,CATEGORY,SKILLNAME) VALUES "
+						+ "(" + eID + ", '" + skillList.get(i).skillCategory + "', '" + skillList.get(i).skillName + "');";
+				statementAddSkills.executeUpdate(sqlAddSkills);
+				statementAddSkills.close();
+			}
+			c.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println(e.getClass().getName()+": "+e.getMessage());
+			System.exit(0);
+		}
+
 	}
 }
