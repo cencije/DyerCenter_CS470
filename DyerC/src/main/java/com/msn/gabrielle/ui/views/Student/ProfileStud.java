@@ -200,10 +200,8 @@ public class ProfileStud extends VerticalLayout{
 		
 		
 		List<SkillStud> listSkills = new ArrayList<SkillStud>(); //personService.fetchAll();
-
+		listSkills = sqlPS.loadAllSkills();
 		
-		listSkills.add(new SkillStud("CompSci", "Coding"));
-		listSkills.add(new SkillStud("Anthropology & Sociology", "Social Constructs"));
 		Label lblSkillsGrid = new Label("Skills List");
 		Grid<SkillStud> firstGrid = new Grid<>();
 		firstGrid.setItems(listSkills);
@@ -212,6 +210,7 @@ public class ProfileStud extends VerticalLayout{
 		TextField filterField = new TextField();
 		filterField.setValueChangeMode(ValueChangeMode.EAGER);
 		filterField.addValueChangeListener(event -> {
+		    /*
 		    Optional<SkillStud> foundPerson = listSkills.stream()
 		            .filter(person -> person.getCategory().toLowerCase()
 		                    .startsWith(event.getValue().toLowerCase()))
@@ -223,6 +222,7 @@ public class ProfileStud extends VerticalLayout{
 		                    .startsWith(event.getValue().toLowerCase()))
 		            .collect(Collectors.toSet());
 		    firstGrid.asMultiSelect().setValue(foundpersons);
+		    */
 		});
 
 		firstGrid.addColumn(SkillStud::getCategory).setHeader("Category");

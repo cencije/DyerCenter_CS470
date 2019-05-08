@@ -66,9 +66,7 @@ public class SQLProfileStud {
 
 			ResultSet rsEmail = statementSelectEmail.executeQuery(sqlSelectEmail);
 			ResultSetMetaData rsmdEmail = rsEmail.getMetaData();
-
-			int cols = rsmdEmail.getColumnCount();
-			
+		
 			while(rsEmail.next()) {
 				eID	   = rsEmail.getString(1);
 				eName  = rsEmail.getString(2);
@@ -112,7 +110,6 @@ public class SQLProfileStud {
 			ResultSet rsSkills = statementSelectSkills.executeQuery(sqlSelectSkills);
 			ResultSetMetaData rsmdSkills = rsSkills.getMetaData();
 
-			int cols = rsmdSkills.getColumnCount();
 			while(rsSkills.next()) {
 				String sID		 = rsSkills.getString(1);
 				String sCategory = rsSkills.getString(2);
@@ -220,6 +217,33 @@ public class SQLProfileStud {
 			System.err.println(e.getClass().getName()+": "+e.getMessage());
 			System.exit(0);
 		}
+	}
+	
+	public ArrayList<SkillStud> loadAllSkills() {
+		ArrayList<SkillStud> skillsList = new ArrayList<SkillStud>();
+		try {
+			Class.forName("org.postgresql.Driver");
+			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
+			System.out.println("-----------------------------------------------------------------");
+			System.out.println("Updating Profile Name in TABLE_SKILLS_MASTER");
+			Statement statementGetAllSkills = c.createStatement();
+			String sqlGetAllSkills = "SELECT * FROM TABLE_SKILLS_MASTER;";
 
+			ResultSet rsSkills = statementGetAllSkills.executeQuery(sqlGetAllSkills);
+			while(rsSkills.next()) {
+				String sCategory = rsSkills.getString(2);
+				String sSkill	 = rsSkills.getString(3);
+				skillsList.add(new SkillStud(sCategory, sSkill));
+				//System.out.println(sID + " " + sCategory + " " + sSkill);
+			}
+			statementGetAllSkills.close();
+			c.close();
+			System.out.println("Successful loading of all skills from TABLE_SKILLS_MASTER");
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println(e.getClass().getName()+": "+e.getMessage());
+			System.exit(0);
+		}
+		return skillsList;
 	}
 }
