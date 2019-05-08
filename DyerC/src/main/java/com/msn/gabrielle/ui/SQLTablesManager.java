@@ -38,8 +38,7 @@ public class SQLTablesManager {
 		
 		try {
 			Class.forName("org.postgresql.Driver");
-			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres",
-														"postgres", "PostgresMall");
+			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres","postgres", "PostgresMall");
 			System.out.println("Creating/Checking Existence of TABLE_PROFILE_STUDENTS");
 			Statement statementCreate_TPS = c.createStatement();
 			String stringCreateTPS = "CREATE TABLE IF NOT EXISTS TABLE_PROFILE_STUDENTS" +
@@ -64,8 +63,7 @@ public class SQLTablesManager {
 		
 		try {
 			Class.forName("org.postgresql.Driver");
-			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres",
-														"postgres", "PostgresMall");
+			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
 			System.out.println("Creating/Checking Existence of TABLE_PROFILE_ALUMNI");
 			Statement statementCreate_TPS = c.createStatement();
 			String stringCreateTPA = "CREATE TABLE IF NOT EXISTS TABLE_PROFILE_ALUMNI" +
@@ -86,8 +84,7 @@ public class SQLTablesManager {
 		
 		try {
 			Class.forName("org.postgresql.Driver");
-			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres",
-														"postgres", "PostgresMall");
+			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
 			System.out.println("Creating/Checking Existence of TABLE_PROFILE_EMPLOYEE");
 			Statement statementCreate_TPE = c.createStatement();
 			String stringCreateTPE = "CREATE TABLE IF NOT EXISTS TABLE_PROFILE_EMPLOYEE" +
@@ -112,8 +109,7 @@ public class SQLTablesManager {
 		if (boolStudent) {
 			try {
 				Class.forName("org.postgresql.Driver");
-				Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres",
-															"postgres", "PostgresMall");
+				Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
 				System.out.println("Dropping Table TABLE_PROFILE_STUDENT");
 				Statement statementDrop_TPS = c.createStatement();
 				String stringDropTPS = "DROP TABLE IF EXISTS TABLE_PROFILE_STUDENTS;";
@@ -131,8 +127,7 @@ public class SQLTablesManager {
 		if (boolAlumni) {
 			try {
 				Class.forName("org.postgresql.Driver");
-				Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres",
-															"postgres", "PostgresMall");
+				Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
 				System.out.println("Dropping Table IF EXISTS TABLE_PROFILE_ALUMNI");
 				Statement statementDrop_TPA = c.createStatement();
 				String stringDropTPA = "DROP TABLE TABLE_PROFILE_ALUMNI;";
@@ -150,8 +145,7 @@ public class SQLTablesManager {
 		if (boolEmployee) {
 			try {
 				Class.forName("org.postgresql.Driver");
-				Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres",
-															"postgres", "PostgresMall");
+				Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
 				System.out.println("Dropping Table TABLE_PROFILE_EMPLOYEE!");
 				Statement statementDrop_TPE = c.createStatement();
 				String stringDropTPE = "DROP TABLE IF EXISTS TABLE_PROFILE_EMPLOYEE;";
@@ -172,8 +166,7 @@ public class SQLTablesManager {
 		
 		try {
 			Class.forName("org.postgresql.Driver");
-			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres",
-														"postgres", "PostgresMall");
+			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
 			System.out.println("Creating/Checking Existence of TABLE_SKILLS_MASTER");
 			Statement statementCreate_TEM = c.createStatement();
 			String stringCreateTEM = "CREATE TABLE IF NOT EXISTS TABLE_EVENTS_MASTER" +
@@ -205,8 +198,7 @@ public class SQLTablesManager {
 		
 		try {
 			Class.forName("org.postgresql.Driver");
-			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres",
-														"postgres", "PostgresMall");
+			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
 			System.out.println("Creating/Checking Existence of TABLE_SKILLS_MASTER");
 			Statement statementCreate_TSM = c.createStatement();
 			String stringCreateTSM = "CREATE TABLE IF NOT EXISTS TABLE_SKILLS_MASTER" +
@@ -225,8 +217,7 @@ public class SQLTablesManager {
 		
 		try {
 			Class.forName("org.postgresql.Driver");
-			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres",
-														"postgres", "PostgresMall");
+			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
 			System.out.println("Creating/Checking Existence of TABLE_SKILLS_STUDENT");
 			Statement statementCreate_TSS = c.createStatement();
 			String stringCreateTSS = "CREATE TABLE IF NOT EXISTS TABLE_SKILLS_STUDENT" +
@@ -249,8 +240,7 @@ public class SQLTablesManager {
 		if (boolMaster) {
 			try {
 				Class.forName("org.postgresql.Driver");
-				Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres",
-															"postgres", "PostgresMall");
+				Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
 				System.out.println("Dropping Table TABLE_SKILLS_MASTER");
 				Statement statementDrop_TSM = c.createStatement();
 				String stringDropTSM = "DROP TABLE IF EXISTS TABLE_SKILLS_MASTER;";
@@ -268,8 +258,7 @@ public class SQLTablesManager {
 		if (boolStudent) {
 			try {
 				Class.forName("org.postgresql.Driver");
-				Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres",
-															"postgres", "PostgresMall");
+				Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
 				System.out.println("Dropping Table TABLE_SKILLS_STUDENT");
 				Statement statementDrop_TSS = c.createStatement();
 				String stringDropTSS = "DROP TABLE IF EXISTS TABLE_SKILLS_STUDENT;";

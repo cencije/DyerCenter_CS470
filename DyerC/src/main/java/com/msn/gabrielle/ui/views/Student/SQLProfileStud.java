@@ -206,7 +206,7 @@ public class SQLProfileStud {
 			for (int i = 0; i < skillList.size(); i++) {
 				Statement statementAddSkills = c.createStatement();
 				String sqlAddSkills = "INSERT INTO TABLE_SKILLS_STUDENT "
-						+ "(STUDENT_ID,CATEGORY,SKILLNAME) VALUES "
+						+ "(STUDENT_ID,CATEGORY,SKILL_NAME) VALUES "
 						+ "(" + eID + ", '" + skillList.get(i).skillCategory + "', '" + skillList.get(i).skillName + "');";
 				statementAddSkills.executeUpdate(sqlAddSkills);
 				statementAddSkills.close();
