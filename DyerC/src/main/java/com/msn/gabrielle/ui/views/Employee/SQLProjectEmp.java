@@ -76,7 +76,7 @@ public class SQLProjectEmp {
 	
 	public ArrayList<Projects> loadProjects() {
 		
-		String eID = "", pTitle = "", pStart = "", pEnd = "", 
+		String pID = "", pTitle = "", pStart = "", pEnd = "", 
 				   pLocation = "", pDesc = "", pPaid = "", pProp = "", pPosted = "";
 		ArrayList<Projects> listProjects = new ArrayList<Projects>();
 		try {
@@ -93,7 +93,7 @@ public class SQLProjectEmp {
 
 			while(rsProjects.next()) {
 				
-				eID	   = rsProjects.getString(1);
+				pID	   = rsProjects.getString(1);
 				pTitle  = rsProjects.getString(2);
 				pStart = rsProjects.getString(3); 
 				pEnd = rsProjects.getString(4); 
