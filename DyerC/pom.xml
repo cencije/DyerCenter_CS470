@@ -78,7 +78,13 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
         </dependency>
-		
+        
+        <!-- Dependency added for the email functionality -->
+        <dependency>
+        	<groupId>org.apache.commons</groupId>
+        	<artifactId>commons-email</artifactId>
+        	<version>1.4</version>
+		</dependency>
 		<dependency>
 			<groupId>org.vaadin.stefan</groupId>
 			<artifactId>fullcalendar</artifactId>

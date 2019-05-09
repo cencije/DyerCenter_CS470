@@ -1,7 +1,10 @@
 package com.msn.gabrielle.ui.views.Employee;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import com.msn.gabrielle.backend.Projects;
 import com.msn.gabrielle.ui.*;
@@ -22,21 +25,19 @@ import com.vaadin.flow.router.Route;
 @Route(value = "profileemp", layout = EmployeePage.class)
 @PageTitle("Profile")
 public class ProjectProposalEmp extends VerticalLayout {
-	String profileName, profileEmail;
 	private TextField pTField;
 	private DatePicker datePickerFirst;
 	private DatePicker datePickerSecond;
 	private TextField locationTF;
 	private TextArea area;
-	private ComboBox comboBox;
+	private ComboBox<String> comboBox;
+	private String pay;
 	private TextField name;
 	private ComboBox<String> cB;
 	private Grid firstGrid;
     private List<Projects> projectList = new ArrayList<Projects>();
 	private DatePicker dialog;
 	private String nameStr;
-	private String descriptionStr;
-	private String nameProposerStr;
 	
 	public ProjectProposalEmp() {
 		HorizontalLayout hL = new HorizontalLayout();
@@ -49,7 +50,18 @@ public class ProjectProposalEmp extends VerticalLayout {
 		add(hL1);
 		add(skills());
     	Button saveButton = new Button("Save", event -> {
-    		Projects newProj = new Projects(nameStr, descriptionStr, nameProposerStr);
+    		Set skills = firstGrid.getSelectedItems();
+    		Projects newProj = new Projects(nameStr);
+    		newProj.setStartDate(datePickerFirst.getValue().toString());
+    		newProj.setEndDate(datePickerSecond.getValue().toString());
+    		System.out.println(datePickerSecond.getValue().toString());
+    		newProj.setLocation(locationTF.getValue());
+    		newProj.setProjectTitle(pTField.getValue());
+    		newProj.setDescription(area.getValue());
+    		newProj.setPay(pay);
+    		newProj.setProposedBy(name.getValue());
+    		newProj.setDatePosted(LocalDate.now().format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
+    		newProj.setSkillsSet(firstGrid.getSelectedItems());
     		projectList.add(newProj);
     		clearAll();
     	});
@@ -113,8 +125,11 @@ public class ProjectProposalEmp extends VerticalLayout {
      */
     public VerticalLayout salary() {
     	VerticalLayout sL = new VerticalLayout();
-    	comboBox = new ComboBox<>("Pay: ");
+    	comboBox = new ComboBox<String>("Pay: ");
     	comboBox.setItems("Paid", "Unpaid", "Unknown");
+    	comboBox.addValueChangeListener(event -> {
+    	    pay = comboBox.getValue();
+    	});
     	sL.add(comboBox);
     	return sL;
     }

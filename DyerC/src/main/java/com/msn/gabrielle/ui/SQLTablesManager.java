@@ -14,6 +14,7 @@ public class SQLTablesManager {
 	
 	public void determineDBStates() {
 		//dropProfileTables(true, true, true);
+		dropSkillTables(true, false);
 		createProfileTables();
 		createSkillTables();
 		createEventsTables();
@@ -21,9 +22,11 @@ public class SQLTablesManager {
 		//sqlPS.insertNewProfile("fqfgqg", "email", "password", "phoneNo", null, "m2", null, "min2");
 		sqlPS.getProfileValues("lol");
 		sqlPS.updateName("HAHA", "lol");
+		
 		SkillsLoader sl = new SkillsLoader();
-		//sl.loadInJSONValues();
-		//dropSkillTables(false, true);
+		sl.loadInJSONValues();
+		
+		
 	}
 	
 	public void createProfileTables() {

@@ -46,6 +46,7 @@ import java.sql.Statement;
 
 import com.msn.gabrielle.ui.views.categorieslist.CategoriesList;
 import com.msn.gabrielle.ui.views.reviewslist.ReviewsList;
+import com.msn.gabrielle.ui.SQLTablesManager;
 
 /**
  * The main layout contains the header with the navigation buttons, and the
@@ -96,11 +97,13 @@ public class MainPage extends VerticalLayout
     	viewDialog.add(mainLay);
     	viewDialog.open();
     	add(viewDialog);
-    	System.out.println("CALLING THE DB!");
+    	//System.out.println("CALLING THE DB!");
     	//connectDB();
     	//mainLayout.setHorizontalComponentAlignment(Alignment.CENTER, buttonLayout);
-    	SQLTablesManager sqlTM = new SQLTablesManager();
+    	
+    	/*SQLTablesManager sqlTM = new SQLTablesManager();
     	sqlTM.determineDBStates();
+    	*/
     	
     }
 }

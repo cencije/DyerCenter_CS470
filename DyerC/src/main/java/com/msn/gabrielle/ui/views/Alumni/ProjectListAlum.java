@@ -128,7 +128,7 @@ public class ProjectListAlum extends VerticalLayout{
 	    	
 	    	VerticalLayout buttons = new VerticalLayout();
 	    	Button saveButton = new Button("Save", event -> {
-	    		Projects newProj = new Projects(nameStr, descriptionStr, nameProposerStr);
+	    		Projects newProj = new Projects(nameStr);
 	    		projectList.add(newProj);
 	    		dialog.close();
 	    		proposerField.clear();
