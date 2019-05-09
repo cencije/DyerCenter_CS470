@@ -38,10 +38,10 @@ public class ProfileStud extends VerticalLayout{
 	String profileName, profileEmail, profileMajor1, profileMajor2, profileMinor1, profileMinor2;
 	
 	SQLProfileStud sqlPS = new SQLProfileStud();
-	//SQL
 	
 	Notification nDuplicateValues;
 	
+	Grid<SkillStud> gridChosenSkills;
 	String[] arrayMajor = { "AB International Studies/BS Engineering Major", "Africana Studies", 
 			"American Studies", "Anthropology and Sociology", "Art", "Asian Studies",
 			"Biochemistry", "Biology",
@@ -102,6 +102,7 @@ public class ProfileStud extends VerticalLayout{
 			"Theater",
 			"Women’s and Gender Studies", "Writing"};
 	public ProfileStud() {
+		gridChosenSkills = new Grid<>();
 		loadProfileValues();
 		
 		Label lblName = new Label("Name:");
@@ -179,6 +180,11 @@ public class ProfileStud extends VerticalLayout{
 		    if (!event.getSource().isEmpty()) { btnUpdateFields.setEnabled(true);  }
 		});	
 
+		
+		Label lblChosenSkills = new Label("Chosen Skills List");
+		gridChosenSkills.addColumn(SkillStud::getCategory).setHeader("Category");
+		gridChosenSkills.addColumn(SkillStud::getName).setHeader("Skill Name");
+		
 		HorizontalLayout hlName = new HorizontalLayout();
 		hlName.add(lblName); hlName.add(lblProfileName);
 		HorizontalLayout hlEmail = new HorizontalLayout();
@@ -197,33 +203,16 @@ public class ProfileStud extends VerticalLayout{
 		vlNonGridSide.add(hlMajors); vlNonGridSide.add(hlMinors);
 		vlNonGridSide.add(hlCBMajors); vlNonGridSide.add(hlCBMinors);
 		vlNonGridSide.add(btnUpdateFields);
-		
-		
-		List<SkillStud> listSkills = new ArrayList<SkillStud>(); //personService.fetchAll();
+		vlNonGridSide.add(lblChosenSkills);
+		vlNonGridSide.add(gridChosenSkills);
+	
+		List<SkillStud> listSkills = new ArrayList<SkillStud>(); 
 		listSkills = sqlPS.loadAllSkills();
 		
-		Label lblSkillsGrid = new Label("Skills List");
+		Label lblSkillsGrid = new Label("Available Skills List");
 		Grid<SkillStud> firstGrid = new Grid<>();
 		firstGrid.setItems(listSkills);
 		firstGrid.setSelectionMode(SelectionMode.MULTI);
-
-		TextField filterField = new TextField();
-		filterField.setValueChangeMode(ValueChangeMode.EAGER);
-		filterField.addValueChangeListener(event -> {
-		    /*
-		    Optional<SkillStud> foundPerson = listSkills.stream()
-		            .filter(person -> person.getCategory().toLowerCase()
-		                    .startsWith(event.getValue().toLowerCase()))
-		            .findFirst();
-		    
-		    firstGrid.getSelectionModel().deselectAll();
-		    Set<SkillStud> foundpersons = listSkills.stream()
-		            .filter(person -> person.getCategory().toLowerCase()
-		                    .startsWith(event.getValue().toLowerCase()))
-		            .collect(Collectors.toSet());
-		    firstGrid.asMultiSelect().setValue(foundpersons);
-		    */
-		});
 
 		firstGrid.addColumn(SkillStud::getCategory).setHeader("Category");
 		firstGrid.addColumn(SkillStud::getName).setHeader("Skill Name");
@@ -246,13 +235,13 @@ public class ProfileStud extends VerticalLayout{
 						System.out.println(ss.skillCategory + " " + ss.skillName);
 					}
 					sqlPS.addSkillsToProfile(profileEmail, listSelectedSkills);
+					updateProfileSkills();
 				}
 		);
 		HorizontalLayout hlGridBtns = new HorizontalLayout();
 		hlGridBtns.add(deselectBtn); hlGridBtns.add(selectAllBtn); hlGridBtns.add(btnUpdateSkills); 
 		VerticalLayout vlGrid = new VerticalLayout();
-		vlGrid.add(lblSkillsGrid); vlGrid.add(filterField); vlGrid.add(firstGrid);
-		vlGrid.add(hlGridBtns);
+		vlGrid.add(lblSkillsGrid); vlGrid.add(firstGrid); vlGrid.add(hlGridBtns);
 		HorizontalLayout hlFinalLayout = new HorizontalLayout();
 		hlFinalLayout.add(vlNonGridSide); hlFinalLayout.add(vlGrid);
 		hlFinalLayout.setWidth("100%");
@@ -260,15 +249,22 @@ public class ProfileStud extends VerticalLayout{
 		
 	}
 	public void loadProfileValues() {
-		// Select * WHERE EMAILADDRESS = ' ';
-		profileName = "N/A";
-		profileEmail = "N/A";
-		profileName = "John Goodway";
+		// Dummy Value used for email right now
+		// Should be loaded from the Databases upon login
 		profileEmail = "goodwayj@lafayette.edu";
-		profileMajor1 = "N/A";
-		profileMajor2 = "N/A";
-		profileMinor1 = "N/A";
-		profileMinor2 = "N/A";
+		updateProfileSkills();
+		ArrayList<String> listInfo = sqlPS.getProfileInformation();
+		profileName = listInfo.get(0);
+		profileEmail = listInfo.get(1);
+		profileMajor1 = listInfo.get(4);
+		profileMajor2 = listInfo.get(5);
+		profileMinor1 = listInfo.get(6);
+		profileMinor2 = listInfo.get(7);
 		
+	}
+	
+	public void updateProfileSkills() {
+		ArrayList<SkillStud> profileSkillsList = sqlPS.getProfileValues(profileEmail);
+		gridChosenSkills.setItems(profileSkillsList);
 	}
 }

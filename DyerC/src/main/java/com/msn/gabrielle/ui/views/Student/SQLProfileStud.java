@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 public class SQLProfileStud {
 
+	ArrayList<String> listProfileInfo = new ArrayList<String>();
 	public void insertNewProfile(String name, String email, String password, 
 			String phoneNo, String maj1, String maj2,
 			String min1, String min2) {
@@ -29,7 +30,7 @@ public class SQLProfileStud {
 			String sqlCount = "SELECT MAX(ID) FROM TABLE_PROFILE_STUDENTS;";
 			ResultSet rsCount = statementCount.executeQuery(sqlCount);
 			rsCount.next();
-			//System.out.println("TOTAL COUNT IS: " + rsCount.getInt(1));
+			
 			idNumber = rsCount.getInt(1) + 1;
 			statementCount.close();
 			System.out.println("Successful Count from TABLE_PROFILE_STUDENTS");
@@ -53,9 +54,10 @@ public class SQLProfileStud {
 
 	}
 
-	public void getProfileValues(String email) {
+	public ArrayList<SkillStud> getProfileValues(String email) {
 		String eID = "", eName = "", eEmail = "", ePword = "", 
 			   ePhone = "", eMaj1 = "", eMaj2 = "", eMin1 = "", eMin2 = "";
+		ArrayList<SkillStud> listProfileSkills = new ArrayList<SkillStud>();
 		try {
 			Class.forName("org.postgresql.Driver");
 			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
@@ -65,28 +67,19 @@ public class SQLProfileStud {
 			String sqlSelectEmail = "SELECT * FROM TABLE_PROFILE_STUDENTS WHERE EMAIL ='" + email + "';";
 
 			ResultSet rsEmail = statementSelectEmail.executeQuery(sqlSelectEmail);
-			ResultSetMetaData rsmdEmail = rsEmail.getMetaData();
-		
+
 			while(rsEmail.next()) {
+				ArrayList<String> profileVals = new ArrayList<String>();
 				eID	   = rsEmail.getString(1);
-				eName  = rsEmail.getString(2);
-				eEmail = rsEmail.getString(3);
-				ePword = rsEmail.getString(4);
-				ePhone = rsEmail.getString(5);
-				eMaj1  = rsEmail.getString(6);
-				eMaj2  = rsEmail.getString(7);
-				eMin1  = rsEmail.getString(8);
-				eMin2  = rsEmail.getString(9);
-				System.out.println(eID + " " + eName + " " + eEmail + " " + ePword + " " + ePhone + " " +
-						eMaj1 + " " + eMaj2 + " " + eMin1 + " " + eMin2);
-				/*
-				for (int i = 1; i <= cols; i++) {
-
-				if (rsCount.getString(i).equals("")) System.out.print("NULL");
-				else System.out.print(rsCount.getString(i));
-				System.out.print("	");
-				}*/
-
+				eName  = rsEmail.getString(2); profileVals.add(eName);
+				eEmail = rsEmail.getString(3); profileVals.add(eEmail);
+				ePword = rsEmail.getString(4); profileVals.add(ePword);
+				ePhone = rsEmail.getString(5); profileVals.add(ePhone);
+				eMaj1  = rsEmail.getString(6); profileVals.add(eMaj1);
+				eMaj2  = rsEmail.getString(7); profileVals.add(eMaj2);
+				eMin1  = rsEmail.getString(8); profileVals.add(eMin1);
+				eMin2  = rsEmail.getString(9); profileVals.add(eMin2);
+				listProfileInfo = profileVals;
 			}
 			statementSelectEmail.close();
 			c.close();
@@ -108,14 +101,12 @@ public class SQLProfileStud {
 									 "WHERE ID = '" + eID + "';";
 
 			ResultSet rsSkills = statementSelectSkills.executeQuery(sqlSelectSkills);
-			ResultSetMetaData rsmdSkills = rsSkills.getMetaData();
-
+			
 			while(rsSkills.next()) {
 				String sID		 = rsSkills.getString(1);
 				String sCategory = rsSkills.getString(2);
 				String sSkill	 = rsSkills.getString(3);
-				System.out.println(sID + " " + sCategory + " " + sSkill);
-
+				listProfileSkills.add(new SkillStud(sCategory, sSkill));
 			}
 			statementSelectSkills.close();
 			c.close();
@@ -125,6 +116,7 @@ public class SQLProfileStud {
 			System.err.println(e.getClass().getName()+": "+e.getMessage());
 			System.exit(0);
 		}
+		return listProfileSkills;
 	}
 	
 	
@@ -234,7 +226,6 @@ public class SQLProfileStud {
 				String sCategory = rsSkills.getString(2);
 				String sSkill	 = rsSkills.getString(3);
 				skillsList.add(new SkillStud(sCategory, sSkill));
-				//System.out.println(sID + " " + sCategory + " " + sSkill);
 			}
 			statementGetAllSkills.close();
 			c.close();
@@ -245,5 +236,8 @@ public class SQLProfileStud {
 			System.exit(0);
 		}
 		return skillsList;
+	}
+	public ArrayList<String> getProfileInformation() {
+		return listProfileInfo;
 	}
 }
