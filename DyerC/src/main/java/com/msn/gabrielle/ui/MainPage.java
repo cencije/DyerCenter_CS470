@@ -44,6 +44,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 
+import com.msn.gabrielle.ui.views.Student.SQLProjectStud;
 import com.msn.gabrielle.ui.views.categorieslist.CategoriesList;
 import com.msn.gabrielle.ui.views.reviewslist.ReviewsList;
 import com.msn.gabrielle.ui.SQLTablesManager;
@@ -97,12 +98,13 @@ public class MainPage extends VerticalLayout
     	viewDialog.add(mainLay);
     	viewDialog.open();
     	add(viewDialog);
-    	//System.out.println("CALLING THE DB!");
-    	//connectDB();
+
     	//mainLayout.setHorizontalComponentAlignment(Alignment.CENTER, buttonLayout);
     	
     	SQLTablesManager sqlTM = new SQLTablesManager();
     	sqlTM.determineDBStates();
+    	SQLProjectStud sqlPS = new SQLProjectStud();
+    	sqlPS.loadMatchingProjects("goodwayj@lafayette.edu");
     	
     	
     }
