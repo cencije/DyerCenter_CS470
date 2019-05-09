@@ -47,16 +47,13 @@ public class ProjectsListEmp extends VerticalLayout {
     private String nameProposerStr;
 
     public ProjectsListEmp() {
-        nameStr = "";
-        descriptionStr = "";
-        nameProposerStr = "";
-    	initView();
+        initView();
         
         addStudentToggle();
         addSearchBar();
         addContent();
-        projectList.add(new Projects("Web App"));
-        projectList.add(new Projects("Database: SQL"));
+        projectList.add(new Projects("Web App", "Need help", "Geeja"));
+        projectList.add(new Projects("Database: SQL", "Needs DB experience", "Geeja"));
         updateView();
     }
 
@@ -92,10 +89,10 @@ public class ProjectsListEmp extends VerticalLayout {
         searchField.setValueChangeMode(ValueChangeMode.EAGER);
         searchField.addFocusShortcut(Key.KEY_F, KeyModifier.CONTROL);
         	
-//        Button newButton = new Button("New project proposal", new Icon("lumo", "plus"));
-//        newButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-//        newButton.addClassName("view-toolbar__button");
-//        newButton.addClickListener(event-> dialog().open());
+        Button newButton = new Button("New project proposal", new Icon("lumo", "plus"));
+        newButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        newButton.addClassName("view-toolbar__button");
+        newButton.addClickListener(event-> dialog().open());
         /*
             This is a falFl-back method:
             '+' is not a event.code (DOM events), so as a fall-back shortcuts
@@ -103,10 +100,9 @@ public class ProjectsListEmp extends VerticalLayout {
             locations frequently based on the keyboard language, we opted to use
             a character instead.
          */
-        //newButton.addClickShortcut(Key.of("+"));
+        newButton.addClickShortcut(Key.of("+"));
         
-        //viewToolbar.add(searchField, newButton);
-        viewToolbar.add(searchField);
+        viewToolbar.add(searchField, newButton);
         add(viewToolbar);
     }
     
@@ -141,7 +137,7 @@ public class ProjectsListEmp extends VerticalLayout {
     	
     	VerticalLayout buttons = new VerticalLayout();
     	Button saveButton = new Button("Save", event -> {
-    		Projects newProj = new Projects(nameStr);
+    		Projects newProj = new Projects(nameStr, descriptionStr, nameProposerStr);
     		projectList.add(newProj);
     		dialog.close();
     		proposerField.clear();
@@ -162,32 +158,32 @@ public class ProjectsListEmp extends VerticalLayout {
     private Dialog viewDialog(Projects currentProj) {
     	Dialog viewDialog = new Dialog();
 
-//    	viewDialog.setCloseOnEsc(false);
-//    	viewDialog.setCloseOnOutsideClick(false);
-//    	
-//    	VerticalLayout mainLay = new VerticalLayout();
-//    	VerticalLayout nameLay = new VerticalLayout();
-//    	Label nameProject = new Label("Project title: ");
-//    	Label nameCurr = new Label(currentProj.getName());
-//    	nameLay.add(nameProject,nameCurr );
-//    	
-//    	VerticalLayout descriptionLay = new VerticalLayout();
-//    	Label descriptionProject = new Label("Project description: ");
-//    	Label descriptionCurr = new Label(currentProj.getDescription());
-//    	descriptionLay.add(descriptionProject, descriptionCurr);
-//    	
-//    	VerticalLayout proposerLay = new VerticalLayout();
-//    	Label proposerProject = new Label("Project proposer: ");
-//    	Label proposerCurr = new Label(currentProj.getProposedBy());
-//    	proposerLay.add(proposerProject, proposerCurr);
-//    	mainLay.add(nameLay, descriptionLay, proposerLay);
-//    	
+    	viewDialog.setCloseOnEsc(false);
+    	viewDialog.setCloseOnOutsideClick(false);
+    	
+    	VerticalLayout mainLay = new VerticalLayout();
+    	VerticalLayout nameLay = new VerticalLayout();
+    	Label nameProject = new Label("Project title: ");
+    	Label nameCurr = new Label(currentProj.getName());
+    	nameLay.add(nameProject,nameCurr );
+    	
+    	VerticalLayout descriptionLay = new VerticalLayout();
+    	Label descriptionProject = new Label("Project description: ");
+    	Label descriptionCurr = new Label(currentProj.getDescription());
+    	descriptionLay.add(descriptionProject, descriptionCurr);
+    	
+    	VerticalLayout proposerLay = new VerticalLayout();
+    	Label proposerProject = new Label("Project proposer: ");
+    	Label proposerCurr = new Label(currentProj.getProposedBy());
+    	proposerLay.add(proposerProject, proposerCurr);
+    	mainLay.add(nameLay, descriptionLay, proposerLay);
+    	
     	NativeButton closeButton = new NativeButton("Close", event -> {
     		viewDialog.close();
     	});
     	
-    	//mainLay.add(closeButton);
-    	//viewDialog.add(mainLay);
+    	mainLay.add(closeButton);
+    	viewDialog.add(mainLay);
     	return viewDialog;
     }
 
@@ -196,7 +192,7 @@ public class ProjectsListEmp extends VerticalLayout {
         container.setClassName("view-container");
         container.setAlignItems(Alignment.STRETCH);
 
-        grid.addColumn(Projects::getProjectTitle).setHeader("Name").setWidth("8em")
+        grid.addColumn(Projects::getName).setHeader("Name").setWidth("8em")
                 .setResizable(true);
         grid.addColumn(new ComponentRenderer<>(this::createEditButton))
                 .setFlexGrow(0);
@@ -234,7 +230,7 @@ public class ProjectsListEmp extends VerticalLayout {
     	
     	List<Projects> listToDisplay = new ArrayList();
     	for (int i = 0; i < projectList.size(); i++) {
-    		if (projectList.get(i).getProjectTitle().toLowerCase().contains(value.toLowerCase())) {
+    		if (projectList.get(i).getName().toLowerCase().contains(value.toLowerCase())) {
     			listToDisplay.add(projectList.get(i));
     		}
     	}

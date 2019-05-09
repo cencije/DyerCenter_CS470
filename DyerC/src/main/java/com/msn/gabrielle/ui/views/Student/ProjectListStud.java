@@ -1,7 +1,5 @@
 package com.msn.gabrielle.ui.views.Student;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -65,14 +63,12 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
     private String nameProposerStr;
     private DatePicker datePickerFirst;
     private DatePicker datePickerSecond;
-    private TextField pTField;
     private TextField locationTF;
     private TextArea area;
     private TextField name;   
-    private String pay;
     private ComboBox<String> comboBox;
     private ComboBox<String> cB;
-    private Grid<String> firstGrid;
+    private Grid<SkillStud> firstGrid;
     
     public interface ProjectsModel extends TemplateModel{
     	@Encode(value = LongToStringEncoder.class, path = "id")
@@ -92,7 +88,9 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
       search.addValueChangeListener(e -> updateList());
       search.setValueChangeMode(ValueChangeMode.EAGER);
       search.addFocusShortcut(Key.KEY_F, KeyModifier.CONTROL);
-      //initView();
+        //initView();
+      projectList.add(new Projects("Web App", "Help", "geeja"));
+      projectList.add(new Projects("Database: SQL", "Help", "geeja"));
 
       getElement().setProperty("reviewButtonText", "New project");
       getElement().setProperty("editButtonText", "View");
@@ -117,15 +115,7 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
     	
     	HorizontalLayout buttons = new HorizontalLayout();
     	Button saveButton = new Button("Save", event -> {
-    		Projects newProj = new Projects(nameStr);
-    		newProj.setStartDate(datePickerFirst.getValue().toString());
-    		newProj.setEndDate(datePickerSecond.getValue().toString());
-    		newProj.setLocation(locationTF.getValue());
-    		newProj.setDescription(area.getValue());
-    		newProj.setPay(pay);
-    		newProj.setProposedBy(name.getValue());
-    		newProj.setDatePosted(LocalDate.now().format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
-    		newProj.setSkillsSet(firstGrid.getSelectedItems());
+    		Projects newProj = new Projects(nameStr, descriptionStr, nameProposerStr);
     		projectList.add(newProj);
     		dialog.close();
     		clearAll();
@@ -140,6 +130,7 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
     	return dialog;
     }
     
+    TextField pTField;
     /**
      * Layout for project title & text field for project dialog
      * @return vertical layout
@@ -201,9 +192,6 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
     	VerticalLayout sL = new VerticalLayout();
     	comboBox = new ComboBox<>("Pay: ");
     	comboBox.setItems("Paid", "Unpaid", "Unknown");
-    	comboBox.addValueChangeListener(event -> {
-    	    pay = comboBox.getValue();
-    	});
     	sL.add(comboBox);
     	return sL;
     }
@@ -226,7 +214,9 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
      */
     public VerticalLayout skills() {
     	VerticalLayout vL = new VerticalLayout();
-    	List<String> personList = new ArrayList<String>(); //personService.fetchAll();
+    	List<SkillStud> personList = new ArrayList<SkillStud>(); //personService.fetchAll();
+		personList.add(new SkillStud("CompSci", "Coding"));
+		personList.add(new SkillStud("Anthropology & Sociology", "Social Constructs"));
 		cB = new ComboBox<String>("Skills required: ");
 		cB.setPlaceholder("Category");
 		firstGrid = new Grid<>();
@@ -274,9 +264,9 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
     		return projectList;
     	}
     	
-    	ArrayList<Projects> listToDisplay = new ArrayList<Projects>();
+    	List<Projects> listToDisplay = new ArrayList<Projects>();
     	for (int i = 0; i < projectList.size(); i++) {
-    		if (projectList.get(i).getProjectTitle().toLowerCase().contains(value.toLowerCase())) {
+    		if (projectList.get(i).getName().toLowerCase().contains(value.toLowerCase())) {
     			listToDisplay.add(projectList.get(i));
     		}
     	}
