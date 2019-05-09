@@ -51,12 +51,11 @@ public class ProjectProposalEmp extends VerticalLayout {
 		add(skills());
     	Button saveButton = new Button("Save", event -> {
     		Set skills = firstGrid.getSelectedItems();
-    		Projects newProj = new Projects(nameStr);
+    		Projects newProj = new Projects(pTField.getValue());
     		newProj.setStartDate(datePickerFirst.getValue().toString());
     		newProj.setEndDate(datePickerSecond.getValue().toString());
     		System.out.println(datePickerSecond.getValue().toString());
     		newProj.setLocation(locationTF.getValue());
-    		newProj.setProjectTitle(pTField.getValue());
     		newProj.setDescription(area.getValue());
     		newProj.setPay(pay);
     		newProj.setProposedBy(name.getValue());

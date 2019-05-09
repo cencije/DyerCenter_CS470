@@ -27,14 +27,15 @@ public class Projects implements Serializable {
     
     private String timePosted = ""; //time project proposal was posted 
     
-    private ArrayList<String> skills;
+    private List<String> skills;
     
     
     public Projects() {
-    	
+        skills = new ArrayList<String>();
     }
     public Projects(String projectTitle) {
         this.projectTitle = projectTitle;
+        skills = new ArrayList<String>();
     }
 
     /**
@@ -197,17 +198,18 @@ public class Projects implements Serializable {
     public String getPay() {
     	return paid;
     }
-    
+     
     /**
      * 
      * @return
      */
-    public ArrayList<String> getSkillsSet(){
+    public List<String> getSkillsSet(){
     	return skills;
     }
     
+    
     public void setSkillsSet(Set<String> set){
-    	skills = new ArrayList<String>(set.size()); 
+    	skills = new ArrayList<String>(); 
         for (String x : set) 
           skills.add(x); 
     }

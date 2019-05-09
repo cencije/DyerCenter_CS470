@@ -155,7 +155,7 @@ public class ProjectListAlum extends VerticalLayout{
 	    	VerticalLayout mainLay = new VerticalLayout();
 	    	VerticalLayout nameLay = new VerticalLayout();
 	    	Label nameProject = new Label("Project title: ");
-	    	Label nameCurr = new Label(currentProj.getName());
+	    	Label nameCurr = new Label(currentProj.getProjectTitle());
 	    	nameLay.add(nameProject,nameCurr );
 	    	
 	    	VerticalLayout descriptionLay = new VerticalLayout();
@@ -183,7 +183,7 @@ public class ProjectListAlum extends VerticalLayout{
 	        container.setClassName("view-container");
 	        container.setAlignItems(Alignment.STRETCH);
 
-	        grid.addColumn(Projects::getName).setHeader("Name").setWidth("8em")
+	        grid.addColumn(Projects::getProjectTitle).setHeader("Name").setWidth("8em")
 	                .setResizable(true);
 	        grid.addColumn(new ComponentRenderer<>(this::createEditButton))
 	                .setFlexGrow(0);
@@ -221,7 +221,7 @@ public class ProjectListAlum extends VerticalLayout{
 	    	
 	    	List<Projects> listToDisplay = new ArrayList();
 	    	for (int i = 0; i < projectList.size(); i++) {
-	    		if (projectList.get(i).getName().toLowerCase().contains(value.toLowerCase())) {
+	    		if (projectList.get(i).getProjectTitle().toLowerCase().contains(value.toLowerCase())) {
 	    			listToDisplay.add(projectList.get(i));
 	    		}
 	    	}

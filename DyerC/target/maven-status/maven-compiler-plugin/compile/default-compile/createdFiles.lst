@@ -36,7 +36,6 @@ com/msn/gabrielle/ui/views/reviewslist/ReviewsList.class
 com/msn/gabrielle/backend/StaticData.class
 com/msn/gabrielle/ui/views/Student/ProfileStud.class
 com/msn/gabrielle/ui/views/Alumni/ProfileAlum.class
-com/msn/gabrielle/ui/views/Student/ProjectEditorDialog.class
 com/msn/gabrielle/ui/MainLayout.class
 com/msn/gabrielle/ui/views/categorieslist/CategoryEditorDialog.class
 com/msn/gabrielle/ui/views/reviewslist/ReviewEditorDialog.class
