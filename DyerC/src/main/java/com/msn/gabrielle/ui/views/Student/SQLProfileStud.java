@@ -237,6 +237,11 @@ public class SQLProfileStud {
 		}
 		return skillsList;
 	}
+	
+	/**
+	 * Get the values of the student profile.
+	 * @return listProfileInfo The list of values pertaining to a student profile.
+	 */
 	public ArrayList<String> getProfileInformation() {
 		return listProfileInfo;
 	}

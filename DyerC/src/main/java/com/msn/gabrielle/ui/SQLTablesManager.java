@@ -20,8 +20,8 @@ public class SQLTablesManager {
 		createEventsTables();
 		SQLProfileStud sqlPS = new SQLProfileStud();
 		//sqlPS.insertNewProfile("fqfgqg", "email", "password", "phoneNo", null, "m2", null, "min2");
-		sqlPS.getProfileValues("lol");
-		sqlPS.updateName("HAHA", "lol");
+		//sqlPS.getProfileValues("lol");
+		//sqlPS.updateName("HAHA", "lol");
 		
 		
 		// Code to load in the Skills List
