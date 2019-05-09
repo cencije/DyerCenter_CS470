@@ -308,6 +308,7 @@ public class SQLTablesManager {
 			Statement statementCreate_TPS = c.createStatement();
 			String sqlCreateTPS = "CREATE TABLE IF NOT EXISTS TABLE_PROJECT_SKILLS" +
 			"(PROJECT_ID	 INT     NOT NULL, " +
+			" CATEGORY       TEXT	 NOT NULL, " +
 			" SKILLNAME      TEXT    NOT NULL); ";
 			statementCreate_TPS.executeUpdate(sqlCreateTPS);
 			statementCreate_TPS.close();
