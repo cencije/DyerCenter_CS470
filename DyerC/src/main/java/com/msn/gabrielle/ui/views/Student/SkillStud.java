@@ -4,15 +4,15 @@ import java.io.Serializable;
 
 public class SkillStud implements Serializable {
 
-	String skillMajor;
+	String skillCategory;
 	String skillName;
 	
-	public SkillStud(String major, String name) {
-		skillMajor = major;
+	public SkillStud(String category, String name) {
+		skillCategory = category;
 		skillName = name;
 	}
 	
-	public String getMajor() { return skillMajor; }
+	public String getCategory() { return skillCategory; }
 	public String getName()  { return skillName; }
 	
 }

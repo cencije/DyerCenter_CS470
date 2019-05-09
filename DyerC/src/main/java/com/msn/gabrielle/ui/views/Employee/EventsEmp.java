@@ -67,6 +67,10 @@ public class EventsEmp extends VerticalLayout{
 	public EventsEmp() {
         initView();
         
+        SQLEventEmp sqlEE = new SQLEventEmp();
+        //sqlEE.loadAll();
+        eventsList = sqlEE.getAllEvents();
+        
         lay = new VerticalLayout();
         hlay = new HorizontalLayout();
         ButtonsLay = new HorizontalLayout();
@@ -105,12 +109,8 @@ public class EventsEmp extends VerticalLayout{
 		ArrayList<Integer> febLength = new ArrayList<Integer>(28);
 		int dd = 1;
 		while (dd < 32) {
-			if(dd <= 28) {
-				febLength.add(dd);
-			}
-			if(dd <= 30) {
-				midMonths.add(dd);
-			}
+			if(dd <= 28) { febLength.add(dd); }
+			if(dd <= 30) { midMonths.add(dd); }
 			longMonths.add(dd);
 			dd++;
 		}
@@ -174,20 +174,26 @@ public class EventsEmp extends VerticalLayout{
         saveEvent = new Button("Save Event", event ->  {
         	Events newE = new Events(titleValue, locationValue, descValue, urlLink,
         							dayValue, monthValue, yearValue, hourValue, minuteValue);
+        	
+        	sqlEE.insertEvent(titleValue, locationValue, descValue, urlLink, 
+        					  Integer.toString(dayValue), Integer.toString(monthValue), Integer.toString(yearValue),
+        					  Integer.toString(hourValue), Integer.toString(minuteValue));
         	Entry ne = new Entry();
         	ne.setTitle(titleValue);
         	ne.setDescription(locationValue + ", " + descValue + 
 					" For more information, check out " + urlLink);
         	ne.setStart(LocalDate.of(yearValue, monthValue, dayValue).atTime(hourValue, minuteValue));
         	ne.setEnd(ne.getStart().plusHours(1));
-        	eventsList.add(newE);
-        	calendar.addEntry(ne);
+        	//eventsList.add(newE);
+        	eventsList = sqlEE.getAllEvents();
+        	calendar.removeAllEntries();
+        	displayEvents();
         	
         	titleValue = null;
         	locationValue = null;
         	descValue = null;
         	urlLink = null;
-        	titleField.clear();
+        	/*titleField.clear();
         	locField.clear();
         	descField.clear();
         	urlField.clear();
@@ -195,7 +201,7 @@ public class EventsEmp extends VerticalLayout{
         	dayCBox.clear();
         	yearCBox.clear();
         	hour.clear();
-        	min.clear();
+        	min.clear();*/
         	
         	dialog.close();
         	
