@@ -81,6 +81,7 @@ public class SkillsEmp extends VerticalLayout {
 			} catch (Exception e) { e.printStackTrace(); }
 		});
 		btnAddSkill.setEnabled(true);
+		btnAddSkill.addClassName("view-toolbar__button");
 		
 		btnDeleteSkill = new Button("Delete Skill", event -> {
 			
@@ -106,6 +107,7 @@ public class SkillsEmp extends VerticalLayout {
 		});
 		btnDeleteSkill.setDisableOnClick(true);
 		btnDeleteSkill.setEnabled(true);
+		btnDeleteSkill.addClassName("view-toolbar__button");
 		
 		hlTFSkills = new HorizontalLayout();
 		hlTFSkills.add(tfSkillCategory); hlTFSkills.add(tfSkillName);

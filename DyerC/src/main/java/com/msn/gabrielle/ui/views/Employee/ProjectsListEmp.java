@@ -48,8 +48,6 @@ public class ProjectsListEmp extends VerticalLayout {
 
     public ProjectsListEmp() {
         initView();
-        
-        addStudentToggle();
         addSearchBar();
         addContent();
         projectList.add(new Projects("Web App"));

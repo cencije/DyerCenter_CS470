@@ -52,22 +52,24 @@ public class ProjectProposalEmp extends VerticalLayout {
 		hL1.add(salary(), proposerName());
 		add(hL1);
 		add(skills());
+		HorizontalLayout hL2 = new HorizontalLayout();
     	Button saveButton = new Button("Save", event -> {
-    		Set skills = firstGrid.getSelectedItems();
+    		Set<String> skills = firstGrid.getSelectedItems();
     		Projects newProj = new Projects(pTField.getValue());
-    		newProj.setStartDate(datePickerFirst.getValue().toString());
-    		newProj.setEndDate(datePickerSecond.getValue().toString());
-    		System.out.println(datePickerSecond.getValue().toString());
+    		newProj.setStartDate(datePickerFirst.getValue().format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
+    		newProj.setEndDate(datePickerSecond.getValue().format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
     		newProj.setLocation(locationTF.getValue());
     		newProj.setDescription(area.getValue());
     		newProj.setPay(pay);
     		newProj.setProposedBy(name.getValue());
     		newProj.setDatePosted(LocalDate.now().format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
-    		newProj.setSkillsSet(firstGrid.getSelectedItems());
+    		newProj.setSkillsSet(skills);
     		projectList.add(newProj);
     		clearAll();
     	});
-    	add(saveButton);
+    	saveButton.addClassName("view-toolbar__button");
+    	hL2.add(saveButton);
+    	add(hL2);
 	}
     /**
      * Layout for project title & text field for project dialog
@@ -114,9 +116,6 @@ public class ProjectProposalEmp extends VerticalLayout {
     public VerticalLayout projectDescription() {
     	VerticalLayout descrip = new VerticalLayout();
     	area = new TextArea("Description: ");
-    	area.setValue(""+
-    	              "\n"+
-    	              "\n");
     	area.setWidthFull();
     	descrip.add(area);
     	return descrip;

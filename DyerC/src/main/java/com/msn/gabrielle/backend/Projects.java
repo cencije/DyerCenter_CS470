@@ -52,6 +52,7 @@ public class Projects implements Serializable {
      *            new value of the project title
      */
     public void setProjectTitle(String projectTitle) {
+    	System.out.println("Title:" + projectTitle);
         this.projectTitle = projectTitle;
     }
     
@@ -71,6 +72,7 @@ public class Projects implements Serializable {
      *            new value value of the project proposer
      */
     public void setProposedBy(String proposedBy) {
+    	System.out.println("Name:" + proposedBy);
         this.proposedBy = proposedBy;
     }
     
@@ -90,6 +92,7 @@ public class Projects implements Serializable {
      *            new value of description
      */
     public void setDescription(String description) {
+    	System.out.println("Description:" + description);
         this.description = description;
     }
 
@@ -113,6 +116,7 @@ public class Projects implements Serializable {
      * @param loc is the string to set for location
      */
     public void setLocation(String loc) {
+    	System.out.println("location:" + loc);
     	location = loc;
     }
     
@@ -131,6 +135,7 @@ public class Projects implements Serializable {
      * @param sD is the start date to be set
      */
     public void setStartDate(String sD) {
+    	System.out.println("Start Date:" + sD);
     	startDate = sD;
     }
     
@@ -149,6 +154,7 @@ public class Projects implements Serializable {
      * @param sD is the start date to be set
      */
     public void setEndDate(String eD) {
+    	System.out.println("end Date:" + eD);
     	endDate = eD;
     }
     
@@ -167,6 +173,7 @@ public class Projects implements Serializable {
      * @param sD date the project was posted to be set
      */
     public void setDatePosted(String pD) {
+    	System.out.println("Posted Date:" + pD);
     	datePosted = pD;
     } 
     
@@ -185,6 +192,7 @@ public class Projects implements Serializable {
      * @param sal is the salary for the project 
      */
     public void setPay(String sal) {
+    	System.out.println("Pay:" + sal);
     	paid = sal;
     }
     
