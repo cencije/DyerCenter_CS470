@@ -67,7 +67,7 @@ public class ProjectProposalEmp extends VerticalLayout {
     		projectList.add(newProj);
     		clearAll();
     	});
-    	saveButton.addClassName("view-toolbar__button");
+    	saveButton.addClassName("view-toolbar__event-click");
     	hL2.add(saveButton);
     	add(hL2);
 	}

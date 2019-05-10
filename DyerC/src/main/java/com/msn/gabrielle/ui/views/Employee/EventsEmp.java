@@ -384,8 +384,7 @@ public class EventsEmp extends VerticalLayout{
         monthMoveLayout.add(today, lastMonth, nextMonth, addEventButton);
 
 		//Add all of the components to the page
-		hlay.add(currentMonth);
-        lay.add(hlay, monthMoveLayout, calendar);
+        lay.add(currentMonth, monthMoveLayout, calendar);
         add(lay);
         
         calendar.addDayNumberClickedListener(event -> {
