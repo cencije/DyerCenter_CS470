@@ -55,6 +55,8 @@ import com.msn.gabrielle.ui.views.Student.ProjectListStud.ProjectsModel;
 @HtmlImport("frontend://styles/shared-project-style.html")
 @Tag("reviews-list")
 public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
+	
+	SQLProjectStud sqlPStud = new SQLProjectStud();
 	private TextField searchField = new TextField("",
             "Search projects");
     private List<Projects> projectList = new ArrayList<Projects>();
@@ -89,6 +91,7 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
       search.setValueChangeMode(ValueChangeMode.EAGER);
       search.addFocusShortcut(Key.KEY_F, KeyModifier.CONTROL);
         //initView();
+      projectList = sqlPStud.loadProjects();
       projectList.add(new Projects("Web App"));
       projectList.add(new Projects("Database: SQL"));
 

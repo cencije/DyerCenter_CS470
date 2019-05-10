@@ -80,12 +80,10 @@ public class SQLProjectStud {
 									   pDesc + " " + pPaid + " " + pProp + " " + pPosted);
 					
 					// Create New Project and Add to List
-					// listProjects.add(new Projects(pTitle,pStart,pEnd,pLocation,pDesc,pPaid,pProp,pPosted));
+					listProjects.add(new Projects(pTitle,pStart,pEnd,pLocation,pDesc,pPaid,pProp,pPosted));
 				}
 				statementLoadUniqueProjects.close();
 			}
-			
-			// 
 			
 			System.out.println("Successful Loading Unique Projects from TABLE_PROJECT_SKILLS");
 			
@@ -129,9 +127,9 @@ public class SQLProjectStud {
 				pPosted  = rsProjects.getString(9); 
 				
 				// Create New Project and Add to List
-				// listProjects.add(new Projects(pTitle,pStart,pEnd,pLocation,pDesc,pPaid,pProp,pPosted));
+				listProjects.add(new Projects(pTitle,pStart,pEnd,pLocation,pDesc,pPaid,pProp,pPosted));
 			}
-			statementLoadProjects.executeUpdate(sqlLoadProjects);
+			
 			statementLoadProjects.close();
 
 			c.close();

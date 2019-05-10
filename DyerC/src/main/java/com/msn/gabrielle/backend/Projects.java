@@ -36,6 +36,17 @@ public class Projects implements Serializable {
         skills = new ArrayList<String>();
     }
 
+    public Projects (String projectTitle, String startDate, String endDate, String location,
+    				 String description, String paid, String proposedBy, String datePosted) {
+    	this.projectTitle = projectTitle;
+    	this.description = description;
+    	this.proposedBy = proposedBy;
+    	this.location = location;
+    	this.startDate = startDate;
+    	this.endDate = endDate;
+    	this.datePosted = datePosted;
+    	skills = new ArrayList<String>();
+    }
     /**
      * Gets the value of the project title
      *
