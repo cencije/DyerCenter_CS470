@@ -76,7 +76,7 @@ public class ProjectEditorDialog extends AbstractEditorDialog<Projects> {
     @Override
     protected void confirmDelete() {
         openConfirmationDialog("Delete review",
-                "Are you sure you want to delete the review for “" + getCurrentItem().getName() + "”?", "");
+                "Are you sure you want to delete the review for “" + getCurrentItem().getProjectTitle() + "”?", "");
     }
 
 }

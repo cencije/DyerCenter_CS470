@@ -89,8 +89,8 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
       search.setValueChangeMode(ValueChangeMode.EAGER);
       search.addFocusShortcut(Key.KEY_F, KeyModifier.CONTROL);
         //initView();
-      projectList.add(new Projects("Web App", "Help", "geeja"));
-      projectList.add(new Projects("Database: SQL", "Help", "geeja"));
+      projectList.add(new Projects("Web App"));
+      projectList.add(new Projects("Database: SQL"));
 
       getElement().setProperty("reviewButtonText", "New project");
       getElement().setProperty("editButtonText", "View");
@@ -115,7 +115,7 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
     	
     	HorizontalLayout buttons = new HorizontalLayout();
     	Button saveButton = new Button("Save", event -> {
-    		Projects newProj = new Projects(nameStr, descriptionStr, nameProposerStr);
+    		Projects newProj = new Projects(nameStr);
     		projectList.add(newProj);
     		dialog.close();
     		clearAll();
@@ -266,7 +266,7 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
     	
     	List<Projects> listToDisplay = new ArrayList<Projects>();
     	for (int i = 0; i < projectList.size(); i++) {
-    		if (projectList.get(i).getName().toLowerCase().contains(value.toLowerCase())) {
+    		if (projectList.get(i).getProjectTitle().toLowerCase().contains(value.toLowerCase())) {
     			listToDisplay.add(projectList.get(i));
     		}
     	}

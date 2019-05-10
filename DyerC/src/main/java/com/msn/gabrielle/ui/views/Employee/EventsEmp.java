@@ -67,9 +67,9 @@ public class EventsEmp extends VerticalLayout{
 	public EventsEmp() {
         initView();
         
-        SQLEventEmp sqlEE = new SQLEventEmp();
+        //SQLEventEmp sqlEE = new SQLEventEmp();
         //sqlEE.loadAll();
-        eventsList = sqlEE.getAllEvents();
+        //eventsList = sqlEE.getAllEvents();
         
         lay = new VerticalLayout();
         hlay = new HorizontalLayout();
@@ -175,9 +175,9 @@ public class EventsEmp extends VerticalLayout{
         	Events newE = new Events(titleValue, locationValue, descValue, urlLink,
         							dayValue, monthValue, yearValue, hourValue, minuteValue);
         	
-        	sqlEE.insertEvent(titleValue, locationValue, descValue, urlLink, 
-        					  Integer.toString(dayValue), Integer.toString(monthValue), Integer.toString(yearValue),
-        					  Integer.toString(hourValue), Integer.toString(minuteValue));
+//        	sqlEE.insertEvent(titleValue, locationValue, descValue, urlLink, 
+//        					  Integer.toString(dayValue), Integer.toString(monthValue), Integer.toString(yearValue),
+//        					  Integer.toString(hourValue), Integer.toString(minuteValue));
         	Entry ne = new Entry();
         	ne.setTitle(titleValue);
         	ne.setDescription(locationValue + ", " + descValue + 
@@ -185,7 +185,7 @@ public class EventsEmp extends VerticalLayout{
         	ne.setStart(LocalDate.of(yearValue, monthValue, dayValue).atTime(hourValue, minuteValue));
         	ne.setEnd(ne.getStart().plusHours(1));
         	//eventsList.add(newE);
-        	eventsList = sqlEE.getAllEvents();
+        	//eventsList = sqlEE.getAllEvents();
         	calendar.removeAllEntries();
         	displayEvents();
         	
