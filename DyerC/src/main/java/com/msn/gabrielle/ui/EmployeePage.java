@@ -68,7 +68,7 @@ public class EmployeePage extends Div
 		skillsEmp.setHighlightCondition(HighlightConditions.sameLocation());
 		
 		RouterLink projectpropemp = new RouterLink(null, ProjectProposalEmp.class);
-		projectpropemp.add(new Icon(VaadinIcon.USER), new Text("Project Proposal"));
+		projectpropemp.add(new Icon(VaadinIcon.EDIT), new Text("Project Proposal"));
 		projectpropemp.addClassName("main-layout__nav-item");
 		projectpropemp.setHighlightCondition(HighlightConditions.sameLocation());
 

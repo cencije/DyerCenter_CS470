@@ -38,6 +38,7 @@ com/msn/gabrielle/backend/ReviewService$1.class
 com/msn/gabrielle/backend/CategoryService$1.class
 com/msn/gabrielle/ui/views/reviewslist/ReviewsList.class
 com/msn/gabrielle/backend/StaticData.class
+com/msn/gabrielle/ui/views/Alumni/ProjectProposalAlum.class
 com/msn/gabrielle/ui/views/Student/ProfileStud.class
 com/msn/gabrielle/ui/views/Alumni/ProfileAlum.class
 com/msn/gabrielle/ui/views/Employee/SQLProjectEmp.class
