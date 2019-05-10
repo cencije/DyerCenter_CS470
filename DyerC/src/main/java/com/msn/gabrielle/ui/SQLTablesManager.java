@@ -20,11 +20,11 @@ public class SQLTablesManager {
 		createEventsTables();
 		SQLProfileStud sqlPS = new SQLProfileStud();
 		//sqlPS.insertNewProfile("fqfgqg", "email", "password", "phoneNo", null, "m2", null, "min2");
-		sqlPS.getProfileValues("lol");
-		sqlPS.updateName("HAHA", "lol");
+		//sqlPS.getProfileValues("lol");
+		//sqlPS.updateName("HAHA", "lol");
 		
-		SkillsLoader sl = new SkillsLoader();
-		sl.loadInJSONValues();
+//		SkillsLoader sl = new SkillsLoader();
+//		sl.loadInJSONValues();
 		
 		
 	}

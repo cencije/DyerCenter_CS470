@@ -100,10 +100,10 @@ public class MainPage extends VerticalLayout
     	//System.out.println("CALLING THE DB!");
     	//connectDB();
     	//mainLayout.setHorizontalComponentAlignment(Alignment.CENTER, buttonLayout);
-    	/*
+    	
     	SQLTablesManager sqlTM = new SQLTablesManager();
     	sqlTM.determineDBStates();
-    	*/
+    	
     	
     }
 }
