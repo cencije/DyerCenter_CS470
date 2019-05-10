@@ -119,6 +119,8 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
     	HorizontalLayout buttons = new HorizontalLayout();
     	Button saveButton = new Button("Save", event -> {
     		Projects newProj = new Projects(nameStr);
+    		// SQL ADD HERE to PROPOSED TABLE
+    		// Reload Projects List
     		projectList.add(newProj);
     		dialog.close();
     		clearAll();
