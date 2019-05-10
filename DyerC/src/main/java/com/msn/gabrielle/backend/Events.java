@@ -88,20 +88,4 @@ public class Events {
         return getId().hashCode();
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (!(obj instanceof Projects)) {
-            return false;
-        }
-        Projects other = (Projects) obj;
-        if (getId() == null) {
-            if (other.getId() != null)
-                return false;
-        } else if (!getId().equals(other.getId()))
-            return false;
-        return true;
-    }
 }

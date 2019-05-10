@@ -37,7 +37,7 @@ import com.vaadin.flow.router.Route;
 public class ProfileStud extends VerticalLayout{
 	String profileName, profileEmail, profileMajor1, profileMajor2, profileMinor1, profileMinor2;
 	
-	SQLProfileStud sqlPS = new SQLProfileStud();
+	//SQLProfileStud sqlPS = new SQLProfileStud();
 	
 	Notification nDuplicateValues;
 	
@@ -148,7 +148,7 @@ public class ProfileStud extends VerticalLayout{
 		    	else if (!(Maj1.equals(Maj2) && !Maj1.equals("Undecided")) && !Maj1.equals(Min1) && !Maj1.equals(Min2) &&
 		    			 !(Maj2.equals(Min1) && !Maj2.equals("N/A")) && !(Maj2.equals(Min2) && 
 		    			   !Maj2.equals("N/A")) && !(Min1.equals(Min2) && !Min1.equals("N/A") )) {
-		    		sqlPS.updateMajorsMinors(profileEmail, Maj1, Maj2, Min1, Min2);
+		    		//sqlPS.updateMajorsMinors(profileEmail, Maj1, Maj2, Min1, Min2);
 			    	lblMajor1.setText("Major 1: " + Maj1);
 			    	lblMajor2.setText("Major 2: " + Maj2);
 			    	lblMinor1.setText("Minor 1: " + Min1);
@@ -167,6 +167,7 @@ public class ProfileStud extends VerticalLayout{
 		});
 		btnUpdateFields.setDisableOnClick(true);
 		btnUpdateFields.setEnabled(false);
+		btnUpdateFields.addClassName("view-toolbar__profile-click");
 		cbMajor1.addValueChangeListener(event -> {
 		    if (!event.getSource().isEmpty()) { btnUpdateFields.setEnabled(true); }
 		});
@@ -207,7 +208,7 @@ public class ProfileStud extends VerticalLayout{
 		vlNonGridSide.add(gridChosenSkills);
 	
 		List<SkillStud> listSkills = new ArrayList<SkillStud>(); 
-		listSkills = sqlPS.loadAllSkills();
+		//listSkills = sqlPS.loadAllSkills();
 		
 		Label lblSkillsGrid = new Label("Available Skills List");
 		Grid<SkillStud> firstGrid = new Grid<>();
@@ -234,7 +235,7 @@ public class ProfileStud extends VerticalLayout{
 						listSelectedSkills.add(ss); 
 						System.out.println(ss.skillCategory + " " + ss.skillName);
 					}
-					sqlPS.addSkillsToProfile(profileEmail, listSelectedSkills);
+					//sqlPS.addSkillsToProfile(profileEmail, listSelectedSkills);
 					updateProfileSkills();
 				}
 		);
@@ -253,18 +254,18 @@ public class ProfileStud extends VerticalLayout{
 		// Should be loaded from the Databases upon login
 		profileEmail = "goodwayj@lafayette.edu";
 		updateProfileSkills();
-		ArrayList<String> listInfo = sqlPS.getProfileInformation();
-		profileName = listInfo.get(0);
-		profileEmail = listInfo.get(1);
-		profileMajor1 = listInfo.get(4);
-		profileMajor2 = listInfo.get(5);
-		profileMinor1 = listInfo.get(6);
-		profileMinor2 = listInfo.get(7);
+		//ArrayList<String> listInfo = sqlPS.getProfileInformation();
+		//profileName = listInfo.get(0);
+		//profileEmail = listInfo.get(1);
+		//profileMajor1 = listInfo.get(4);
+		//profileMajor2 = listInfo.get(5);
+		//profileMinor1 = listInfo.get(6);
+		//profileMinor2 = listInfo.get(7);
 		
 	}
 	
 	public void updateProfileSkills() {
-		ArrayList<SkillStud> profileSkillsList = sqlPS.getProfileValues(profileEmail);
-		gridChosenSkills.setItems(profileSkillsList);
+		//ArrayList<SkillStud> profileSkillsList = sqlPS.getProfileValues(profileEmail);
+		//gridChosenSkills.setItems(profileSkillsList);
 	}
 }

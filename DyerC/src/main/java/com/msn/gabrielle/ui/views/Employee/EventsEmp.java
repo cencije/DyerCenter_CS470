@@ -67,9 +67,9 @@ public class EventsEmp extends VerticalLayout{
 	public EventsEmp() {
         initView();
         
-        SQLEventEmp sqlEE = new SQLEventEmp();
+        //SQLEventEmp sqlEE = new SQLEventEmp();
         //sqlEE.loadAll();
-        eventsList = sqlEE.getAllEvents();
+        //eventsList = sqlEE.getAllEvents();
         
         lay = new VerticalLayout();
         hlay = new HorizontalLayout();
@@ -175,9 +175,9 @@ public class EventsEmp extends VerticalLayout{
         	Events newE = new Events(titleValue, locationValue, descValue, urlLink,
         							dayValue, monthValue, yearValue, hourValue, minuteValue);
         	
-        	sqlEE.insertEvent(titleValue, locationValue, descValue, urlLink, 
-        					  Integer.toString(dayValue), Integer.toString(monthValue), Integer.toString(yearValue),
-        					  Integer.toString(hourValue), Integer.toString(minuteValue));
+//        	sqlEE.insertEvent(titleValue, locationValue, descValue, urlLink, 
+//        					  Integer.toString(dayValue), Integer.toString(monthValue), Integer.toString(yearValue),
+//        					  Integer.toString(hourValue), Integer.toString(minuteValue));
         	Entry ne = new Entry();
         	ne.setTitle(titleValue);
         	ne.setDescription(locationValue + ", " + descValue + 
@@ -185,7 +185,7 @@ public class EventsEmp extends VerticalLayout{
         	ne.setStart(LocalDate.of(yearValue, monthValue, dayValue).atTime(hourValue, minuteValue));
         	ne.setEnd(ne.getStart().plusHours(1));
         	//eventsList.add(newE);
-        	eventsList = sqlEE.getAllEvents();
+        	//eventsList = sqlEE.getAllEvents();
         	calendar.removeAllEntries();
         	displayEvents();
         	
@@ -221,6 +221,7 @@ public class EventsEmp extends VerticalLayout{
 //        		d.open();
 //        	});
         });
+        saveEvent.addClassName("view-toolbar__button");
         
 		closeD = new Button("Close", event ->  {
 			titleValue = null;
@@ -238,6 +239,7 @@ public class EventsEmp extends VerticalLayout{
         	min.clear();
         	dialog.close();
 		});
+		closeD.addClassName("view-toolbar__button");
 		
 		ButtonsLay.add(saveEvent, closeD);
 		
@@ -252,7 +254,7 @@ public class EventsEmp extends VerticalLayout{
         	} catch(Exception e) { e.printStackTrace(); }  }       
         );
         addEventButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        
+        addEventButton.addClassName("view-toolbar__event-click");
         displayCalendar();
         displayEvents();
     }
@@ -284,6 +286,7 @@ public class EventsEmp extends VerticalLayout{
 		DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE;
 		String formattedDate = x.format(formatter);
 		Label currentMonth = new Label("");
+		currentMonth.addClassName("view-toolbar__event-title");
 		String currentYear = new String(formattedDate.substring(0, 4));
 		yearNum = Integer.parseInt(currentYear);
 		
@@ -337,6 +340,7 @@ public class EventsEmp extends VerticalLayout{
     		if(monthNumber == 11) { currentMonth.setText("November " + currentYear);}
     		if(monthNumber == 12) { currentMonth.setText("December " + currentYear);}
 		});
+		today.addClassName("view-toolbar__event-today");
 		
         Button lastMonth = new Button(new Icon(VaadinIcon.ANGLE_LEFT), event -> {
         	calendar.previous();
@@ -355,6 +359,7 @@ public class EventsEmp extends VerticalLayout{
     		if(monthNumber == 11) { currentMonth.setText("November " + currentYear);}
     		if(monthNumber == 12) { currentMonth.setText("December " + currentYear);}
         });
+        lastMonth.addClassName("view-toolbar__event-click");
         
         Button nextMonth = new Button(new Icon(VaadinIcon.ANGLE_RIGHT), event -> {
         	calendar.next();
@@ -373,13 +378,13 @@ public class EventsEmp extends VerticalLayout{
     		if(monthNumber == 11) { currentMonth.setText("November " + currentYear);}
     		if(monthNumber == 12) { currentMonth.setText("December " + currentYear);}
         });
+        nextMonth.addClassName("view-toolbar__event-click");
         
         HorizontalLayout monthMoveLayout = new HorizontalLayout();
-        monthMoveLayout.add(today, lastMonth, nextMonth);
+        monthMoveLayout.add(today, lastMonth, nextMonth, addEventButton);
 
 		//Add all of the components to the page
-		hlay.add(currentMonth, addEventButton);
-        lay.add(hlay, monthMoveLayout, calendar);
+        lay.add(currentMonth, monthMoveLayout, calendar);
         add(lay);
         
         calendar.addDayNumberClickedListener(event -> {
