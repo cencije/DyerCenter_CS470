@@ -103,7 +103,7 @@ public class MainPage extends VerticalLayout
     	
     	SQLTablesManager sqlTM = new SQLTablesManager();
     	sqlTM.determineDBStates();
-    	//SQLProjectStud sqlPS = new SQLProjectStud();
+    	SQLProjectStud sqlPS = new SQLProjectStud();
     	//sqlPS.loadMatchingProjects("goodwayj@lafayette.edu");
     	
     	

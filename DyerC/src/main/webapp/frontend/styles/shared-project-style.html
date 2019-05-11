@@ -243,11 +243,11 @@
                 <template is="dom-repeat" items="[[reviews]]">
                     <div class="review">
                         <div class="review__details">
-                            <h4 class="review__name">[[item.name]]</h4>
+                            <h4 class="review__name">[[item.projectTitle]]</h4>
                         </div>
                         <div class="review__date">
                             <h5>Posted on</h5>
-                            <p>[[item.date]]</p>
+                            <p>[[item.datePosted]]</p>
                         </div>
                         <vaadin-button on-click = "edit" class="review__edit" theme="tertiary">
                             <iron-icon icon="lumo:edit"></iron-icon><span>[[editButtonText]]</span>

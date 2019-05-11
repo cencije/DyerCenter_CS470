@@ -23,14 +23,14 @@ public class SQLTablesManager {
 		//sqlPS.insertNewProfile("fqfgqg", "email", "password", "phoneNo", null, "m2", null, "min2");
 		//sqlPS.getProfileValues("lol");
 		//sqlPS.updateName("HAHA", "lol");
-		
-		
+	
 		// Code to load in the Skills List
 		/*
 			SkillsLoader sl = new SkillsLoader();
 			sl.loadInJSONValues();
 		 */
 		
+
 		
 		
 	}
@@ -314,6 +314,31 @@ public class SQLTablesManager {
 			statementCreate_TPS.close();
 			c.close();
 			System.out.println("Successful Creation/Existence of TABLE_PROJECT_SKILLS");
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println(e.getClass().getName()+": "+e.getMessage());
+			System.exit(0);
+		}
+		
+		try {
+			Class.forName("org.postgresql.Driver");
+			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
+			System.out.println("Creating/Checking Existence of TABLE_PROJECT_PROPOSED");
+			Statement statementCreate_TPP = c.createStatement();
+			String sqlCreateTPP = "CREATE TABLE IF NOT EXISTS TABLE_PROJECT_PROPOSED" +
+			"(ID INT PRIMARY KEY	NOT NULL, " +
+			" TITLE          TEXT	NOT NULL, " +
+			" START_DATE     TEXT	NOT NULL, " +
+			" END_DATE       TEXT	NOT NULL, " +
+			" LOCATION       TEXT	NOT NULL, " +
+			" DESCRIPTION    TEXT	NOT NULL, " +
+			" PAID			 TEXT	NOT NULL, " +
+			" PROPOSER_NAME  TEXT	NOT NULL, " +
+			" DATEPOSTED     TEXT     		 ); ";
+			statementCreate_TPP.executeUpdate(sqlCreateTPP);
+			statementCreate_TPP.close();
+			c.close();
+			System.out.println("Successful Creation/Existence of TABLE_PROJECT_PROPOSED");
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.err.println(e.getClass().getName()+": "+e.getMessage());
