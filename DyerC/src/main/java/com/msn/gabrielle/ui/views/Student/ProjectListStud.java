@@ -1,49 +1,38 @@
 package com.msn.gabrielle.ui.views.Student;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import com.msn.gabrielle.backend.Category;
-import com.msn.gabrielle.backend.CategoryService;
 import com.msn.gabrielle.backend.Projects;
-import com.msn.gabrielle.backend.Review;
-import com.msn.gabrielle.backend.ReviewService;
 import com.msn.gabrielle.ui.*;
-import com.msn.gabrielle.ui.common.AbstractEditorDialog;
 import com.msn.gabrielle.ui.encoders.LocalDateToStringEncoder;
 import com.msn.gabrielle.ui.encoders.LongToStringEncoder;
-import com.msn.gabrielle.ui.views.categorieslist.CategoryEditorDialog;
-import com.msn.gabrielle.ui.views.reviewslist.ReviewEditorDialog;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.polymertemplate.EventHandler;
 import com.vaadin.flow.component.polymertemplate.Id;
+import com.vaadin.flow.component.polymertemplate.ModelItem;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
-import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
+import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
+import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.data.value.ValueChangeMode;
-import com.vaadin.flow.component.HasText;
+import com.vaadin.flow.component.HasStyle;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.KeyModifier;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.Grid.SelectionMode;
-import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Label;
-import com.vaadin.flow.component.html.NativeButton;
-import com.vaadin.flow.component.html.Span;
-import com.vaadin.flow.component.icon.Icon;
-import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.component.notification.Notification.Position;
+import com.vaadin.flow.component.listbox.ListBox;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.templatemodel.Encode;
@@ -59,8 +48,7 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
             "Search projects");
     private List<Projects> projectList = new ArrayList<Projects>();
     private String nameStr;
-    private String descriptionStr;
-    private String nameProposerStr;
+    private TextField pTField;
     private DatePicker datePickerFirst;
     private DatePicker datePickerSecond;
     private TextField locationTF;
@@ -82,13 +70,14 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
     private Button addReview;
     @Id("header")
     private H2 header;
+    @Id("radio")
+    private RadioButtonGroup<String> combo;
     
     public ProjectListStud() {
       search.setPlaceholder("Search reviews");
       search.addValueChangeListener(e -> updateList());
       search.setValueChangeMode(ValueChangeMode.EAGER);
       search.addFocusShortcut(Key.KEY_F, KeyModifier.CONTROL);
-        //initView();
       projectList.add(new Projects("Web App"));
       projectList.add(new Projects("Database: SQL"));
 
@@ -97,6 +86,58 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
       addReview.addClickListener(e -> 
       getUI().ifPresent(ui -> ui.add(dialog())));
       updateList();
+    }
+    
+    private Dialog viewDialog() {
+    	Dialog viewDialog = new Dialog();
+    	viewDialog.setCloseOnEsc(false);
+    	viewDialog.setCloseOnOutsideClick(false);
+    	VerticalLayout projectForum = new VerticalLayout();
+    	
+    	HorizontalLayout titleDuration = new HorizontalLayout();
+    	Label projectTitleLabel = new Label("Project title: ");
+    	Label durationLabel = new Label("Duration: " + " to ");
+    	titleDuration.add(projectTitleLabel, durationLabel);
+    	
+    	projectForum.add(titleDuration, new Label("Location: "),
+    									new Label ("Description: "));
+    	
+    	HorizontalLayout nameUnPaid = new HorizontalLayout();
+    	Label payLabel = new Label("Pay: ");
+    	nameUnPaid.add(payLabel);
+    	Label nameLabel = new Label("Proposer name: ");
+    	nameUnPaid.add(nameLabel);
+    	
+    	projectForum.add(nameUnPaid);
+    	viewDialog.add(projectForum);
+    	Button closeButton = new Button("Cancel", event -> {
+    		viewDialog.close();
+    	});
+    	List<SkillStud> personList = new ArrayList<SkillStud>();
+    	Grid<SkillStud> grid = new Grid<>();
+    	grid.setItems(personList);
+    	grid.addColumn(SkillStud::getCategory).setHeader("Category");
+    	grid.addColumn(SkillStud::getName).setHeader("age");
+    	grid.addThemeVariants(GridVariant.LUMO_NO_BORDER,
+    	        GridVariant.LUMO_NO_ROW_BORDERS);
+    	viewDialog.add(grid);
+    	viewDialog.add(closeButton);
+    	return viewDialog;
+    }
+    
+    @EventHandler
+    private void edit(@ModelItem Projects project) {
+    	viewDialog().open();
+    }
+    
+    @EventHandler
+    private void view_click() {
+    	updateList();
+    }
+    
+    @EventHandler
+    private void match_click() {
+    	viewDialog().open();
     }
     
     private Dialog dialog() {
@@ -122,15 +163,17 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
     		updateList();
     	});
     	Button cancelButton = new Button("Cancel", event -> {
+    		clearAll();
     	    dialog.close();
     	});
     	buttons.add(saveButton, cancelButton);
+    	saveButton.addClassName("view-toolbar__event-click");
+    	cancelButton.addClassName("view-toolbar__event-click");
     	dialog.add(projectForum, buttons);
     	dialog.open();
     	return dialog;
     }
     
-    TextField pTField;
     /**
      * Layout for project title & text field for project dialog
      * @return vertical layout

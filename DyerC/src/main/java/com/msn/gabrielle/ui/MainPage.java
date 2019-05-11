@@ -101,11 +101,11 @@ public class MainPage extends VerticalLayout
 
     	//mainLayout.setHorizontalComponentAlignment(Alignment.CENTER, buttonLayout);
     	
-    	/*SQLTablesManager sqlTM = new SQLTablesManager();
+    	SQLTablesManager sqlTM = new SQLTablesManager();
     	sqlTM.determineDBStates();
-    	SQLProjectStud sqlPS = new SQLProjectStud();
-    	sqlPS.loadMatchingProjects("goodwayj@lafayette.edu");
-    	*/
+    	//SQLProjectStud sqlPS = new SQLProjectStud();
+    	//sqlPS.loadMatchingProjects("goodwayj@lafayette.edu");
+    	
     	
     }
 }
