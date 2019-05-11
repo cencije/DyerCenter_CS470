@@ -53,7 +53,7 @@ public class EventsStud extends VerticalLayout{
     }
 	
 	private void initView() {
-        addClassName("events");
+        addClassName("main-layout");
         setDefaultHorizontalComponentAlignment(Alignment.STRETCH);
     }
 	
@@ -75,12 +75,14 @@ public class EventsStud extends VerticalLayout{
 		DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE;
 		String formattedDate = x.format(formatter);
 		Label currentMonth = new Label("");
+		currentMonth.addClassName("view-toolbar__event-title");
 		String currentYear = new String(formattedDate.substring(0, 4));
 		
 		Button today = new Button("Today", event -> {
         	calendar.today();
         });
-		
+		today.addClassName("view-toolbar__event-today");
+
 		if(formattedDate.charAt(5) == '0' && formattedDate.charAt(6) == '1') { monthNumber = 1;}
 		if(formattedDate.charAt(5) == '0' && formattedDate.charAt(6) == '2') { monthNumber = 2;}
 		if(formattedDate.charAt(5) == '0' && formattedDate.charAt(6) == '3') { monthNumber = 3;}
@@ -126,7 +128,8 @@ public class EventsStud extends VerticalLayout{
         	
         	System.out.println("CURRENT_MONTH: " + monthNumber);
         });
-        
+        lastMonth.addClassName("view-toolbar__event-click");
+
         Button nextMonth = new Button(new Icon(VaadinIcon.ANGLE_RIGHT), event -> {
         	calendar.next();
         	if(monthNumber == 12) { monthNumber = 1; } else { monthNumber++;}
@@ -146,7 +149,7 @@ public class EventsStud extends VerticalLayout{
         	
         	System.out.println("CURRENT_MONTH: " + monthNumber);
         });
-		
+        nextMonth.addClassName("view-toolbar__event-click");
         
         HorizontalLayout monthMoveLayout = new HorizontalLayout();
         monthMoveLayout.add(today, lastMonth, nextMonth);

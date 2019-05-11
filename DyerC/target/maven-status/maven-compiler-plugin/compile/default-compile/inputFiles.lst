@@ -6,9 +6,11 @@
 /Users/juliannapuleo/Desktop/Senior/SPR2019/CS470/CS470_DC/DyerCenter_CS470/DyerC/src/main/java/com/msn/gabrielle/ui/SQLTablesManager.java
 /Users/juliannapuleo/Desktop/Senior/SPR2019/CS470/CS470_DC/DyerCenter_CS470/DyerC/src/main/java/com/msn/gabrielle/ui/views/categorieslist/CategoriesList.java
 /Users/juliannapuleo/Desktop/Senior/SPR2019/CS470/CS470_DC/DyerCenter_CS470/DyerC/src/main/java/com/msn/gabrielle/ui/views/Employee/EventsEmp.java
+/Users/juliannapuleo/Desktop/Senior/SPR2019/CS470/CS470_DC/DyerCenter_CS470/DyerC/src/main/java/com/msn/gabrielle/ui/views/Alumni/ProjectProposalAlum.java
 /Users/juliannapuleo/Desktop/Senior/SPR2019/CS470/CS470_DC/DyerCenter_CS470/DyerC/src/main/java/com/msn/gabrielle/ui/AlumniPage.java
 /Users/juliannapuleo/Desktop/Senior/SPR2019/CS470/CS470_DC/DyerCenter_CS470/DyerC/src/main/java/com/msn/gabrielle/ui/MainPage.java
 /Users/juliannapuleo/Desktop/Senior/SPR2019/CS470/CS470_DC/DyerCenter_CS470/DyerC/src/main/java/com/msn/gabrielle/backend/Review.java
+/Users/juliannapuleo/Desktop/Senior/SPR2019/CS470/CS470_DC/DyerCenter_CS470/DyerC/src/main/java/com/msn/gabrielle/ui/views/Employee/SQLProjectEmp.java
 /Users/juliannapuleo/Desktop/Senior/SPR2019/CS470/CS470_DC/DyerCenter_CS470/DyerC/src/main/java/com/msn/gabrielle/ui/views/Student/SQLProfileStud.java
 /Users/juliannapuleo/Desktop/Senior/SPR2019/CS470/CS470_DC/DyerCenter_CS470/DyerC/src/main/java/com/msn/gabrielle/ui/views/Student/SQLEventStudent.java
 /Users/juliannapuleo/Desktop/Senior/SPR2019/CS470/CS470_DC/DyerCenter_CS470/DyerC/src/main/java/com/msn/gabrielle/ui/common/ConfirmationDialog.java
@@ -32,6 +34,7 @@
 /Users/juliannapuleo/Desktop/Senior/SPR2019/CS470/CS470_DC/DyerCenter_CS470/DyerC/src/main/java/com/msn/gabrielle/ui/views/Alumni/ProfileAlum.java
 /Users/juliannapuleo/Desktop/Senior/SPR2019/CS470/CS470_DC/DyerCenter_CS470/DyerC/src/main/java/com/msn/gabrielle/ui/views/Employee/ProjectsListEmp.java
 /Users/juliannapuleo/Desktop/Senior/SPR2019/CS470/CS470_DC/DyerCenter_CS470/DyerC/src/main/java/com/msn/gabrielle/backend/Events.java
+/Users/juliannapuleo/Desktop/Senior/SPR2019/CS470/CS470_DC/DyerCenter_CS470/DyerC/src/main/java/com/msn/gabrielle/ui/views/Employee/ProjectProposalEmp.java
 /Users/juliannapuleo/Desktop/Senior/SPR2019/CS470/CS470_DC/DyerCenter_CS470/DyerC/src/main/java/com/msn/gabrielle/ui/views/Employee/SQLEventEmp.java
 /Users/juliannapuleo/Desktop/Senior/SPR2019/CS470/CS470_DC/DyerCenter_CS470/DyerC/src/main/java/com/msn/gabrielle/backend/ReviewService.java
 /Users/juliannapuleo/Desktop/Senior/SPR2019/CS470/CS470_DC/DyerCenter_CS470/DyerC/src/main/java/com/msn/gabrielle/ui/MainLayout.java

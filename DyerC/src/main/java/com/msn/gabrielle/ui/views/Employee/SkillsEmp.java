@@ -20,14 +20,21 @@ import java.sql.DriverManager;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
 import com.msn.gabrielle.ui.EmployeePage;
+import com.msn.gabrielle.ui.views.Student.SQLProfileStud;
 import com.msn.gabrielle.ui.views.Student.SkillStud;
 
 @Route(value = "skillsemp", layout = EmployeePage.class)
 @PageTitle("Skills List")
 public class SkillsEmp extends VerticalLayout { 
+	
+	SQLProfileStud sqlPStud = new SQLProfileStud();
+	
 	Button btnAddSkill, btnDeleteSkill;
-	TextField tfSkillMajor, tfSkillName;
+	TextField tfSkillCategory, tfSkillName;
 	HorizontalLayout hlTFSkills, hlBTNSkills;
 	VerticalLayout vlSkills;
 	Notification nSkillExists;
@@ -41,9 +48,9 @@ public class SkillsEmp extends VerticalLayout {
 		grid = new Grid<>(SkillStud.class);
 		grid.setItems(skillsList);
 	
-		tfSkillMajor = new TextField();
-		tfSkillMajor.setLabel("Skill Major");
-		tfSkillMajor.setPlaceholder("Enter the Skill's Major");
+		tfSkillCategory = new TextField();
+		tfSkillCategory.setLabel("Skill Category");
+		tfSkillCategory.setPlaceholder("Enter the Skill's Category");
 		
 		tfSkillName = new TextField();
 		tfSkillName.setLabel("Skill Name");
@@ -53,10 +60,10 @@ public class SkillsEmp extends VerticalLayout {
 		
 		btnAddSkill = new Button("Add New Skill", event -> {
 			try {
-				String major = tfSkillMajor.getValue();
+				String category = tfSkillCategory.getValue();
 				String skill = tfSkillName.getValue();
 				
-				if (major.trim().equals("") || skill.trim().equals("")) {
+				if (category.trim().equals("") || skill.trim().equals("")) {
 					Label lblNotif = new Label("Please fill out both text fields!");
 					nSkillExists = new Notification(lblNotif);
 					nSkillExists.setDuration(3000);
@@ -64,11 +71,11 @@ public class SkillsEmp extends VerticalLayout {
 					nSkillExists.open();
 				}
 				else {
-					boolean exists = checkSkill(major, skill);
+					boolean exists = checkSkill(category, skill);
 					if (!exists) { 
-						addSkill(major, skill);
+						addSkill(category, skill);
 						updateGrid();
-						tfSkillMajor.clear(); tfSkillName.clear();
+						tfSkillCategory.clear(); tfSkillName.clear();
 					}
 					else {
 						Label lblNotif = new Label("The entered skill already exists!");
@@ -81,19 +88,20 @@ public class SkillsEmp extends VerticalLayout {
 			} catch (Exception e) { e.printStackTrace(); }
 		});
 		btnAddSkill.setEnabled(true);
+		btnAddSkill.addClassName("view-toolbar__button");
 		
 		btnDeleteSkill = new Button("Delete Skill", event -> {
 			
 			// if it exists
 			
-			String major = tfSkillMajor.getValue();
+			String category = tfSkillCategory.getValue();
 			String skill = tfSkillName.getValue();
 			
 			// check database
-			boolean skillExists = checkSkill(major, skill);
+			boolean skillExists = checkSkill(category, skill);
 			if (skillExists) {
 				// Remove the skill from the database, update the Grid
-				deleteSkill(major, skill);
+				deleteSkill(category, skill);
 				updateGrid();
 			}
 			else {
@@ -106,9 +114,10 @@ public class SkillsEmp extends VerticalLayout {
 		});
 		btnDeleteSkill.setDisableOnClick(true);
 		btnDeleteSkill.setEnabled(true);
+		btnDeleteSkill.addClassName("view-toolbar__button");
 		
 		hlTFSkills = new HorizontalLayout();
-		hlTFSkills.add(tfSkillMajor); hlTFSkills.add(tfSkillName);
+		hlTFSkills.add(tfSkillCategory); hlTFSkills.add(tfSkillName);
 		hlBTNSkills = new HorizontalLayout();
 		hlBTNSkills.add(btnDeleteSkill); hlBTNSkills.add(btnAddSkill);
 		
@@ -120,72 +129,70 @@ public class SkillsEmp extends VerticalLayout {
 	}
 	public void loadSkillsList() {
 		
-		/*
-		Class.forName("org.postgresql.Driver");
-		Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
-	    Statement stm;
-	    stm = conn.createStatement();
-	    String sql = "Select * From SKILLSTABLE";
-	    ResultSet rst;
-	    rst = stm.executeQuery(sql);
-	    while (rst.next()) {
-	        SkillStud skill = new SkillStud(rst.getString("skillMajor"), rst.getString("skillName"));
-	        skillsList.add(skill);
-	    }
-	    */
-		
-		skillsList.add(new SkillStud("Skill Major 1", "Skill Name 1"));
-		skillsList.add(new SkillStud("Skill Major 2", "Skill Name 2"));
+		skillsList = sqlPStud.loadAllSkills();
 	}
 	
-	public void addSkill(String major, String name) {
+	public void addSkill(String category, String name) {
 		
 		try {
-			/*
 			Class.forName("org.postgresql.Driver");
 			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
-			System.out.println("Adding profile to database!");
-			Statement statementAdd = c.createStatement();
-			String sqlAdd = "INSERT INTO SKILLSTABLE (MAJOR,NAME) VALUES " +
-			   "('"+ major + "', '" + name + "');";
-			statementAdd.executeUpdate(sqlAdd);
-			statementAdd.close();
-			c.close();
-			*/
+			System.out.println("-----------------------------------------------------------------");
+			System.out.println("Inserting Skill into database");
+	
+			Statement statementCount = c.createStatement();
+			String sqlCount = "SELECT MAX(SKILL_ID) FROM TABLE_SKILLS_MASTER;";
+			ResultSet rsCount = statementCount.executeQuery(sqlCount);
+			rsCount.next();
+			int idNumber = rsCount.getInt(1) + 1;
+			statementCount.close();
 			
-			skillsList.add(new SkillStud(major, name));
-			
-			System.out.println("Successful skill add to database!");
+	        //Get employee object within list
+	        
+    		Statement statementInsertSkill = c.createStatement();
+			String sqlInsertSkill = "INSERT INTO TABLE_SKILLS_MASTER "
+					+ "(SKILL_ID,CATEGORY,SKILL_NAME) VALUES "
+					+ "(" + idNumber + ", '" + category + "', '" + name + "');";
+			statementInsertSkill.executeUpdate(sqlInsertSkill);
+			statementInsertSkill.close();
+
+			System.out.println("Successful Count from TABLE_SKILLS_MASTER");
+	
+	        c.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.err.println(e.getClass().getName()+": "+e.getMessage());
 			System.exit(0);
 		}
 	}
-	public boolean checkSkill(String major, String name) {
+	public boolean checkSkill(String category, String name) {
 		boolean skillExists = false;
 		// Database check
 		try {
-			/*
+			
 			Class.forName("org.postgresql.Driver");
 			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
-			System.out.println("Adding profile to database!");
-			Statement statementAdd = c.createStatement();
-			String sqlAdd = "INSERT INTO SKILLSTABLE (MAJOR,NAME) VALUES " +
-			   "('"+ major + "', '" + name + "');";
-			statementAdd.executeUpdate(sqlAdd);
-			statementAdd.close();
-			c.close();
-			*/
-			Iterator<SkillStud> itr = skillsList.iterator();
-			while (itr.hasNext()) {
-				SkillStud skillS = itr.next();
-			    if (skillS.getMajor().equals(major) && skillS.getName().equals(name)) {
-			    	skillExists = true;
-			    	break;
-			    }
+			System.out.println("Skill check of TABLE_SKILLS_MASTER!");
+			Statement statementGetCount = c.createStatement();
+			String sqlGetCount = "SELECT * FROM TABLE_SKILLS_MASTER WHERE CATEGORY = '" + category +
+							"' AND SKILL_NAME = '" + name + "';";
+			statementGetCount.executeQuery(sqlGetCount);
+			
+			ResultSet rsCount = statementGetCount.executeQuery(sqlGetCount);
+			//int count = 0;
+			if (rsCount.next()) 
+			{
+				skillExists = true;
+				
 			}
-			System.out.println("Successful skill removal from database!");
+			
+			statementGetCount.close();
+			
+			c.close();
+			
+			
+			System.out.println("Successful Skill check of TABLE_SKILLS_MASTER!");
+			//if (count >= 1) 
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.err.println(e.getClass().getName()+": "+e.getMessage());
@@ -194,32 +201,22 @@ public class SkillsEmp extends VerticalLayout {
 		return skillExists;
 	}
 	
-	public void deleteSkill(String major, String name) {
+	public void deleteSkill(String category, String name) {
 		
 		// Database check
 			try {
-				/*
+				
 				Class.forName("org.postgresql.Driver");
 				Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
 				System.out.println("Adding profile to database!");
-				Statement statementAdd = c.createStatement();
-				String sqlAdd = "INSERT INTO SKILLSTABLE (MAJOR,NAME) VALUES " +
-				   "('"+ major + "', '" + name + "');";
-				statementAdd.executeUpdate(sqlAdd);
-				statementAdd.close();
+				Statement statementRemoveSkill = c.createStatement();
+				String sqlRemoveSkill = "DELETE FROM TABLE_SKILLS_MASTER WHERE CATEGORY = '" + category + 
+								"' AND SKILL_NAME = '" + name + "';";
+				
+				statementRemoveSkill.executeUpdate(sqlRemoveSkill);
+				statementRemoveSkill.close();
 				c.close();
-				*/
-				int i = 0;
-				Iterator<SkillStud> itr = skillsList.iterator();
-				while (itr.hasNext()) {
-					
-					SkillStud skillS = itr.next();
-				    if (skillS.getMajor().equals(major) && skillS.getName().equals(name)) {
-				    	skillsList.remove(i);
-				    	break;
-				    }
-				    i++;
-				}
+
 				System.out.println("Successful skill removal from database!");
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -228,6 +225,7 @@ public class SkillsEmp extends VerticalLayout {
 			}
 	}
     public void updateGrid() {
+    	loadSkillsList();
     	grid.setItems(skillsList);
     	//Recall to the database to change values as necessary
     }

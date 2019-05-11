@@ -55,6 +55,8 @@ import com.msn.gabrielle.ui.views.Student.ProjectListStud.ProjectsModel;
 @HtmlImport("frontend://styles/shared-project-style.html")
 @Tag("reviews-list")
 public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
+	
+	SQLProjectStud sqlPStud = new SQLProjectStud();
 	private TextField searchField = new TextField("",
             "Search projects");
     private List<Projects> projectList = new ArrayList<Projects>();
@@ -89,9 +91,8 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
       search.setValueChangeMode(ValueChangeMode.EAGER);
       search.addFocusShortcut(Key.KEY_F, KeyModifier.CONTROL);
         //initView();
-      projectList.add(new Projects("Web App", "Help", "geeja"));
-      projectList.add(new Projects("Database: SQL", "Help", "geeja"));
-
+      projectList = sqlPStud.loadProjects();
+      getModel().setReviews(projectList);
       getElement().setProperty("reviewButtonText", "New project");
       getElement().setProperty("editButtonText", "View");
       addReview.addClickListener(e -> 
@@ -115,7 +116,9 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
     	
     	HorizontalLayout buttons = new HorizontalLayout();
     	Button saveButton = new Button("Save", event -> {
-    		Projects newProj = new Projects(nameStr, descriptionStr, nameProposerStr);
+    		Projects newProj = new Projects(nameStr);
+    		// SQL ADD HERE to PROPOSED TABLE
+    		// Reload Projects List
     		projectList.add(newProj);
     		dialog.close();
     		clearAll();
@@ -266,7 +269,7 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
     	
     	List<Projects> listToDisplay = new ArrayList<Projects>();
     	for (int i = 0; i < projectList.size(); i++) {
-    		if (projectList.get(i).getName().toLowerCase().contains(value.toLowerCase())) {
+    		if (projectList.get(i).getProjectTitle().toLowerCase().contains(value.toLowerCase())) {
     			listToDisplay.add(projectList.get(i));
     		}
     	}

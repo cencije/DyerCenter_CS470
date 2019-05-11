@@ -1,5 +1,5 @@
 /*
- * Copyright 2000-2017 Vaadin Ltd.
+ * Copyright 2000-2017 Vaadin Ltd. 
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -15,34 +15,27 @@
  */
 package com.msn.gabrielle.ui.views.Employee;
 
-import java.time.LocalDate; 
+import java.time.LocalDate;  
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.time.format.DateTimeFormatter;
 
-//import org.vaadin.stefan.fullcalendar.CalendarView;
-//import org.vaadin.stefan.fullcalendar.CalendarViewImpl;
 import org.vaadin.stefan.fullcalendar.Entry;
 import org.vaadin.stefan.fullcalendar.FullCalendar;
 import org.vaadin.stefan.fullcalendar.FullCalendarBuilder;
-//import com.vaadin.flow.shared.Registration;
 
 import com.msn.gabrielle.ui.*;
 import com.msn.gabrielle.backend.Events;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-//import com.vaadin.flow.component.HasText;
-//import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.html.Label;
-//import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
-//import com.vaadin.flow.component.notification.Notification.Position;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.component.datepicker.*;
@@ -72,12 +65,15 @@ public class EventsEmp extends VerticalLayout{
 	public EventsEmp() {
         initView();
         
+        //SQLEventEmp sqlEE = new SQLEventEmp();
+        //sqlEE.loadAll();
+        //eventsList = sqlEE.getAllEvents();
+        
         lay = new VerticalLayout();
         hlay = new HorizontalLayout();
         ButtonsLay = new HorizontalLayout();
       
-//        	calendar.addEntryClickedListener(EntryClickedEvent -> {});
-		
+//      calendar.addEntryClickedListener(EntryClickedEvent -> {});
         
         displayCalendar();
         displayEvents();
@@ -120,14 +116,6 @@ public class EventsEmp extends VerticalLayout{
 			monthValue = Integer.parseInt(formattedMonth);
 			dayValue = Integer.parseInt(formattedDay);
 		});
-		
-//		LocalDate x = LocalDate.now();
-//		DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE;
-//		String formattedDate = x.format(formatter);
-//		currentMonth = new Label("");
-//		currentYear = new String(formattedDate.substring(0, 4));
-//		yearNum = Integer.parseInt(currentYear);
-		
 		
 		// Create the hour combo box (Part 1 of time)
 		hour = new ComboBox<Integer>("Hour:");
@@ -202,6 +190,13 @@ public class EventsEmp extends VerticalLayout{
 		});
 		
 		// Create the close button
+        	
+//        	sqlEE.insertEvent(titleValue, locationValue, descValue, urlLink, 
+//        					  Integer.toString(dayValue), Integer.toString(monthValue), Integer.toString(yearValue),
+//        					  Integer.toString(hourValue), Integer.toString(minuteValue));
+        	
+        //saveEvent.addClassName("view-toolbar__button");
+        
 		closeD = new Button("Close", event ->  {
 			// If text fields were filled in
 			if(titleField.isEmpty()==false || locField.isEmpty()==false || descField.isEmpty()==false || 
@@ -230,13 +225,14 @@ public class EventsEmp extends VerticalLayout{
     		// Close the Dialog
     		newEventDialog.close();
 		});
+		closeD.addClassName("view-toolbar__button");
 		
 		// Add the two buttons to a Horizontal Layout
-		ButtonsLay.add(saveEvent, closeD);
+		ButtonsLay.add(saveEvent, closeD, errorMessage);
 		
 		// Add all of these elements to a Vertical Layout, add that to the Dialog
 		addEventDialogVLay = new VerticalLayout();
-		addEventDialogVLay.add(errorMessage, titleField, locField, descField, urlField, dp, timeLayout, ButtonsLay);
+		addEventDialogVLay.add(titleField, locField, descField, urlField, dp, timeLayout, ButtonsLay);
 		newEventDialog.add(addEventDialogVLay);
 		
 		// Open the Dialog
@@ -316,6 +312,7 @@ public class EventsEmp extends VerticalLayout{
 			monthNumber = cMN;
 			monthLabelSetUp();
 		});
+		today.addClassName("view-toolbar__event-today");
 		
 		// Button to move back into past months
         Button lastMonth = new Button(new Icon(VaadinIcon.ANGLE_LEFT), event -> {
@@ -323,6 +320,7 @@ public class EventsEmp extends VerticalLayout{
         	if(monthNumber == 1) { yearNum--; monthNumber = 12; } else { monthNumber--;}
         	monthLabelSetUp();
         });
+        lastMonth.addClassName("view-toolbar__event-click");
         
         // Button to move forward into future months
         Button nextMonth = new Button(new Icon(VaadinIcon.ANGLE_RIGHT), event -> {
@@ -330,10 +328,11 @@ public class EventsEmp extends VerticalLayout{
         	if(monthNumber == 12) { yearNum++; monthNumber = 1; } else { monthNumber++;}
         	monthLabelSetUp();
         });
+        nextMonth.addClassName("view-toolbar__event-click");
         
         // Create the Horizontal Layout for the buttons, and add them
         monthMoveLayout = new HorizontalLayout();
-        monthMoveLayout.add(today, lastMonth, nextMonth);
+        monthMoveLayout.add(today, lastMonth, nextMonth, addEventButton);
         
         // Create the add Events button
         addEventButton = new Button("Add an Event", new Icon("lumo", "plus"),  event ->  {
@@ -344,16 +343,15 @@ public class EventsEmp extends VerticalLayout{
         addEventButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
 		//Add all of the components to the page
-		hlay.add(currentMonth, addEventButton);
-        lay.add(hlay, monthMoveLayout, calendar);
+        lay.add(currentMonth, monthMoveLayout, calendar);
         add(lay);
         
-        calendar.addDayNumberClickedListener(event -> {
-        	Dialog d = new Dialog();
-        	d.setCloseOnEsc(false);
-            d.setCloseOnOutsideClick(false);
-            Label sup = new Label("sup");
-            d.add(sup);
-        });
+//        calendar.addDayNumberClickedListener(event -> {
+//        	Dialog d = new Dialog();
+//        	d.setCloseOnEsc(false);
+//            d.setCloseOnOutsideClick(false);
+//            Label sup = new Label("sup");
+//            d.add(sup);
+//        });
 	}
 }

@@ -31,6 +31,7 @@ import com.vaadin.flow.server.InitialPageSettings;
 import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.server.PageConfigurator;
 import com.msn.gabrielle.ui.views.Alumni.ProfileAlum;
+import com.msn.gabrielle.ui.views.Alumni.ProjectProposalAlum;
 import com.msn.gabrielle.ui.views.Alumni.ProjectListAlum;
 import com.msn.gabrielle.ui.views.categorieslist.CategoriesList;
 import com.msn.gabrielle.ui.views.reviewslist.ReviewsList;
@@ -54,13 +55,19 @@ public class AlumniPage extends Div
 		projects.addClassName("main-lay__nav-item");
 		// Only show as active for the exact URL, but not for sub paths
 		projects.setHighlightCondition(HighlightConditions.sameLocation());
+		
+		RouterLink projectproposal = new RouterLink(null, ProjectProposalAlum.class);
+		projectproposal.add(new Icon(VaadinIcon.EDIT), new Text("Project Proposal"));
+		projectproposal.addClassName("main-lay__nav-item");
+		// Only show as active for the exact URL, but not for sub paths
+		projectproposal.setHighlightCondition(HighlightConditions.sameLocation());
 
 		RouterLink profile = new RouterLink(null, ProfileAlum.class);
 		profile.add(new Icon(VaadinIcon.USER), new Text("Profile"));
 		profile.addClassName("main-lay__nav-item");
 		profile.setHighlightCondition(HighlightConditions.sameLocation());
 
-		Div navigation = new Div(projects, profile);
+		Div navigation = new Div(projects, projectproposal, profile);
 		navigation.addClassName("main-lay__nav");
 
 		Div header = new Div(title, navigation);

@@ -2,6 +2,7 @@ package com.msn.gabrielle.ui.views.Student;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -26,6 +27,8 @@ import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.html.NativeButton;
 import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.Notification.Position;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
@@ -33,13 +36,39 @@ import com.vaadin.flow.router.Route;
 @PageTitle("Profile")
 public class ProfileStud extends VerticalLayout{
 	String profileName, profileEmail, profileMajor1, profileMajor2, profileMinor1, profileMinor2;
-	String[] arrayMajor = { "N/A", "AB International Studies/BS Engineering Major", "Africana Studies", 
+	
+	SQLProfileStud sqlPS = new SQLProfileStud();
+	
+	Notification nDuplicateValues;
+	
+	Grid<SkillStud> gridChosenSkills;
+	String[] arrayMajor = { "AB International Studies/BS Engineering Major", "Africana Studies", 
 			"American Studies", "Anthropology and Sociology", "Art", "Asian Studies",
 			"Biochemistry", "Biology",
 			"Chemical Engineering", "Chemistry", "Civil Engineering", "Computer Science",
 			"Economics", "English", "Electrical & Computer Engineering", "Engineering Studies",
 			"English", "Environmental Science", "Environmental Studies",
-			"Film and Media Studies", "Fo", "French",
+			"Film and Media Studies", "French",
+			"Geology", "German", "Government and Law", "Government and Law: French",
+			"Government and Law: German", "Government and Law: Spanish",
+			"History",
+			"International Affairs",
+			"Mathematics", "Mathematics and Economics, A.B. Joint Major","Mechanical Engineering",
+			"Military Science", "Music",
+			"Neuroscience", 
+			"Philosophy", "Physics", "Policy Studies", "Psychology", 
+			"Religion and Politics", "Religious Studies", "Russian and East European Studies",
+			"Spanish", 
+			"Theater",
+			"Women’s and Gender Studies",
+			"Undecided" };
+	String[] arrayMajor2 = { "N/A", "AB International Studies/BS Engineering Major", "Africana Studies", 
+			"American Studies", "Anthropology and Sociology", "Art", "Asian Studies",
+			"Biochemistry", "Biology",
+			"Chemical Engineering", "Chemistry", "Civil Engineering", "Computer Science",
+			"Economics", "English", "Electrical & Computer Engineering", "Engineering Studies",
+			"English", "Environmental Science", "Environmental Studies",
+			"Film and Media Studies", "French",
 			"Geology", "German", "Government and Law", "Government and Law: French",
 			"Government and Law: German", "Government and Law: Spanish",
 			"History",
@@ -73,6 +102,7 @@ public class ProfileStud extends VerticalLayout{
 			"Theater",
 			"Women’s and Gender Studies", "Writing"};
 	public ProfileStud() {
+		gridChosenSkills = new Grid<>();
 		loadProfileValues();
 		
 		Label lblName = new Label("Name:");
@@ -86,24 +116,58 @@ public class ProfileStud extends VerticalLayout{
 		Label lblMinor2 = new Label("Minor 2: " + profileMinor2);
 		ComboBox<String> cbMajor1 = new ComboBox<>("Major 1");
 		cbMajor1.setItems(Arrays.asList(arrayMajor));
-		ComboBox<String> cbMajor2 = new ComboBox<>("Major 2 (If Applicable)");
-		cbMajor2.setItems(Arrays.asList(arrayMajor));
-		ComboBox<String> cbMinor1 = new ComboBox<>("Minor 1 (If Applicable)");
+		ComboBox<String> cbMajor2 = new ComboBox<>("Major 2");
+		cbMajor2.setItems(arrayMajor2);
+		ComboBox<String> cbMinor1 = new ComboBox<>("Minor 1");
 		cbMinor1.setItems(Arrays.asList(arrayMinor));
-		ComboBox<String> cbMinor2 = new ComboBox<>("Minor 2 (If Applicable)");
+		ComboBox<String> cbMinor2 = new ComboBox<>("Minor 2");
 		cbMinor2.setItems(Arrays.asList(arrayMinor));
 		
 		Button btnUpdateFields = new Button("Update Fields", event -> {
 		    try {
-		    	lblMajor1.setText("Major 1: " + cbMajor1.getValue());
-		    	lblMajor2.setText("Major 2: " + cbMajor2.getValue());
-		    	lblMinor1.setText("Minor 1: " + cbMinor1.getValue());
-		    	lblMinor2.setText("Minor 2: " + cbMinor2.getValue());
+		    	String Maj1 = cbMajor1.getValue();
+		    	String Maj2 = cbMajor2.getValue();
+		    	String Min1 = cbMinor1.getValue();
+		    	String Min2 = cbMinor2.getValue();
+		    	if (Maj1 == null || Maj2 == null || Min1 == null || Min2 == null) {
+		    		Label lblNotif = new Label("Please enter a major & minor or select 'Undecided' & 'N/A' respectively!");
+		    		nDuplicateValues = new Notification(lblNotif);
+					nDuplicateValues.setDuration(3000);
+					nDuplicateValues.setPosition(Position.MIDDLE);
+					nDuplicateValues.open();
+		    	}
+		    	else if ((Maj1.equals("Undecided") && !Maj2.equals("N/A")) ||
+		    			 (Min1.equals("N/A") && !Min2.equals("N/A"))) {
+		    		Label lblNotif = new Label("Major/Minor 2 must be 'Undecided' or 'N/A' if Major/Minor 1 is 'Undecided' or 'N/A'");
+		    		nDuplicateValues = new Notification(lblNotif);
+					nDuplicateValues.setDuration(3000);
+					nDuplicateValues.setPosition(Position.MIDDLE);
+					nDuplicateValues.open();
+		    	}
+		    		
+		    	else if (!(Maj1.equals(Maj2) && !Maj1.equals("Undecided")) && !Maj1.equals(Min1) && !Maj1.equals(Min2) &&
+		    			 !(Maj2.equals(Min1) && !Maj2.equals("N/A")) && !(Maj2.equals(Min2) && 
+		    			   !Maj2.equals("N/A")) && !(Min1.equals(Min2) && !Min1.equals("N/A") )) {
+		    		sqlPS.updateMajorsMinors(profileEmail, Maj1, Maj2, Min1, Min2);
+			    	lblMajor1.setText("Major 1: " + Maj1);
+			    	lblMajor2.setText("Major 2: " + Maj2);
+			    	lblMinor1.setText("Minor 1: " + Min1);
+			    	lblMinor2.setText("Minor 2: " + Min2);
+			    	
+		    	}
+		    	else {
+		    		Label lblNotif = new Label("Majors / Minors cannot be duplicates!");
+		    		nDuplicateValues = new Notification(lblNotif);
+					nDuplicateValues.setDuration(3000);
+					nDuplicateValues.setPosition(Position.MIDDLE);
+					nDuplicateValues.open();
+		    	}
 		        // Update in the database
 		    } catch (Exception e) { e.printStackTrace(); }
 		});
 		btnUpdateFields.setDisableOnClick(true);
 		btnUpdateFields.setEnabled(false);
+		btnUpdateFields.addClassName("view-toolbar__profile-click");
 		cbMajor1.addValueChangeListener(event -> {
 		    if (!event.getSource().isEmpty()) { btnUpdateFields.setEnabled(true); }
 		});
@@ -117,6 +181,11 @@ public class ProfileStud extends VerticalLayout{
 		    if (!event.getSource().isEmpty()) { btnUpdateFields.setEnabled(true);  }
 		});	
 
+		
+		Label lblChosenSkills = new Label("Chosen Skills List");
+		gridChosenSkills.addColumn(SkillStud::getCategory).setHeader("Category");
+		gridChosenSkills.addColumn(SkillStud::getName).setHeader("Skill Name");
+		
 		HorizontalLayout hlName = new HorizontalLayout();
 		hlName.add(lblName); hlName.add(lblProfileName);
 		HorizontalLayout hlEmail = new HorizontalLayout();
@@ -135,34 +204,18 @@ public class ProfileStud extends VerticalLayout{
 		vlNonGridSide.add(hlMajors); vlNonGridSide.add(hlMinors);
 		vlNonGridSide.add(hlCBMajors); vlNonGridSide.add(hlCBMinors);
 		vlNonGridSide.add(btnUpdateFields);
+		vlNonGridSide.add(lblChosenSkills);
+		vlNonGridSide.add(gridChosenSkills);
+	
+		List<SkillStud> listSkills = new ArrayList<SkillStud>(); 
+		listSkills = sqlPS.loadAllSkills();
 		
-		
-		List<SkillStud> personList = new ArrayList<SkillStud>(); //personService.fetchAll();
-
-		personList.add(new SkillStud("CompSci", "Coding"));
-		personList.add(new SkillStud("Anthropology & Sociology", "Social Constructs"));
-		Label hGrid = new Label("Skills List");
+		Label lblSkillsGrid = new Label("Available Skills List");
 		Grid<SkillStud> firstGrid = new Grid<>();
-		firstGrid.setItems(personList);
+		firstGrid.setItems(listSkills);
 		firstGrid.setSelectionMode(SelectionMode.MULTI);
 
-		TextField filterField = new TextField();
-		filterField.setValueChangeMode(ValueChangeMode.EAGER);
-		filterField.addValueChangeListener(event -> {
-		    Optional<SkillStud> foundPerson = personList.stream()
-		            .filter(person -> person.getMajor().toLowerCase()
-		                    .startsWith(event.getValue().toLowerCase()))
-		            .findFirst();
-		    
-		    firstGrid.getSelectionModel().deselectAll();
-		    Set<SkillStud> foundpersons = personList.stream()
-		            .filter(person -> person.getMajor().toLowerCase()
-		                    .startsWith(event.getValue().toLowerCase()))
-		            .collect(Collectors.toSet());
-		    firstGrid.asMultiSelect().setValue(foundpersons);
-		});
-
-		firstGrid.addColumn(SkillStud::getMajor).setHeader("Major");
+		firstGrid.addColumn(SkillStud::getCategory).setHeader("Category");
 		firstGrid.addColumn(SkillStud::getName).setHeader("Skill Name");
 
 		Button deselectBtn = new Button("Deselect all");
@@ -172,11 +225,24 @@ public class ProfileStud extends VerticalLayout{
 		selectAllBtn.addClickListener(
 		        event -> ((GridMultiSelectionModel<SkillStud>) firstGrid
 		                .getSelectionModel()).selectAll());
+		Button btnUpdateSkills = new Button("Update Skills");
+		btnUpdateSkills.addClickListener(
+				event -> {
+					ArrayList<SkillStud> listSelectedSkills = new ArrayList<SkillStud>();
+					Set<SkillStud> skillSet = new HashSet<SkillStud>();
+					skillSet = firstGrid.getSelectedItems();
+					for (SkillStud ss : skillSet) { 
+						listSelectedSkills.add(ss); 
+						System.out.println(ss.skillCategory + " " + ss.skillName);
+					}
+					sqlPS.addSkillsToProfile(profileEmail, listSelectedSkills);
+					updateProfileSkills();
+				}
+		);
 		HorizontalLayout hlGridBtns = new HorizontalLayout();
-		hlGridBtns.add(deselectBtn); hlGridBtns.add(selectAllBtn);
+		hlGridBtns.add(deselectBtn); hlGridBtns.add(selectAllBtn); hlGridBtns.add(btnUpdateSkills); 
 		VerticalLayout vlGrid = new VerticalLayout();
-		vlGrid.add(hGrid); vlGrid.add(firstGrid);
-		vlGrid.add(hlGridBtns);
+		vlGrid.add(lblSkillsGrid); vlGrid.add(firstGrid); vlGrid.add(hlGridBtns);
 		HorizontalLayout hlFinalLayout = new HorizontalLayout();
 		hlFinalLayout.add(vlNonGridSide); hlFinalLayout.add(vlGrid);
 		hlFinalLayout.setWidth("100%");
@@ -184,15 +250,22 @@ public class ProfileStud extends VerticalLayout{
 		
 	}
 	public void loadProfileValues() {
-		// Select * WHERE EMAILADDRESS = ' ';
-		profileName = "N/A";
-		profileEmail = "N/A";
-		profileName = "John Goodway";
+		// Dummy Value used for email right now
+		// Should be loaded from the Databases upon login
 		profileEmail = "goodwayj@lafayette.edu";
-		profileMajor1 = "N/A";
-		profileMajor2 = "N/A";
-		profileMinor1 = "N/A";
-		profileMinor2 = "N/A";
+		updateProfileSkills();
+		ArrayList<String> listInfo = sqlPS.getProfileInformation();
+		profileName = listInfo.get(0);
+		profileEmail = listInfo.get(1);
+		profileMajor1 = listInfo.get(4);
+		profileMajor2 = listInfo.get(5);
+		profileMinor1 = listInfo.get(6);
+		profileMinor2 = listInfo.get(7);
 		
+	}
+	
+	public void updateProfileSkills() {
+		ArrayList<SkillStud> profileSkillsList = sqlPS.getProfileValues(profileEmail);
+		gridChosenSkills.setItems(profileSkillsList);
 	}
 }
