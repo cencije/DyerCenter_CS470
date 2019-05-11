@@ -7,6 +7,7 @@ import org.vaadin.teemu.switchui.Switch;
 
 import com.msn.gabrielle.backend.Projects;
 import com.msn.gabrielle.ui.*;
+import com.msn.gabrielle.ui.views.Student.SkillStud;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
@@ -24,6 +25,7 @@ import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.grid.Grid.SelectionMode;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H2;
@@ -137,12 +139,50 @@ public class ProjectsListEmp extends VerticalLayout {
         container.add(header, grid);
         add(container);
     }
+    
+    private Dialog viewDialog() {
+    	Dialog viewDialog = new Dialog();
+    	viewDialog.setCloseOnEsc(false);
+    	viewDialog.setCloseOnOutsideClick(false);
+    	VerticalLayout projectForum = new VerticalLayout();
+    	
+    	HorizontalLayout titleDuration = new HorizontalLayout();
+    	Label projectTitleLabel = new Label("Project title: ");
+    	Label durationLabel = new Label("Duration: " + " to ");
+    	titleDuration.add(projectTitleLabel, durationLabel);
+    	
+    	projectForum.add(titleDuration, new Label("Location: "),
+    									new Label ("Description: "));
+    	
+    	HorizontalLayout nameUnPaid = new HorizontalLayout();
+    	Label payLabel = new Label("Pay: ");
+    	nameUnPaid.add(payLabel);
+    	Label nameLabel = new Label("Proposer name: ");
+    	nameUnPaid.add(nameLabel);
+    	
+    	projectForum.add(nameUnPaid);
+    	viewDialog.add(projectForum);
+    	Button closeButton = new Button("Cancel", event -> {
+    		viewDialog.close();
+    	});
+    	List<SkillStud> personList = new ArrayList<SkillStud>();
+    	Grid<SkillStud> grid = new Grid<>();
+    	grid.setItems(personList);
+    	grid.addColumn(SkillStud::getCategory).setHeader("Category");
+    	grid.addColumn(SkillStud::getName).setHeader("age");
+    	grid.addThemeVariants(GridVariant.LUMO_NO_BORDER,
+    	        GridVariant.LUMO_NO_ROW_BORDERS);
+    	viewDialog.add(grid);
+    	viewDialog.add(closeButton);
+    	return viewDialog;
+    }
 
     private Button createEditButton(Projects project) {
         Button edit = new Button("View", event -> viewDialog(project).open());
         edit.setIcon(new Icon("lumo", "view"));
         edit.addClassName("review__edit");
         edit.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
+        edit.addClickListener(e -> viewDialog().open());
         return edit;
     }
 

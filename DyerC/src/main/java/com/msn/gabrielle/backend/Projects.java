@@ -237,4 +237,5 @@ public class Projects implements Serializable {
     public void setSkillsList(ArrayList<SkillStud> skillsList) {
     	listSkillStud = skillsList;
     }
+    
 }
