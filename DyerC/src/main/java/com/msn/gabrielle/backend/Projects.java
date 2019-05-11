@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import com.msn.gabrielle.ui.views.Student.SkillStud;
+
 public class Projects implements Serializable {
 	
     private String projectTitle = ""; //project title
@@ -26,6 +28,8 @@ public class Projects implements Serializable {
     private String timePosted = ""; //time project proposal was posted 
     
     private List<String> skills;
+    
+    ArrayList<SkillStud> listSkillStud;
     
     
     public Projects() {
@@ -229,5 +233,8 @@ public class Projects implements Serializable {
     	skills = new ArrayList<String>(); 
         for (String x : set) 
           skills.add(x); 
+    }
+    public void setSkillsList(ArrayList<SkillStud> skillsList) {
+    	listSkillStud = skillsList;
     }
 }

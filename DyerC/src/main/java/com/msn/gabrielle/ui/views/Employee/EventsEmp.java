@@ -61,13 +61,13 @@ public class EventsEmp extends VerticalLayout{
 	TextField titleField, locField, descField, urlField;
 	Dialog newEventDialog, eventClickedDialog;
 	DatePicker dp;
-
+	SQLEventEmp sqlEE = new SQLEventEmp();
 	public EventsEmp() {
         initView();
         
-        //SQLEventEmp sqlEE = new SQLEventEmp();
-        //sqlEE.loadAll();
-        //eventsList = sqlEE.getAllEvents();
+         
+        sqlEE.loadAll();
+        eventsList = sqlEE.getAllEvents();
         
         lay = new VerticalLayout();
         hlay = new HorizontalLayout();
@@ -163,9 +163,13 @@ public class EventsEmp extends VerticalLayout{
         		ne.setEnd(ne.getStart().plusHours(1));
         		ne.setEditable(false);
         		// Add the new Event to the events list, and to the calendar
-        		eventsList.add(newE);
-        		calendar.addEntry(ne);
-        	
+        		sqlEE.insertEvent(titleValue, locationValue, descValue, urlLink, Integer.toString(dayValue), 
+        						  Integer.toString(monthValue), Integer.toString(yearValue), 
+        						  Integer.toString(hourValue), Integer.toString(minuteValue));
+        		//eventsList.add(newE);
+        		//calendar.addEntry(ne);
+        		sqlEE.loadAll();
+                eventsList = sqlEE.getAllEvents();
         		// Clear all of the fields
         		titleField.clear();
         		locField.clear();
@@ -190,10 +194,7 @@ public class EventsEmp extends VerticalLayout{
 		});
 		
 		// Create the close button
-        	
-//        	sqlEE.insertEvent(titleValue, locationValue, descValue, urlLink, 
-//        					  Integer.toString(dayValue), Integer.toString(monthValue), Integer.toString(yearValue),
-//        					  Integer.toString(hourValue), Integer.toString(minuteValue));
+               	
         	
         //saveEvent.addClassName("view-toolbar__button");
         
@@ -240,6 +241,7 @@ public class EventsEmp extends VerticalLayout{
 	}
 	
 	private void displayEvents() {
+		calendar.removeAllEntries();
 		for(int i = 0; i < eventsList.size(); i++) {
 			Entry newEntry = new Entry();
 			newEntry.setTitle(eventsList.get(i).getTitle());
