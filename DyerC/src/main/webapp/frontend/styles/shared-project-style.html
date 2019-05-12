@@ -142,6 +142,10 @@
                 line-height: var(--lumo-line-height-xs);
                 overflow: hidden;
             }
+            
+            .review__skills{
+            	color: black;
+            }
 
             .review__name {
                 margin: 0 0.5em 0 0;
@@ -222,10 +226,19 @@
                 <iron-icon icon="lumo:plus" slot="prefix"></iron-icon>
                 <span>[[reviewButtonText]]</span>
             </vaadin-button>
+            <vaadin-radio-group id = "radio" label="">
+			  <vaadin-radio-button on-click = "view_click" >View All</vaadin-radio-button>
+			  <vaadin-radio-button on-click = "match_click" >Matches</vaadin-radio-button>
+			</vaadin-radio-group>
         </div>
 
         <div class="view-container reviews">
             <h2 id="header"></h2>
+			<script>
+			  customElements.whenDefined('vaadin-combo-box').then(function() {
+			    document.querySelector('vaadin-combo-box').items = ['Hydrogen', 'Helium', 'Lithium'];
+			  });
+			</script>
             <template is="dom-if" if="{{!_isEmpty(reviews)}}">
                 <template is="dom-repeat" items="[[reviews]]">
                     <div class="review">
@@ -236,7 +249,7 @@
                             <h5>Posted on</h5>
                             <p>[[item.datePosted]]</p>
                         </div>
-                        <vaadin-button on-click="edit" class="review__edit" theme="tertiary">
+                        <vaadin-button on-click = "edit" class="review__edit" theme="tertiary">
                             <iron-icon icon="lumo:edit"></iron-icon><span>[[editButtonText]]</span>
                         </vaadin-button>
                     </div>
@@ -299,6 +312,7 @@
             .view-toolbar__button{
             	background-color: #232323;
   				box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+                margin-right: 16px;
 			}
         </style>
     </template>

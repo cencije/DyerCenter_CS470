@@ -61,20 +61,21 @@ public class EventsEmp extends VerticalLayout{
 	TextField titleField, locField, descField, urlField;
 	Dialog newEventDialog, eventClickedDialog;
 	DatePicker dp;
-
+	SQLEventEmp sqlEE = new SQLEventEmp();
 	public EventsEmp() {
         initView();
         
-        //SQLEventEmp sqlEE = new SQLEventEmp();
-        //sqlEE.loadAll();
-        //eventsList = sqlEE.getAllEvents();
+         
+        sqlEE.loadAll();
+        eventsList = sqlEE.getAllEvents();
         
         lay = new VerticalLayout();
         hlay = new HorizontalLayout();
       
         calendar.addEntryClickedListener(EntryClickedEvent -> {
+        	
         	openSpecificEntry();
-        	Label hey = new Label("hey");
+        	Label hey = new Label(EntryClickedEvent.getEntry().getTitle().toString());
         	Dialog p = new Dialog();
         	p.add(hey);
         	p.open();
@@ -190,9 +191,14 @@ public class EventsEmp extends VerticalLayout{
         		ne.setEnd(ne.getStart().plusHours(1));
         		ne.setEditable(false);
         		// Add the new Event to the events list, and to the calendar
-        		eventsList.add(newE);
-        		calendar.addEntry(ne);
-        	
+        		sqlEE.insertEvent(titleValue, locationValue, descValue, urlLink, Integer.toString(dayValue), 
+        						  Integer.toString(monthValue), Integer.toString(yearValue), 
+        						  Integer.toString(hourValue), Integer.toString(minuteValue));
+        		//eventsList.add(newE);
+        		//calendar.addEntry(ne);
+        		sqlEE.loadAll();
+                eventsList = sqlEE.getAllEvents();
+                displayEvents();
         		// Clear all of the fields
         		clearFields();
 
@@ -212,10 +218,7 @@ public class EventsEmp extends VerticalLayout{
 		saveEvent.addClassName("view-toolbar__button");
 		
 		// Create the close button
-        	
-//        	sqlEE.insertEvent(titleValue, locationValue, descValue, urlLink, 
-//        					  Integer.toString(dayValue), Integer.toString(monthValue), Integer.toString(yearValue),
-//        					  Integer.toString(hourValue), Integer.toString(minuteValue));
+               	
         	
        
         
@@ -268,6 +271,7 @@ public class EventsEmp extends VerticalLayout{
 	}
 	
 	private void displayEvents() {
+		calendar.removeAllEntries();
 		for(int i = 0; i < eventsList.size(); i++) {
 			Entry newEntry = new Entry();
 			newEntry.setTitle(eventsList.get(i).getTitle());
@@ -358,6 +362,7 @@ public class EventsEmp extends VerticalLayout{
         });
         nextMonth.addClassName("view-toolbar__event-click");
         
+
         // Create the add Events button
         addEventButton = new Button("Add an Event", new Icon("lumo", "plus"),  event ->  {
         	try {
@@ -365,7 +370,7 @@ public class EventsEmp extends VerticalLayout{
         	} catch(Exception e) { e.printStackTrace(); }  }       
         );
         addEventButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        
+
         // Create the Horizontal Layout for the buttons, and add them
         monthMoveLayout = new HorizontalLayout();
         monthMoveLayout.add(today, lastMonth, nextMonth, addEventButton);

@@ -25,10 +25,9 @@ public class SQLTablesManager {
 		//sqlPS.updateName("HAHA", "lol");
 	
 		// Code to load in the Skills List
-		/*
-			SkillsLoader sl = new SkillsLoader();
-			sl.loadInJSONValues();
-		 */
+		//SkillsLoader sl = new SkillsLoader();
+		//sl.loadInJSONValues();
+		 
 		
 
 		

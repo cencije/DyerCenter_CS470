@@ -5,12 +5,14 @@ import java.util.List;
 
 import com.msn.gabrielle.backend.Projects;
 import com.msn.gabrielle.ui.AlumniPage;
+import com.msn.gabrielle.ui.views.Student.SkillStud;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.KeyModifier;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.grid.Grid.SelectionMode;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H2;
@@ -85,35 +87,40 @@ public class ProjectListAlum extends VerticalLayout{
 	        add(viewToolbar);
 	    }
 	
-	    private Dialog viewDialog(Projects currentProj) {
+	    private Dialog viewDialog() {
 	    	Dialog viewDialog = new Dialog();
-
 	    	viewDialog.setCloseOnEsc(false);
 	    	viewDialog.setCloseOnOutsideClick(false);
+	    	VerticalLayout projectForum = new VerticalLayout();
 	    	
-	    	VerticalLayout mainLay = new VerticalLayout();
-	    	VerticalLayout nameLay = new VerticalLayout();
-	    	Label nameProject = new Label("Project title: ");
-	    	Label nameCurr = new Label(currentProj.getProjectTitle());
-	    	nameLay.add(nameProject,nameCurr );
+	    	HorizontalLayout titleDuration = new HorizontalLayout();
+	    	Label projectTitleLabel = new Label("Project title: ");
+	    	Label durationLabel = new Label("Duration: " + " to ");
+	    	titleDuration.add(projectTitleLabel, durationLabel);
 	    	
-	    	VerticalLayout descriptionLay = new VerticalLayout();
-	    	Label descriptionProject = new Label("Project description: ");
-	    	Label descriptionCurr = new Label(currentProj.getDescription());
-	    	descriptionLay.add(descriptionProject, descriptionCurr);
+	    	projectForum.add(titleDuration, new Label("Location: "),
+	    									new Label ("Description: "));
 	    	
-	    	VerticalLayout proposerLay = new VerticalLayout();
-	    	Label proposerProject = new Label("Project proposer: ");
-	    	Label proposerCurr = new Label(currentProj.getProposedBy());
-	    	proposerLay.add(proposerProject, proposerCurr);
-	    	mainLay.add(nameLay, descriptionLay, proposerLay);
+	    	HorizontalLayout nameUnPaid = new HorizontalLayout();
+	    	Label payLabel = new Label("Pay: ");
+	    	nameUnPaid.add(payLabel);
+	    	Label nameLabel = new Label("Proposer name: ");
+	    	nameUnPaid.add(nameLabel);
 	    	
-	    	NativeButton closeButton = new NativeButton("Close", event -> {
+	    	projectForum.add(nameUnPaid);
+	    	viewDialog.add(projectForum);
+	    	Button closeButton = new Button("Cancel", event -> {
 	    		viewDialog.close();
 	    	});
-	    	
-	    	mainLay.add(closeButton);
-	    	viewDialog.add(mainLay);
+	    	List<SkillStud> personList = new ArrayList<SkillStud>();
+	    	Grid<SkillStud> grid = new Grid<>();
+	    	grid.setItems(personList);
+	    	grid.addColumn(SkillStud::getCategory).setHeader("Category");
+	    	grid.addColumn(SkillStud::getName).setHeader("age");
+	    	grid.addThemeVariants(GridVariant.LUMO_NO_BORDER,
+	    	        GridVariant.LUMO_NO_ROW_BORDERS);
+	    	viewDialog.add(grid);
+	    	viewDialog.add(closeButton);
 	    	return viewDialog;
 	    }
 
@@ -133,7 +140,7 @@ public class ProjectListAlum extends VerticalLayout{
 	    }
 
 	    private Button createEditButton(Projects project) {
-	        Button edit = new Button("View", event -> viewDialog(project).open());
+	        Button edit = new Button("View", event -> viewDialog().open());
 	        edit.setIcon(new Icon("lumo", "view"));
 	        edit.addClassName("review__edit");
 	        edit.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
