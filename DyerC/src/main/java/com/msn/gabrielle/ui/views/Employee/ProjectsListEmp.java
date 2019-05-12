@@ -54,6 +54,7 @@ public class ProjectsListEmp extends VerticalLayout {
         addSearchBar();
         addContent();
         projectList = sqlPE.loadProjects();
+        /*
         System.out.println("LOADED LIST -------------------");
         for (int i = 0; i < projectList.size(); i++) {
         	ArrayList<SkillStud> listS = projectList.get(i).getSkillList();
@@ -62,7 +63,7 @@ public class ProjectsListEmp extends VerticalLayout {
         						   " Cat: " + listS.get(j).skillCategory + " Name: " + listS.get(j).skillName);
         	}
         }
-        /*
+        
         	projectList.add(new Projects("Web App"));
         	projectList.add(new Projects("Database: SQL"));
         */
@@ -105,7 +106,9 @@ public class ProjectsListEmp extends VerticalLayout {
         add(viewToolbar);
     }
     
+    /*
     private Dialog viewDialog(Projects currentProj) {
+    	System.out.println("Title " + currentProj.getProjectTitle());
     	Dialog viewDialog = new Dialog();
 
     	viewDialog.setCloseOnEsc(false);
@@ -136,6 +139,7 @@ public class ProjectsListEmp extends VerticalLayout {
     	viewDialog.add(mainLay);
     	return viewDialog;
     }
+    */
 
     private void addContent() {
         VerticalLayout container = new VerticalLayout();
@@ -152,24 +156,24 @@ public class ProjectsListEmp extends VerticalLayout {
         add(container);
     }
     
-    private Dialog viewDialog() {
+    private Dialog viewDialog(Projects currentProj) {
     	Dialog viewDialog = new Dialog();
     	viewDialog.setCloseOnEsc(false);
     	viewDialog.setCloseOnOutsideClick(false);
     	VerticalLayout projectForum = new VerticalLayout();
     	
     	HorizontalLayout titleDuration = new HorizontalLayout();
-    	Label projectTitleLabel = new Label("Project title: ");
-    	Label durationLabel = new Label("Duration: " + " to ");
+    	Label projectTitleLabel = new Label("Project title: " + currentProj.getProjectTitle());
+    	Label durationLabel = new Label("Duration: " + currentProj.getStartDate() + " to " + currentProj.getEndDate());
     	titleDuration.add(projectTitleLabel, durationLabel);
     	
-    	projectForum.add(titleDuration, new Label("Location: "),
-    									new Label ("Description: "));
+    	projectForum.add(titleDuration, new Label("Location: " + currentProj.getLocation()),
+    									new Label ("Description: " + currentProj.getDescription()));
     	
     	HorizontalLayout nameUnPaid = new HorizontalLayout();
-    	Label payLabel = new Label("Pay: ");
+    	Label payLabel = new Label("Pay: " + currentProj.getPay());
     	nameUnPaid.add(payLabel);
-    	Label nameLabel = new Label("Proposer name: ");
+    	Label nameLabel = new Label("Proposer name: " + currentProj.getProposedBy());
     	nameUnPaid.add(nameLabel);
     	
     	projectForum.add(nameUnPaid);
@@ -177,11 +181,12 @@ public class ProjectsListEmp extends VerticalLayout {
     	Button closeButton = new Button("Cancel", event -> {
     		viewDialog.close();
     	});
-    	List<SkillStud> personList = new ArrayList<SkillStud>();
+    	List<SkillStud> skillList = new ArrayList<SkillStud>();
+    	skillList = currentProj.getSkillList();
     	Grid<SkillStud> grid = new Grid<>();
-    	grid.setItems(personList);
+    	grid.setItems(skillList);
     	grid.addColumn(SkillStud::getCategory).setHeader("Category");
-    	grid.addColumn(SkillStud::getName).setHeader("age");
+    	grid.addColumn(SkillStud::getName).setHeader("Skill Name");
     	grid.addThemeVariants(GridVariant.LUMO_NO_BORDER,
     	        GridVariant.LUMO_NO_ROW_BORDERS);
     	viewDialog.add(grid);
@@ -190,11 +195,12 @@ public class ProjectsListEmp extends VerticalLayout {
     }
 
     private Button createEditButton(Projects project) {
+    	
         Button edit = new Button("View", event -> viewDialog(project).open());
         edit.setIcon(new Icon("lumo", "view"));
         edit.addClassName("review__edit");
         edit.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
-        edit.addClickListener(e -> viewDialog().open());
+        edit.addClickListener(e -> viewDialog(project).open());
         return edit;
     }
 

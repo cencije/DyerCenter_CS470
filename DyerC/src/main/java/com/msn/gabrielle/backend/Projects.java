@@ -47,6 +47,7 @@ public class Projects implements Serializable {
     	this.projectIDSQL = id;
     	this.projectTitle = projectTitle;
     	this.description = description;
+    	this.paid = paid;
     	this.proposedBy = proposedBy;
     	this.location = location;
     	this.startDate = startDate;
