@@ -170,6 +170,7 @@ public class EventsEmp extends VerticalLayout{
         		//calendar.addEntry(ne);
         		sqlEE.loadAll();
                 eventsList = sqlEE.getAllEvents();
+                displayEvents();
         		// Clear all of the fields
         		titleField.clear();
         		locField.clear();
