@@ -4,8 +4,8 @@ import java.io.Serializable;
 
 public class SkillStud implements Serializable {
 
-	String skillCategory;
-	String skillName;
+	public String skillCategory;
+	public String skillName;
 	
 	public SkillStud(String category, String name) {
 		skillCategory = category;

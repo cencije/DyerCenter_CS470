@@ -9,6 +9,8 @@ import com.msn.gabrielle.ui.views.Student.SkillStud;
 
 public class Projects implements Serializable {
 	
+	private String projectIDSQL;
+	
     private String projectTitle = ""; //project title
     
     private String description = ""; //project description
@@ -40,8 +42,9 @@ public class Projects implements Serializable {
         skills = new ArrayList<String>();
     }
 
-    public Projects (String projectTitle, String startDate, String endDate, String location,
+    public Projects (String id, String projectTitle, String startDate, String endDate, String location,
     				 String description, String paid, String proposedBy, String datePosted) {
+    	this.projectIDSQL = id;
     	this.projectTitle = projectTitle;
     	this.description = description;
     	this.proposedBy = proposedBy;
@@ -51,6 +54,16 @@ public class Projects implements Serializable {
     	this.datePosted = datePosted;
     	skills = new ArrayList<String>();
     }
+    
+    /**
+     * Gets the value of the project id
+     *
+     * @return the value of the project id
+     */
+    public String getProjectIDSQL() {
+        return projectIDSQL;
+    }
+    
     /**
      * Gets the value of the project title
      *
@@ -234,6 +247,15 @@ public class Projects implements Serializable {
         for (String x : set) 
           skills.add(x); 
     }
+    
+    /**
+     * 
+     * @return
+     */
+    public ArrayList<SkillStud> getSkillList(){
+    	return listSkillStud;
+    }
+    
     public void setSkillsList(ArrayList<SkillStud> skillsList) {
     	listSkillStud = skillsList;
     }

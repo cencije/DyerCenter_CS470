@@ -7,6 +7,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import com.msn.gabrielle.backend.Projects;
+import com.msn.gabrielle.ui.views.Student.SkillStud;
 
 public class SQLProjectEmp {
 
@@ -48,7 +49,7 @@ public class SQLProjectEmp {
 		return idNumber;
 	}
 	
-	public void insertProjectSkills(int idNo, ArrayList<String> listSkills) {
+	public void insertProjectSkills(int idNo, ArrayList<SkillStud> listSkills) {
 		
 		try {
 			Class.forName("org.postgresql.Driver");
@@ -58,10 +59,10 @@ public class SQLProjectEmp {
 
 			for (int i = 0; i < listSkills.size(); i++) {
 				Statement statementInsertSkill = c.createStatement();
-				
 				String sqlInsertSkill = "INSERT INTO TABLE_PROJECT_SKILLS "
-						+ "(PROJECT_ID, SKILLNAME) VALUES "
-						+ "(" + idNo + ", '" + listSkills.get(i) + "');";
+						+ "(PROJECT_ID, CATEGORY, SKILLNAME) VALUES "
+						+ "(" + idNo + ", '" + listSkills.get(i).skillCategory 
+						+ "', '" +  listSkills.get(i).skillName +"');";
 				statementInsertSkill.executeUpdate(sqlInsertSkill);
 				statementInsertSkill.close();
 			}
@@ -104,13 +105,36 @@ public class SQLProjectEmp {
 				pPosted  = rsProjects.getString(9); 
 				
 				// Create New Project and Add to List
-				// listProjects.add(new Projects(pTitle,pStart,pEnd,pLocation,pDesc,pPaid,pProp,pPosted));
+				listProjects.add(new Projects(pID, pTitle,pStart,pEnd,pLocation,pDesc,pPaid,pProp,pPosted));
 			}
-			statementLoadProjects.executeUpdate(sqlLoadProjects);
+			
 			statementLoadProjects.close();
 
+			System.out.println("Successful Loading from TABLE_PROJECT_INDEX");
+			System.out.println("-----------------------------------------------------------------");
+			System.out.println("Loading Skill Studs for Projects from TABLE_PROJECT_SKILLS");
+			
+			for (int i = 0; i < listProjects.size(); i++) {
+				ArrayList<SkillStud> skillsListProject = new ArrayList<SkillStud>();
+				Statement statementGetProjectSkills= c.createStatement();
+				
+				String sqlGetProjectSkills = "SELECT * FROM TABLE_PROJECT_SKILLS WHERE PROJECT_ID = '" + 
+											 listProjects.get(i).getProjectIDSQL() + "';";
+				ResultSet rsGetProjectSkills = statementGetProjectSkills.executeQuery(sqlGetProjectSkills);
+				while(rsGetProjectSkills.next()) {
+					
+					String pID2	= rsGetProjectSkills.getString(1);
+					String pCat = rsGetProjectSkills.getString(2);
+					String pName = rsGetProjectSkills.getString(3);
+					System.out.println(pID2 + " " + pCat + " " + pName);
+					skillsListProject.add(new SkillStud(pCat, pName));
+				}
+				listProjects.get(i).setSkillsList(skillsListProject);
+				statementGetProjectSkills.close();
+			}
+			System.out.println("Successful Loading Skill Studs for Projects from TABLE_PROJECT_SKILLS");
 			c.close();
-			System.out.println("Successful Loading to TABLE_PROJECT_INDEX");
+			
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -119,4 +143,6 @@ public class SQLProjectEmp {
 		}	
 		return listProjects;
 	}
+	
+
 }

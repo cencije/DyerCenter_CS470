@@ -48,9 +48,6 @@ public class SQLProjectStud {
 				ResultSet rsProjects = statementLoadProjects.executeQuery(sqlLoadProjects);
 				while (rsProjects.next()) {
 					pID = rsProjects.getString(1);
-					String pCat = rsProjects.getString(2);
-					String pName = rsProjects.getString(3);
-					
 					listProjectIDs.add(pID);
 				}
 			}
@@ -79,19 +76,39 @@ public class SQLProjectStud {
 					pPaid  = rsUniqueProjects.getString(7); 
 					pProp  = rsUniqueProjects.getString(8); 
 					pPosted  = rsUniqueProjects.getString(9); 
-					System.out.println(pID + " " + pTitle + " " + pStart + " " + pEnd + " " + pLocation + " " + 
-									   pDesc + " " + pPaid + " " + pProp + " " + pPosted);
+					//System.out.println(pID + " " + pTitle + " " + pStart + " " + pEnd + " " + pLocation + " " + 
+					//		 		  pDesc + " " + pPaid + " " + pProp + " " + pPosted);
 					
 					// Create New Project and Add to List
-					Projects p = new Projects(pTitle,pStart,pEnd,pLocation,pDesc,pPaid,pProp,pPosted);
-					//p.setSkillsList(projectsSkills.get(index));
-					//listProjects.add();
+					Projects p = new Projects(pID, pTitle,pStart,pEnd,pLocation,pDesc,pPaid,pProp,pPosted);
+					listProjects.add(p);
 				}
 				statementLoadUniqueProjects.close();
 			}
 			
 			System.out.println("Successful Loading Unique Projects from TABLE_PROJECT_SKILLS");
+			System.out.println("-----------------------------------------------------------------");
+			System.out.println("Loading Skill Studs for Projects from TABLE_PROJECT_SKILLS");
 			
+			for (int i = 0; i < listProjects.size(); i++) {
+				ArrayList<SkillStud> skillsListProject = new ArrayList<SkillStud>();
+				Statement statementGetProjectSkills= c.createStatement();
+				
+				String sqlGetProjectSkills = "SELECT * FROM TABLE_PROJECT_SKILLS WHERE PROJECT_ID = '" + 
+											 listProjects.get(i).getProjectIDSQL() + "';";
+				ResultSet rsGetProjectSkills = statementGetProjectSkills.executeQuery(sqlGetProjectSkills);
+				while(rsGetProjectSkills.next()) {
+					
+					String pID2	= rsGetProjectSkills.getString(1);
+					String pCat = rsGetProjectSkills.getString(2);
+					String pName = rsGetProjectSkills.getString(3);
+					System.out.println(pID2 + " " + pCat + " " + pName);
+					skillsListProject.add(new SkillStud(pCat, pName));
+				}
+				listProjects.get(i).setSkillsList(skillsListProject);
+				statementGetProjectSkills.close();
+			}
+			System.out.println("Successful Loading Skill Studs for Projects from TABLE_PROJECT_SKILLS");
 			
 			c.close();
 		} catch (Exception e) {
@@ -102,10 +119,9 @@ public class SQLProjectStud {
 		return listProjects;
 	}
 	
-public ArrayList<Projects> loadMatchingProjectsCategory(String email) {
+	public ArrayList<Projects> loadMatchingProjectsCategory(String email) {
 		
 		ArrayList<SkillStud> listSkills = new ArrayList<SkillStud>();
-		//System.out.println(listSkills);
 		ArrayList<String> listProjectIDs = new ArrayList<String>();
 		
 		Set<String> uniqueProjects;
@@ -124,7 +140,6 @@ public ArrayList<Projects> loadMatchingProjectsCategory(String email) {
 			for (int i = 0; i < listSkills.size(); i++) {
 				SkillStud currentSkill = listSkills.get(i);
 				String cat = currentSkill.skillCategory;
-				String name = currentSkill.skillName;
 				System.out.println("SELECT * FROM TABLE_PROJECT_SKILLS WHERE CATEGORY = '" + cat +"';");
 				Statement statementLoadProjects = c.createStatement();
 				String sqlLoadProjects = "SELECT * FROM TABLE_PROJECT_SKILLS WHERE CATEGORY = '" + cat +"';";
@@ -163,13 +178,36 @@ public ArrayList<Projects> loadMatchingProjectsCategory(String email) {
 									   pDesc + " " + pPaid + " " + pProp + " " + pPosted);
 					
 					// Create New Project and Add to List
-					listProjects.add(new Projects(pTitle,pStart,pEnd,pLocation,pDesc,pPaid,pProp,pPosted));
+					Projects p = new Projects(pID, pTitle,pStart,pEnd,pLocation,pDesc,pPaid,pProp,pPosted);
+					listProjects.add(p);
 				}
 				statementLoadUniqueProjects.close();
 			}
 			
-			System.out.println("Successful Loading Unique Projects from TABLE_PROJECT_SKILLS");
+			System.out.println("Successful Loading Unique Projects from TABLE_PROJECT_INDEX");
 			
+			System.out.println("-----------------------------------------------------------------");
+			System.out.println("Loading Skill Studs for Projects from TABLE_PROJECT_SKILLS");
+			
+			for (int i = 0; i < listProjects.size(); i++) {
+				ArrayList<SkillStud> skillsListProject = new ArrayList<SkillStud>();
+				Statement statementGetProjectSkills= c.createStatement();
+				
+				String sqlGetProjectSkills = "SELECT * FROM TABLE_PROJECT_SKILLS WHERE PROJECT_ID = '" + 
+											 listProjects.get(i).getProjectIDSQL() + "';";
+				ResultSet rsGetProjectSkills = statementGetProjectSkills.executeQuery(sqlGetProjectSkills);
+				while(rsGetProjectSkills.next()) {
+					
+					String pID2	= rsGetProjectSkills.getString(1);
+					String pCat = rsGetProjectSkills.getString(2);
+					String pName = rsGetProjectSkills.getString(3);
+					System.out.println(pID2 + " " + pCat + " " + pName);
+					skillsListProject.add(new SkillStud(pCat, pName));
+				}
+				listProjects.get(i).setSkillsList(skillsListProject);
+				statementGetProjectSkills.close();
+			}
+			System.out.println("Successful Loading Skill Studs for Projects from TABLE_PROJECT_SKILLS");
 			c.close();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -208,13 +246,35 @@ public ArrayList<Projects> loadMatchingProjectsCategory(String email) {
 				pPosted  = rsProjects.getString(9); 
 				
 				// Create New Project and Add to List
-				listProjects.add(new Projects(pTitle,pStart,pEnd,pLocation,pDesc,pPaid,pProp,pPosted));
+				Projects p = new Projects(pID, pTitle,pStart,pEnd,pLocation,pDesc,pPaid,pProp,pPosted);
+				listProjects.add(p);
 			}
-			
 			statementLoadProjects.close();
-
-			c.close();
 			System.out.println("Successful Loading from TABLE_PROJECT_INDEX");
+			System.out.println("-----------------------------------------------------------------");
+			System.out.println("Loading Skill Studs for Projects from TABLE_PROJECT_SKILLS");
+			
+			for (int i = 0; i < listProjects.size(); i++) {
+				ArrayList<SkillStud> skillsListProject = new ArrayList<SkillStud>();
+				Statement statementGetProjectSkills= c.createStatement();
+				
+				String sqlGetProjectSkills = "SELECT * FROM TABLE_PROJECT_SKILLS WHERE PROJECT_ID = '" + 
+											 listProjects.get(i).getProjectIDSQL() + "';";
+				ResultSet rsGetProjectSkills = statementGetProjectSkills.executeQuery(sqlGetProjectSkills);
+				while(rsGetProjectSkills.next()) {
+					
+					String pID2	= rsGetProjectSkills.getString(1);
+					String pCat = rsGetProjectSkills.getString(2);
+					String pName = rsGetProjectSkills.getString(3);
+					System.out.println(pID2 + " " + pCat + " " + pName);
+					skillsListProject.add(new SkillStud(pCat, pName));
+				}
+				listProjects.get(i).setSkillsList(skillsListProject);
+				statementGetProjectSkills.close();
+			}
+			System.out.println("Successful Loading Skill Studs for Projects from TABLE_PROJECT_SKILLS");
+			c.close();
+			
 			
 		} catch (Exception e) {
 			e.printStackTrace();
