@@ -334,7 +334,7 @@ public class EventsEmp extends VerticalLayout{
         
         // Create the Horizontal Layout for the buttons, and add them
         monthMoveLayout = new HorizontalLayout();
-        monthMoveLayout.add(today, lastMonth, nextMonth, addEventButton);
+       
         
         // Create the add Events button
         addEventButton = new Button("Add an Event", new Icon("lumo", "plus"),  event ->  {
@@ -343,7 +343,7 @@ public class EventsEmp extends VerticalLayout{
         	} catch(Exception e) { e.printStackTrace(); }  }       
         );
         addEventButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-
+        monthMoveLayout.add(today, lastMonth, nextMonth, addEventButton);
 		//Add all of the components to the page
         lay.add(currentMonth, monthMoveLayout, calendar);
         add(lay);
