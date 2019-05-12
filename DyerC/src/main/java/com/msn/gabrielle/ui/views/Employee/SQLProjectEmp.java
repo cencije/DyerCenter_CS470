@@ -35,7 +35,7 @@ public class SQLProjectEmp {
 			String sqlInsertProject = "INSERT INTO TABLE_PROJECT_INDEX "
 					+ "(ID,TITLE,START_DATE,END_DATE,LOCATION,DESCRIPTION,PAID,PROPOSER_NAME,DATEPOSTED) VALUES "
 					+ "(" + idNumber + ", '" + title + "', '" + start 
-					+ "', '" + end + "', '" + desc + "', '" + pay + "', '" + proposer 
+					+ "', '" + end + "', '" + location + "', '" + desc + "', '" + pay + "', '" + proposer 
 					+ "', '" + posted + "');";
 			statementInsertProject.executeUpdate(sqlInsertProject);
 			statementInsertProject.close();
@@ -142,6 +142,33 @@ public class SQLProjectEmp {
 			System.exit(0);
 		}	
 		return listProjects;
+	}
+	
+	public ArrayList<SkillStud> loadAllSkills() {
+		ArrayList<SkillStud> skillsList = new ArrayList<SkillStud>();
+		try {
+			Class.forName("org.postgresql.Driver");
+			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
+			System.out.println("-----------------------------------------------------------------");
+			System.out.println("Loading all skills from TABLE_SKILLS_MASTER");
+			Statement statementGetAllSkills = c.createStatement();
+			String sqlGetAllSkills = "SELECT * FROM TABLE_SKILLS_MASTER;";
+
+			ResultSet rsSkills = statementGetAllSkills.executeQuery(sqlGetAllSkills);
+			while(rsSkills.next()) {
+				String sCategory = rsSkills.getString(2);
+				String sSkill	 = rsSkills.getString(3);
+				skillsList.add(new SkillStud(sCategory, sSkill));
+			}
+			statementGetAllSkills.close();
+			c.close();
+			System.out.println("Successful loading of all skills from TABLE_SKILLS_MASTER");
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println(e.getClass().getName()+": "+e.getMessage());
+			System.exit(0);
+		}
+		return skillsList;
 	}
 	
 
