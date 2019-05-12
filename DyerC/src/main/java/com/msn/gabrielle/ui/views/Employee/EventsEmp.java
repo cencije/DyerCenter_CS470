@@ -49,7 +49,7 @@ import com.vaadin.flow.component.textfield.*;
 public class EventsEmp extends VerticalLayout{
 	
 	FullCalendar calendar = FullCalendarBuilder.create().build();
-	private Button addEventButton, saveEvent, closeD;
+	private Button addEventButton, saveEvent, closeD, lastMonth, nextMonth, today;
 	VerticalLayout lay, addEventDialogVLay;
 	HorizontalLayout hlay, timeLayout, ButtonsLay, monthMoveLayout;
 	String titleValue, locationValue, datimeValue, descValue, urlLink, currentYear;
@@ -71,13 +71,32 @@ public class EventsEmp extends VerticalLayout{
         
         lay = new VerticalLayout();
         hlay = new HorizontalLayout();
-        ButtonsLay = new HorizontalLayout();
       
-//      calendar.addEntryClickedListener(EntryClickedEvent -> {});
+        calendar.addEntryClickedListener(EntryClickedEvent -> {
+        	openSpecificEntry();
+        	Label hey = new Label("hey");
+        	Dialog p = new Dialog();
+        	p.add(hey);
+        	p.open();
+        });
         
         displayCalendar();
         displayEvents();
+        
+        ButtonsLay = new HorizontalLayout();
+		saveEvent = new Button("Save Event");
+		closeD = new Button("Close");
+		errorMessage = new Label("Please fill out all of the required fields.");
+        
+        ButtonsLay.add(saveEvent, closeD);
     }
+	
+	private void openSpecificEntry() {
+		eventClickedDialog = new Dialog();
+		//getEntry();
+		
+		eventClickedDialog.open();
+	}
 	
 	private void openAddEvent() {
 		
@@ -106,15 +125,16 @@ public class EventsEmp extends VerticalLayout{
 		dp = new DatePicker("Choose a date:");
 		dp.addValueChangeListener(event -> {
 			LocalDate dateIn = event.getValue();
-			System.out.println("DATE: " + dateIn);
-			DateTimeFormatter f = DateTimeFormatter.BASIC_ISO_DATE;
-			String formattedDateIn = dateIn.format(f);
-			String formattedYear = new String(formattedDateIn.substring(0,4));
-			String formattedMonth = new String(formattedDateIn.substring(4,6));
-			String formattedDay = new String(formattedDateIn.substring(6,8));
-			yearValue = Integer.parseInt(formattedYear);
-			monthValue = Integer.parseInt(formattedMonth);
-			dayValue = Integer.parseInt(formattedDay);
+			if(dateIn != null) {
+				DateTimeFormatter f = DateTimeFormatter.BASIC_ISO_DATE;
+				String formattedDateIn = dateIn.format(f);
+				String formattedYear = new String(formattedDateIn.substring(0,4));
+				String formattedMonth = new String(formattedDateIn.substring(4,6));
+				String formattedDay = new String(formattedDateIn.substring(6,8));
+				yearValue = Integer.parseInt(formattedYear);
+				monthValue = Integer.parseInt(formattedMonth);
+				dayValue = Integer.parseInt(formattedDay);
+			}
 		});
 		
 		// Create the hour combo box (Part 1 of time)
@@ -123,27 +143,34 @@ public class EventsEmp extends VerticalLayout{
 				12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23);
 		hour.setAllowCustomValue(false);
 		hour.setWidth("100px");
-		hour.addValueChangeListener(event -> { hourValue = event.getValue();});
+		hour.addValueChangeListener(event -> { 
+			if(event.getValue()!=null) {
+				hourValue = event.getValue();
+			}
+		});
 		
 		// Create the minute combo box (Part 2 of time)
 		min = new ComboBox<Integer>("Minute");
 		min.setItems(05, 10, 15, 20, 25, 30, 35, 45, 50, 55);
 		min.setAllowCustomValue(false);
 		min.setWidth("100px");
-		min.addValueChangeListener(event -> { minuteValue = event.getValue();});
+		min.addValueChangeListener(event -> { 
+			if(event.getValue()!=null) {
+				minuteValue = event.getValue();
+			}
+		});
 		
 		// Put the time components in a Horizontal Layout
 		timeLayout = new HorizontalLayout();
 		timeLayout.add(hour, min);
 		
 		// Create the save button
-		errorMessage = new Label();
-		saveEvent = new Button("Save Event", event ->  {
+		saveEvent.addClickListener(event ->  {
 			// If a required field was not filled
         	if(titleField.isEmpty() || locField.isEmpty() || descField.isEmpty() || dp.isEmpty() ||
         			min.isEmpty() || hour.isEmpty()) {
         		// Show the error messages
-        		errorMessage.setText("Please fill out all of the required fields.");
+        		addEventDialogVLay.add(errorMessage);
         		titleField.setLabel("Event Title: *");
         		locField.setLabel("Location: *");
         		descField.setLabel("Description: *");
@@ -167,16 +194,10 @@ public class EventsEmp extends VerticalLayout{
         		calendar.addEntry(ne);
         	
         		// Clear all of the fields
-        		titleField.clear();
-        		locField.clear();
-        		descField.clear();
-        		urlField.clear();
-        		//dp.clear();
-        		//hour.clear();
-        		//min.clear();
+        		clearFields();
 
         		// Reset the error messages
-        		errorMessage.setText("");
+        		addEventDialogVLay.remove(errorMessage);
         		titleField.setLabel("Event Title:");
         		locField.setLabel("Location:");
         		descField.setLabel("Description:");
@@ -188,6 +209,7 @@ public class EventsEmp extends VerticalLayout{
     			newEventDialog.close();
         	}
 		});
+		saveEvent.addClassName("view-toolbar__button");
 		
 		// Create the close button
         	
@@ -195,28 +217,27 @@ public class EventsEmp extends VerticalLayout{
 //        					  Integer.toString(dayValue), Integer.toString(monthValue), Integer.toString(yearValue),
 //        					  Integer.toString(hourValue), Integer.toString(minuteValue));
         	
-        //saveEvent.addClassName("view-toolbar__button");
+       
         
-		closeD = new Button("Close", event ->  {
+		
+		closeD.addClickListener(event ->  {
 			// If text fields were filled in
 			if(titleField.isEmpty()==false || locField.isEmpty()==false || descField.isEmpty()==false || 
 					urlField.isEmpty()==false || min.isEmpty()==false ||hour.isEmpty()==false) {
 				// clear them
-				titleField.clear();
-				locField.clear();
-				descField.clear();
-				urlField.clear();
-				dp.clear();
-				hour.clear();
-				min.clear();
+				clearFields();
 				// Reset variable values
 	        	titleValue = null;
 	        	locationValue = null;
 	        	descValue = null;
 	        	urlLink = null;
+	        	dayValue = 0;
+	        	monthValue = 0; 
+	        	yearValue = 0;
+	        	hourValue = 0; 
+	        	minuteValue = 0;
 			}
-        	// Remove the error messages
-			errorMessage.setText("");
+        	// Remove the error messages 
 			titleField.setLabel("Event Title:");
     		locField.setLabel("Location:");
     		descField.setLabel("Description:");
@@ -227,9 +248,6 @@ public class EventsEmp extends VerticalLayout{
 		});
 		closeD.addClassName("view-toolbar__button");
 		
-		// Add the two buttons to a Horizontal Layout
-		ButtonsLay.add(saveEvent, closeD, errorMessage);
-		
 		// Add all of these elements to a Vertical Layout, add that to the Dialog
 		addEventDialogVLay = new VerticalLayout();
 		addEventDialogVLay.add(titleField, locField, descField, urlField, dp, timeLayout, ButtonsLay);
@@ -237,6 +255,16 @@ public class EventsEmp extends VerticalLayout{
 		
 		// Open the Dialog
 		newEventDialog.open();
+	}
+	
+	private void clearFields() {
+		titleField.clear();
+		locField.clear();
+		descField.clear();
+		urlField.clear();
+		dp.clear();
+		hour.clear();
+		min.clear();
 	}
 	
 	private void displayEvents() {
@@ -307,7 +335,7 @@ public class EventsEmp extends VerticalLayout{
 		monthLabelSetUp();
 		
 		// Button to return to the current month
-		Button today = new Button("Today", event -> { 
+		today = new Button("Today", event -> { 
 			calendar.today();
 			monthNumber = cMN;
 			monthLabelSetUp();
@@ -315,7 +343,7 @@ public class EventsEmp extends VerticalLayout{
 		today.addClassName("view-toolbar__event-today");
 		
 		// Button to move back into past months
-        Button lastMonth = new Button(new Icon(VaadinIcon.ANGLE_LEFT), event -> {
+        lastMonth = new Button(new Icon(VaadinIcon.ANGLE_LEFT), event -> {
         	calendar.previous();
         	if(monthNumber == 1) { yearNum--; monthNumber = 12; } else { monthNumber--;}
         	monthLabelSetUp();
@@ -323,16 +351,12 @@ public class EventsEmp extends VerticalLayout{
         lastMonth.addClassName("view-toolbar__event-click");
         
         // Button to move forward into future months
-        Button nextMonth = new Button(new Icon(VaadinIcon.ANGLE_RIGHT), event -> {
+        nextMonth = new Button(new Icon(VaadinIcon.ANGLE_RIGHT), event -> {
         	calendar.next();
         	if(monthNumber == 12) { yearNum++; monthNumber = 1; } else { monthNumber++;}
         	monthLabelSetUp();
         });
         nextMonth.addClassName("view-toolbar__event-click");
-        
-        // Create the Horizontal Layout for the buttons, and add them
-        monthMoveLayout = new HorizontalLayout();
-        monthMoveLayout.add(today, lastMonth, nextMonth, addEventButton);
         
         // Create the add Events button
         addEventButton = new Button("Add an Event", new Icon("lumo", "plus"),  event ->  {
@@ -341,6 +365,10 @@ public class EventsEmp extends VerticalLayout{
         	} catch(Exception e) { e.printStackTrace(); }  }       
         );
         addEventButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        
+        // Create the Horizontal Layout for the buttons, and add them
+        monthMoveLayout = new HorizontalLayout();
+        monthMoveLayout.add(today, lastMonth, nextMonth, addEventButton);
 
 		//Add all of the components to the page
         lay.add(currentMonth, monthMoveLayout, calendar);
