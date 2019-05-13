@@ -13,12 +13,15 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.DriverManager;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Properties;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -136,7 +139,7 @@ public class SkillsEmp extends VerticalLayout {
 		
 		try {
 			Class.forName("org.postgresql.Driver");
-			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
+			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/dc_postgres", "dc_postgres", "dc$2019$");
 			System.out.println("-----------------------------------------------------------------");
 			System.out.println("Inserting Skill into database");
 	
@@ -167,11 +170,20 @@ public class SkillsEmp extends VerticalLayout {
 	}
 	public boolean checkSkill(String category, String name) {
 		boolean skillExists = false;
-		// Database check
+		Properties prop = new Properties();
+		String propFileName = "config_DB.properties";
 		try {
 			
 			Class.forName("org.postgresql.Driver");
-			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
+			InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+			 
+			if (inputStream != null) {
+				prop.load(inputStream);
+			} else {
+				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+			}
+			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + prop.getProperty("dbLocal"),
+					 								   prop.getProperty("dbLocal"),  prop.getProperty("dbLocalPassword"));
 			System.out.println("Skill check of TABLE_SKILLS_MASTER!");
 			Statement statementGetCount = c.createStatement();
 			String sqlGetCount = "SELECT * FROM TABLE_SKILLS_MASTER WHERE CATEGORY = '" + category +
@@ -203,11 +215,20 @@ public class SkillsEmp extends VerticalLayout {
 	
 	public void deleteSkill(String category, String name) {
 		
-		// Database check
+		Properties prop = new Properties();
+		String propFileName = "config_DB.properties";
 			try {
 				
 				Class.forName("org.postgresql.Driver");
-				Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
+				InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+				 
+				if (inputStream != null) {
+					prop.load(inputStream);
+				} else {
+					throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+				}
+				Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + prop.getProperty("dbLocal"),
+						 								   prop.getProperty("dbLocal"),  prop.getProperty("dbLocalPassword"));
 				System.out.println("Adding profile to database!");
 				Statement statementRemoveSkill = c.createStatement();
 				String sqlRemoveSkill = "DELETE FROM TABLE_SKILLS_MASTER WHERE CATEGORY = '" + category + 
