@@ -9,7 +9,24 @@ import java.util.ArrayList;
 
 public class SQLProfileStud {
 
-	ArrayList<String> listProfileInfo = new ArrayList<String>();
+	ArrayList<String> listProfileInfo = new ArrayList<String>(); // List of info for the student profile
+	
+	/**
+	 * Constructor for the SQLProfileStud class.
+	 */
+	public SQLProfileStud() {}
+	
+	/**
+	 * Will insert a new profile into TABLE_PROFILE_STUDENTS that, based off of passed values.
+	 * @param name Name of the student for the new profile.
+	 * @param email Email of the student for the new profile.
+	 * @param password Password of the student for the new profile.
+	 * @param phoneNo Phone number of the student for the new profile.
+	 * @param maj1 Major 1 of the student for the new profile.
+	 * @param maj2 Major 2 of the student for the new profile.
+	 * @param min1 Minor 1 of the student for the new profile.
+	 * @param min2 Minor 2 of the student for the new profile.
+	 */
 	public void insertNewProfile(String name, String email, String password, 
 			String phoneNo, String maj1, String maj2,
 			String min1, String min2) {
@@ -54,6 +71,11 @@ public class SQLProfileStud {
 
 	}
 
+	/**
+	 * Looks for the student based on a passed email value and finds their profile data from TABLE_PROFILE_STUDENTS.
+	 * @param email Email of the student to be found in TABLE_PROFILE_STUDENTS.
+	 * @return A list of skills associated with their profile.
+	 */
 	public ArrayList<SkillStud> getProfileValues(String email) {
 		String eID = "", eName = "", eEmail = "", ePword = "", 
 			   ePhone = "", eMaj1 = "", eMaj2 = "", eMin1 = "", eMin2 = "";
@@ -120,6 +142,12 @@ public class SQLProfileStud {
 	}
 	
 	
+	/**
+	 * Finds a student's profile in the database based off of a passed email value and updates their name to the passed
+	 * newName value in TABLE_PROFILE_STUDENTS.
+	 * @param newName New name of the student that is to be updated in TABLE_PROFILE_STUDENTS. 
+	 * @param studentEmail Email of the student to find their profile in TABLE_PROFILE_STUDENTS.
+	 */
 	public void updateName(String newName, String studentEmail) {
 		
 		try {
@@ -142,6 +170,14 @@ public class SQLProfileStud {
 		}
 	}
 	
+	/**
+	 * Finds the student based off of the passed email value and updates their majors and minors in TABLE_PROFILE_STUDENTS.
+	 * @param studentEmail Email of the student to find their profile in TABLE_PROFILE_STUDENTS.
+	 * @param maj1 New Major 1 of the student.
+	 * @param maj2 New Major 2 of the student.
+	 * @param min1 New Minor 1 of the student.
+	 * @param min2 New Minor 2 of the student.
+	 */
 	public void updateMajorsMinors(String studentEmail, String maj1, String maj2, 
 								   String min1, String min2) {
 		try {
@@ -165,6 +201,12 @@ public class SQLProfileStud {
 			System.exit(0);
 		}
 	}
+	
+	/**
+	 * Finds the student profile based off of the passed email value and updates their skills in TABLE_SKILLS_STUDENT.
+	 * @param studentEmail Email of the student to find their profile in TABLE_PROFILE_STUDENTS.
+	 * @param skillList List of skills of the student to be associated with the student profile in TABLE_SKILLS_STUDENT.
+	 */
 	public void addSkillsToProfile(String studentEmail, ArrayList<SkillStud> skillList) {
 		
 		String eID = "DUMMYVALUE";
@@ -211,6 +253,10 @@ public class SQLProfileStud {
 		}
 	}
 	
+	/**
+	 * Gets the entire list of skills that are in TABLE_SKILLS_MASTER that can be added to a student profile.
+	 * @return The entire list of skills that are in TABLE_SKILLS_MASTER that can be added to a student profile.
+	 */
 	public ArrayList<SkillStud> loadAllSkills() {
 		ArrayList<SkillStud> skillsList = new ArrayList<SkillStud>();
 		try {

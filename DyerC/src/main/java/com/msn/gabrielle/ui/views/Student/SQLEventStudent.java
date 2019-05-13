@@ -14,6 +14,9 @@ public class SQLEventStudent {
 	public ArrayList<Events> listAllEvents = new ArrayList<Events>();
 	public ArrayList<Events> listMonthEvents = new ArrayList<Events>();
 	
+	/**
+	 * Constructor for the SQLEventStudent class
+	 */
 	public SQLEventStudent() {}
 	
 	public ArrayList<Events> getAllEvents() {

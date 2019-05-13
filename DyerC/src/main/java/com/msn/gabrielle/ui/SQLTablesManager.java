@@ -10,11 +10,18 @@ import com.msn.gabrielle.ui.views.Student.SkillsLoader;
 
 public class SQLTablesManager {
 
+
+	/**
+	 * Constructor for the SQLTablesManager class.
+	 */
 	public SQLTablesManager() { }
 	
+	
+	/**
+	 * Used to create the SQL Tables if they do not exist. 
+	 * Otherwise the tables existence will be checked and nothing else will be done.
+	 */
 	public void determineDBStates() {
-		//dropProfileTables(true, true, true);
-		//dropSkillTables(true, false);
 		createProfileTables();
 		createSkillTables();
 		createEventsTables();
@@ -28,12 +35,12 @@ public class SQLTablesManager {
 		//SkillsLoader sl = new SkillsLoader();
 		//sl.loadInJSONValues();
 		 
-		
-
-		
-		
 	}
 	
+	/**
+	 * Creates the tables associated with profiles.
+	 * TABLE_PROFILE_STUDENTS, TABLE_PROFILE_ALUMNI, TABLE_PROFILE_EMPLOYEE.
+	 */
 	public void createProfileTables() {
 		
 		try {
@@ -104,6 +111,15 @@ public class SQLTablesManager {
 		}
 		
 	}
+	
+	/**
+	 * Drops the tables associated with profiles.
+	 * TABLE_PROFILE_STUDENTS, TABLE_PROFILE_ALUMNI, TABLE_PROFILE_EMPLOYEE.
+	 *
+	 * @param boolStudent If TABLE_PROFILE_STUDENTS should be dropped.
+	 * @param boolAlumni If TABLE_PROFILE_ALUMNI should be dropped.
+	 * @param boolEmployee If TABLE_PROFILE_EMPLOYEE should be dropped.
+	 */
 	public void dropProfileTables(boolean boolStudent, boolean boolAlumni, boolean boolEmployee) {
 		
 		if (boolStudent) {
@@ -146,7 +162,7 @@ public class SQLTablesManager {
 			try {
 				Class.forName("org.postgresql.Driver");
 				Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
-				System.out.println("Dropping Table TABLE_PROFILE_EMPLOYEE!");
+				System.out.println("Dropping Table TABLE_PROFILE_EMPLOYEE");
 				Statement statementDrop_TPE = c.createStatement();
 				String stringDropTPE = "DROP TABLE IF EXISTS TABLE_PROFILE_EMPLOYEE;";
 				statementDrop_TPE.executeUpdate(stringDropTPE);
@@ -162,12 +178,16 @@ public class SQLTablesManager {
 		}
 	}
 	
+	/**
+	 * Creates the tables associated with events.
+	 * TABLE_EVENTS_MASTER.
+	 */
 	public void createEventsTables() {
 		
 		try {
 			Class.forName("org.postgresql.Driver");
 			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
-			System.out.println("Creating/Checking Existence of TABLE_SKILLS_MASTER");
+			System.out.println("Creating/Checking Existence of TABLE_EVENTS_MASTER");
 			Statement statementCreate_TEM = c.createStatement();
 			String stringCreateTEM = "CREATE TABLE IF NOT EXISTS TABLE_EVENTS_MASTER" +
 			"(EVENT_ID INT PRIMARY KEY NOT NULL,   " +
@@ -192,6 +212,10 @@ public class SQLTablesManager {
 		
 	}
 	
+	/**
+	 * Creates the tables associated with skills.
+	 * TABLE_SKILLS_MASTER, TABLE_SKILLS_STUDENT.
+	 */
 	public void createSkillTables() {
 		
 		try {
@@ -233,6 +257,13 @@ public class SQLTablesManager {
 		}
 	}
 	
+	/**
+	 * Drops the tables associated with skills.
+	 * TABLE_SKILLS_MASTER, TABLE_SKILLS_STUDENT.
+	 * 
+	 * @param boolMaster If TABLE_SKILLS_MASTER should be dropped.
+	 * @param boolStudent If TABLE_SKILLS_STUDENT should be dropped.
+	 */
 	public void dropSkillTables(boolean boolMaster, boolean boolStudent) {
 		
 		if (boolMaster) {
@@ -273,6 +304,10 @@ public class SQLTablesManager {
 		}
 	}
 	
+	/**
+	 * Creates the tables associated with projects.
+	 * TABLE_PROJECT_INDEX, TABLE_PROJECT_SKILLS.
+	 */
 	public void createProjectTables() {
 		
 		try {

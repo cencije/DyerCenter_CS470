@@ -15,8 +15,20 @@ public class SQLProjectStud {
 
 	
 	SQLProfileStud sqlProfStud = new SQLProfileStud();
+	
+	/**
+	 * Constructor for the SQLProjectStud class
+	 */
 	public SQLProjectStud() { }
 	
+	/**
+	 * Looks up a student's profile based on email and gets their profile_id from TABLE_PROFILE_STUDENTS.
+	 * Takes the profile_id and finds their skills in TABLE_SKILLS_STUDENT.
+	 * Takes the list of skills and matches it to projects in TABLE_PROJECT_SKILLS based on category and skill name.
+	 * Returns the list of projects that match based upon both values.
+	 * @param email Email of the student to be found TABLE_PROFILE_STUDENTS.
+	 * @return The list of projects that match a student's skills and category.
+	 */
 	public ArrayList<Projects> loadMatchingProjectsCatSkill(String email) {
 		
 		ArrayList<SkillStud> listSkills = new ArrayList<SkillStud>();
@@ -119,6 +131,14 @@ public class SQLProjectStud {
 		return listProjects;
 	}
 	
+	/**
+	 * Looks up a student's profile based on email and gets their profile_id from TABLE_PROFILE_STUDENTS.
+	 * Takes the profile_id and finds their skills in TABLE_SKILLS_STUDENT.
+	 * Takes the list of skills and matches it to projects in TABLE_PROJECT_SKILLS based on category alone.
+	 * Returns the list of projects that match based upon skill category.
+	 * @param email Email of the student to be found TABLE_PROFILE_STUDENTS.
+	 * @return The list of projects that match a student's skill categories.
+	 */
 	public ArrayList<Projects> loadMatchingProjectsCategory(String email) {
 		
 		ArrayList<SkillStud> listSkills = new ArrayList<SkillStud>();
@@ -216,6 +236,11 @@ public class SQLProjectStud {
 		}	
 		return listProjects;
 	}
+	
+	/**
+	 * Loads all the projects that have been approved from TABLE_PROJECT_INDEX.
+	 * @return The list of all projects that have been approved.
+	 */
 	public ArrayList<Projects> loadProjects() {
 		
 		String pID = "", pTitle = "", pStart = "", pEnd = "", 
