@@ -43,7 +43,6 @@ com/msn/gabrielle/ui/views/Alumni/ProjectProposalAlum.class
 com/msn/gabrielle/ui/views/Student/ProfileStud.class
 com/msn/gabrielle/ui/views/Alumni/ProfileAlum.class
 com/msn/gabrielle/ui/views/Employee/SQLProjectEmp.class
-com/msn/gabrielle/ui/views/Student/ProjectEditorDialog.class
 com/msn/gabrielle/ui/views/categorieslist/CategoryEditorDialog.class
 com/msn/gabrielle/ui/views/Alumni/ProjectListAlum.class
 com/msn/gabrielle/ui/views/reviewslist/ReviewsList$ReviewsModel.class

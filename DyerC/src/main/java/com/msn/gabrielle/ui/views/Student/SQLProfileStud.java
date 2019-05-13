@@ -301,7 +301,7 @@ public class SQLProfileStud {
 			System.out.println("Successful Skills Removal from TABLE_SKILLS_STUDENT");
 			System.out.println("-----------------------------------------------------------------");
 			
-			System.out.println("Adding Skills for " + eID + " t TABLE_SKILLS_STUDENT");
+			System.out.println("Adding Skills for " + eID + " to TABLE_SKILLS_STUDENT");
 			
 			for (int i = 0; i < skillList.size(); i++) {
 				Statement statementAddSkills = c.createStatement();
