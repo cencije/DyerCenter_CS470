@@ -217,7 +217,7 @@ public class SQLProfileStud {
 			Class.forName("org.postgresql.Driver");
 			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
 			System.out.println("-----------------------------------------------------------------");
-			System.out.println("Updating Profile Name in TABLE_SKILLS_MASTER");
+			System.out.println("Loading all skills from TABLE_SKILLS_MASTER");
 			Statement statementGetAllSkills = c.createStatement();
 			String sqlGetAllSkills = "SELECT * FROM TABLE_SKILLS_MASTER;";
 

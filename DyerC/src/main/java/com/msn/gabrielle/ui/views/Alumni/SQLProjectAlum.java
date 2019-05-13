@@ -1,4 +1,4 @@
-package com.msn.gabrielle.ui.views.Employee;
+package com.msn.gabrielle.ui.views.Alumni;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,10 +9,10 @@ import java.util.ArrayList;
 import com.msn.gabrielle.backend.Projects;
 import com.msn.gabrielle.ui.views.Student.SkillStud;
 
-public class SQLProjectEmp {
+public class SQLProjectAlum {
 
 	
-	public SQLProjectEmp() { }
+public SQLProjectAlum() { }
 	
 	
 	public int insertProject(String title, String start, String end, String location,
@@ -170,6 +170,4 @@ public class SQLProjectEmp {
 		}
 		return skillsList;
 	}
-	
-
 }
