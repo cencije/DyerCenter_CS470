@@ -15,8 +15,10 @@
  */
 package com.msn.gabrielle.ui.views.Student;
 
-import java.time.LocalDate;
+import java.time.LocalDate; 
+import java.util.ArrayList;
 import java.time.format.DateTimeFormatter;
+import com.msn.gabrielle.backend.Events;
 
 import org.vaadin.stefan.fullcalendar.CalendarView;
 import org.vaadin.stefan.fullcalendar.CalendarViewImpl;
@@ -45,11 +47,17 @@ import com.vaadin.flow.component.icon.*;
 public class EventsStud extends VerticalLayout{
 	
 	FullCalendar calendar = FullCalendarBuilder.create().build();
-	int monthNumber;
+	int monthNumber, yearNum, cMN;
+	HorizontalLayout monthMoveLayout;
+	Label currentMonth;
+	String currentYear;
+	Button today, lastMonth, nextMonth;
+	ArrayList<Events> eventsList = new ArrayList<Events>();
+	Label readTitle, readLoc, readTime;
 
 	public EventsStud() {
         initView();
-        displayCalendar();   
+        displayCalendar();  
     }
 	
 	private void initView() {
@@ -57,45 +65,7 @@ public class EventsStud extends VerticalLayout{
         setDefaultHorizontalComponentAlignment(Alignment.STRETCH);
     }
 	
-	private void displayCalendar() {
-//		 // Create a new calendar instance and attach it to our layout
-//		FullCalendar calendar = FullCalendarBuilder.create().build();
-//		add(calendar);
-//
-//		calendar.addEntry(entry);
-		HasText intervalLabel = new Span();
-	    // combo box to select a view for the calendar, like "monthly", "weekly", ...
-	    // FullCalendar calendar = FullCalendarBuilder.create().build();
-	    calendar.setHeight(500);
-		setFlexGrow(1, calendar);
-		
-		VerticalLayout vlay = new VerticalLayout();
-		
-		LocalDate x = LocalDate.now();
-		DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE;
-		String formattedDate = x.format(formatter);
-		Label currentMonth = new Label("");
-		currentMonth.addClassName("view-toolbar__event-title");
-		String currentYear = new String(formattedDate.substring(0, 4));
-		
-		Button today = new Button("Today", event -> {
-        	calendar.today();
-        });
-		today.addClassName("view-toolbar__event-today");
-
-		if(formattedDate.charAt(5) == '0' && formattedDate.charAt(6) == '1') { monthNumber = 1;}
-		if(formattedDate.charAt(5) == '0' && formattedDate.charAt(6) == '2') { monthNumber = 2;}
-		if(formattedDate.charAt(5) == '0' && formattedDate.charAt(6) == '3') { monthNumber = 3;}
-		if(formattedDate.charAt(5) == '0' && formattedDate.charAt(6) == '4') { monthNumber = 4;}
-		if(formattedDate.charAt(5) == '0' && formattedDate.charAt(6) == '5') { monthNumber = 5;}
-		if(formattedDate.charAt(5) == '0' && formattedDate.charAt(6) == '6') { monthNumber = 6;}
-		if(formattedDate.charAt(5) == '0' && formattedDate.charAt(6) == '7') { monthNumber = 7;}
-		if(formattedDate.charAt(5) == '0' && formattedDate.charAt(6) == '8') { monthNumber = 8;}
-		if(formattedDate.charAt(5) == '0' && formattedDate.charAt(6) == '9') { monthNumber = 9;}
-		if(formattedDate.charAt(5) == '1' && formattedDate.charAt(6) == '0') { monthNumber = 10;}
-		if(formattedDate.charAt(5) == '1' && formattedDate.charAt(6) == '1') { monthNumber = 11;}
-		if(formattedDate.charAt(5) == '1' && formattedDate.charAt(6) == '2') { monthNumber = 12;}
-		
+	private void monthLabelSetUp() {
 		if(monthNumber == 1) { currentMonth.setText("January " + currentYear);}
 		if(monthNumber == 2) { currentMonth.setText("February " + currentYear);}
 		if(monthNumber == 3) { currentMonth.setText("March " + currentYear);}
@@ -108,78 +78,77 @@ public class EventsStud extends VerticalLayout{
 		if(monthNumber == 10) { currentMonth.setText("October " + currentYear);}
 		if(monthNumber == 11) { currentMonth.setText("November " + currentYear);}
 		if(monthNumber == 12) { currentMonth.setText("December " + currentYear);}
+	}
+	
+	private void displayCalendar() {
 		
-		Button lastMonth = new Button(new Icon(VaadinIcon.ANGLE_LEFT), event -> {
+		calendar.setHeight(500);
+		calendar.addClassName("calendar-color");
+		setFlexGrow(1, calendar);
+		HasText intervalLabel = new Span();
+	    
+		
+		VerticalLayout vlay = new VerticalLayout();
+		
+		LocalDate x = LocalDate.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE;
+		String formattedDate = x.format(formatter);
+		currentMonth = new Label("");
+		currentMonth.addClassName("view-toolbar__event-title");
+		currentYear = new String(formattedDate.substring(0, 4));
+		yearNum = Integer.parseInt(currentYear);
+
+		if(formattedDate.charAt(5) == '0' && formattedDate.charAt(6) == '1') { cMN = 1; monthNumber = 1;}
+		if(formattedDate.charAt(5) == '0' && formattedDate.charAt(6) == '2') { cMN = 2; monthNumber = 2;}
+		if(formattedDate.charAt(5) == '0' && formattedDate.charAt(6) == '3') { cMN = 3; monthNumber = 3;}
+		if(formattedDate.charAt(5) == '0' && formattedDate.charAt(6) == '4') { cMN = 4; monthNumber = 4;}
+		if(formattedDate.charAt(5) == '0' && formattedDate.charAt(6) == '5') { cMN = 5; monthNumber = 5;}
+		if(formattedDate.charAt(5) == '0' && formattedDate.charAt(6) == '6') { cMN = 6; monthNumber = 6;}
+		if(formattedDate.charAt(5) == '0' && formattedDate.charAt(6) == '7') { cMN = 7; monthNumber = 7;}
+		if(formattedDate.charAt(5) == '0' && formattedDate.charAt(6) == '8') { cMN = 8; monthNumber = 8;}
+		if(formattedDate.charAt(5) == '0' && formattedDate.charAt(6) == '9') { cMN = 9; monthNumber = 9;}
+		if(formattedDate.charAt(5) == '1' && formattedDate.charAt(6) == '0') { cMN = 10; monthNumber = 10;}
+		if(formattedDate.charAt(5) == '1' && formattedDate.charAt(6) == '1') { cMN = 11; monthNumber = 11;}
+		if(formattedDate.charAt(5) == '1' && formattedDate.charAt(6) == '2') { cMN = 12;monthNumber = 12;}
+		monthLabelSetUp();
+		
+		today = new Button("Today", event -> {
+        	calendar.today();
+        	monthNumber = cMN;
+        	monthLabelSetUp();
+        });
+		today.addClassName("view-toolbar__event-today");
+		
+		lastMonth = new Button(new Icon(VaadinIcon.ANGLE_LEFT), event -> {
         	calendar.previous();
         	if(monthNumber == 1) { monthNumber = 12; } else { monthNumber--;}
-        	
-        	if(monthNumber == 1) { currentMonth.setText("January " + currentYear);}
-    		if(monthNumber == 2) { currentMonth.setText("February " + currentYear);}
-    		if(monthNumber == 3) { currentMonth.setText("March " + currentYear);}
-    		if(monthNumber == 4) { currentMonth.setText("April " + currentYear);}
-    		if(monthNumber == 5) { currentMonth.setText("May " + currentYear);}
-    		if(monthNumber == 6) { currentMonth.setText("June " + currentYear);}
-    		if(monthNumber == 7) { currentMonth.setText("July " + currentYear);}
-    		if(monthNumber == 8) { currentMonth.setText("August " + currentYear);}
-    		if(monthNumber == 9) { currentMonth.setText("September " + currentYear);}
-    		if(monthNumber == 10) { currentMonth.setText("October " + currentYear);}
-    		if(monthNumber == 11) { currentMonth.setText("November " + currentYear);}
-    		if(monthNumber == 12) { currentMonth.setText("December " + currentYear);}
-        	
-        	System.out.println("CURRENT_MONTH: " + monthNumber);
+        	monthLabelSetUp();
         });
         lastMonth.addClassName("view-toolbar__event-click");
 
-        Button nextMonth = new Button(new Icon(VaadinIcon.ANGLE_RIGHT), event -> {
+        nextMonth = new Button(new Icon(VaadinIcon.ANGLE_RIGHT), event -> {
         	calendar.next();
         	if(monthNumber == 12) { monthNumber = 1; } else { monthNumber++;}
-        	
-        	if(monthNumber == 1) { currentMonth.setText("January " + currentYear);}
-    		if(monthNumber == 2) { currentMonth.setText("February " + currentYear);}
-    		if(monthNumber == 3) { currentMonth.setText("March " + currentYear);}
-    		if(monthNumber == 4) { currentMonth.setText("April " + currentYear);}
-    		if(monthNumber == 5) { currentMonth.setText("May " + currentYear);}
-    		if(monthNumber == 6) { currentMonth.setText("June " + currentYear);}
-    		if(monthNumber == 7) { currentMonth.setText("July " + currentYear);}
-    		if(monthNumber == 8) { currentMonth.setText("August " + currentYear);}
-    		if(monthNumber == 9) { currentMonth.setText("September " + currentYear);}
-    		if(monthNumber == 10) { currentMonth.setText("October " + currentYear);}
-    		if(monthNumber == 11) { currentMonth.setText("November " + currentYear);}
-    		if(monthNumber == 12) { currentMonth.setText("December " + currentYear);}
-        	
-        	System.out.println("CURRENT_MONTH: " + monthNumber);
+        	monthLabelSetUp();
         });
         nextMonth.addClassName("view-toolbar__event-click");
         
-        HorizontalLayout monthMoveLayout = new HorizontalLayout();
+        monthMoveLayout = new HorizontalLayout();
         monthMoveLayout.add(today, lastMonth, nextMonth);
 	    
         vlay.add(currentMonth, monthMoveLayout, calendar);
         add(vlay); 
         
-		//add(calendar);
-		
-		// Create a initial sample entry
-		Entry sampleEntry = new Entry();
-		sampleEntry.setTitle("Example Event");
-		sampleEntry.setStart(LocalDate.now().withDayOfMonth(24).atTime(12, 15));
-		sampleEntry.setEnd(sampleEntry.getStart().plusHours(2));
-		calendar.addEntry(sampleEntry);
-		
-		Dialog d = new Dialog();
-		Label title = new Label(sampleEntry.getTitle());
-		Label time = new Label(sampleEntry.getStart().toString().substring(11, 16));
-		Label loc = new Label("Hugel 100");
-		Label desc = new Label("Very cool speaker, lunch will be provided");
-		VerticalLayout lay = new VerticalLayout();
-		lay.add(title, time, loc, desc);
-		d.add(lay);
-		add(d);
-		
-		calendar.addEntryClickedListener(event -> {
-			d.open();
-		});
-		
-
+        calendar.addEntryClickedListener(EntryClickedEvent -> {
+        	Dialog p = new Dialog();
+        	VerticalLayout k = new VerticalLayout();
+        	readTitle = new Label(EntryClickedEvent.getEntry().getTitle().toString());
+        	readLoc = new Label("Located in: " + EntryClickedEvent.getEntry().getDescription().toString());
+        	readTime = new Label("Event begins at: " + EntryClickedEvent.getEntry().getStart().toString().substring(11, 16));
+        	k.add(readTitle, readLoc, readTime);
+        	p.add(k);
+        	p.open();
+        });
+        
 	}
 }

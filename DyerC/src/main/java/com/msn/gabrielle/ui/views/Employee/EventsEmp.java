@@ -15,7 +15,7 @@
  */
 package com.msn.gabrielle.ui.views.Employee;
 
-import java.time.LocalDate;  
+import java.time.LocalDate;   
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -39,6 +39,7 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.component.datepicker.*;
+import com.vaadin.flow.component.timepicker.*;
 
 import com.vaadin.flow.component.dialog.*;
 import com.vaadin.flow.component.textfield.*;
@@ -49,18 +50,18 @@ import com.vaadin.flow.component.textfield.*;
 public class EventsEmp extends VerticalLayout{
 	
 	FullCalendar calendar = FullCalendarBuilder.create().build();
-	private Button addEventButton, saveEvent, closeD, lastMonth, nextMonth, today;
+	private Button addEventButton, saveEvent, closeD, lastMonth, nextMonth, today, removeEvent;
 	VerticalLayout lay, addEventDialogVLay;
 	HorizontalLayout hlay, timeLayout, ButtonsLay, monthMoveLayout;
 	String titleValue, locationValue, datimeValue, descValue, urlLink, currentYear;
 	int monthValue, dayValue, hourValue, minuteValue, 
 		monthNumber, cMN, yearValue, yearNum;
 	public ArrayList<Events> eventsList = new ArrayList<Events>();
-	ComboBox<Integer> hour, min;
-	Label errorMessage, currentMonth;
+	Label errorMessage, currentMonth, readTitle, readLoc, readTime;
 	TextField titleField, locField, descField, urlField;
 	Dialog newEventDialog, eventClickedDialog;
 	DatePicker dp;
+	TimePicker tp;
 	SQLEventEmp sqlEE = new SQLEventEmp();
 	public EventsEmp() {
         initView();
@@ -73,11 +74,19 @@ public class EventsEmp extends VerticalLayout{
         hlay = new HorizontalLayout();
       
         calendar.addEntryClickedListener(EntryClickedEvent -> {
-        	
-        	openSpecificEntry();
-        	Label hey = new Label(EntryClickedEvent.getEntry().getTitle().toString());
         	Dialog p = new Dialog();
-        	p.add(hey);
+        	VerticalLayout k = new VerticalLayout();
+        	readTitle = new Label(EntryClickedEvent.getEntry().getTitle().toString());
+        	readLoc = new Label("Located in: " + EntryClickedEvent.getEntry().getDescription().toString());
+        	readTime = new Label("Event begins at: " + EntryClickedEvent.getEntry().getStart().toString().substring(11, 16));
+        	removeEvent = new Button("Remove this event");
+        	removeEvent.addClickListener(event -> {
+        		calendar.removeEntry(EntryClickedEvent.getEntry());
+        		p.close();
+        		//SQL code to remove the event
+        	});
+        	k.add(readTitle, readLoc, readTime, removeEvent);
+        	p.add(k);
         	p.open();
         });
         
@@ -91,13 +100,6 @@ public class EventsEmp extends VerticalLayout{
         
         ButtonsLay.add(saveEvent, closeD);
     }
-	
-	private void openSpecificEntry() {
-		eventClickedDialog = new Dialog();
-		//getEntry();
-		
-		eventClickedDialog.open();
-	}
 	
 	private void openAddEvent() {
 		
@@ -139,45 +141,25 @@ public class EventsEmp extends VerticalLayout{
 		});
 		
 		// Create the hour combo box (Part 1 of time)
-		hour = new ComboBox<Integer>("Hour:");
-		hour.setItems(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 
-				12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23);
-		hour.setAllowCustomValue(false);
-		hour.setWidth("100px");
-		hour.addValueChangeListener(event -> { 
-			if(event.getValue()!=null) {
-				hourValue = event.getValue();
+		tp = new TimePicker("Choose a time:");
+		tp.addValueChangeListener(event -> {
+			if(event.getValue()!= null) {
+				hourValue = event.getValue().getHour();
+				minuteValue = event.getValue().getMinute();
 			}
 		});
-		
-		// Create the minute combo box (Part 2 of time)
-		min = new ComboBox<Integer>("Minute");
-		min.setItems(05, 10, 15, 20, 25, 30, 35, 45, 50, 55);
-		min.setAllowCustomValue(false);
-		min.setWidth("100px");
-		min.addValueChangeListener(event -> { 
-			if(event.getValue()!=null) {
-				minuteValue = event.getValue();
-			}
-		});
-		
-		// Put the time components in a Horizontal Layout
-		timeLayout = new HorizontalLayout();
-		timeLayout.add(hour, min);
 		
 		// Create the save button
 		saveEvent.addClickListener(event ->  {
 			// If a required field was not filled
-        	if(titleField.isEmpty() || locField.isEmpty() || descField.isEmpty() || dp.isEmpty() ||
-        			min.isEmpty() || hour.isEmpty()) {
+        	if(titleField.isEmpty() || locField.isEmpty() || descField.isEmpty() || dp.isEmpty() ) {
         		// Show the error messages
         		addEventDialogVLay.add(errorMessage);
         		titleField.setLabel("Event Title: *");
         		locField.setLabel("Location: *");
         		descField.setLabel("Description: *");
         		dp.setLabel("Choose a date: *");
-        		hour.setLabel("Hour: *");
-        		min.setLabel("Minute: *");
+        		tp.setLabel("Choose a time: *");
         	} else {
         		// Create a new Events object
         		Events newE = new Events(titleValue, locationValue, descValue, urlLink,
@@ -185,8 +167,12 @@ public class EventsEmp extends VerticalLayout{
         		// Create the new Events as an Entry
         		Entry ne = new Entry();
         		ne.setTitle(titleValue);
-        		ne.setDescription(locationValue + ", " + descValue + 
-        				" For more information, check out " + urlLink);
+        		if(urlLink== null) {
+        			ne.setDescription(locationValue + ", " + descValue);
+        		} else {
+        			ne.setDescription(locationValue + ", " + descValue + 
+            				" For more information, check out " + urlLink);
+        		}
         		ne.setStart(LocalDate.of(yearValue, monthValue, dayValue).atTime(hourValue, minuteValue));
         		ne.setEnd(ne.getStart().plusHours(1));
         		ne.setEditable(false);
@@ -208,8 +194,7 @@ public class EventsEmp extends VerticalLayout{
         		locField.setLabel("Location:");
         		descField.setLabel("Description:");
         		dp.setLabel("Choose a date:");
-        		hour.setLabel("Hour:");
-    			min.setLabel("Minute:");
+        		tp.setLabel("Choose a time:");
         	
     			// Close the Dialog
     			newEventDialog.close();
@@ -218,15 +203,10 @@ public class EventsEmp extends VerticalLayout{
 		saveEvent.addClassName("view-toolbar__button");
 		
 		// Create the close button
-               	
-        	
-       
-        
-		
 		closeD.addClickListener(event ->  {
 			// If text fields were filled in
 			if(titleField.isEmpty()==false || locField.isEmpty()==false || descField.isEmpty()==false || 
-					urlField.isEmpty()==false || min.isEmpty()==false ||hour.isEmpty()==false) {
+					urlField.isEmpty()==false ) {
 				// clear them
 				clearFields();
 				// Reset variable values
@@ -244,8 +224,8 @@ public class EventsEmp extends VerticalLayout{
 			titleField.setLabel("Event Title:");
     		locField.setLabel("Location:");
     		descField.setLabel("Description:");
-    		hour.setLabel("Hour:");
-    		min.setLabel("Minute:");
+    		dp.setLabel("Choose a date:");
+    		tp.setLabel("Choose a time:");
     		// Close the Dialog
     		newEventDialog.close();
 		});
@@ -253,7 +233,7 @@ public class EventsEmp extends VerticalLayout{
 		
 		// Add all of these elements to a Vertical Layout, add that to the Dialog
 		addEventDialogVLay = new VerticalLayout();
-		addEventDialogVLay.add(titleField, locField, descField, urlField, dp, timeLayout, ButtonsLay);
+		addEventDialogVLay.add(titleField, locField, descField, urlField, dp, tp, ButtonsLay);
 		newEventDialog.add(addEventDialogVLay);
 		
 		// Open the Dialog
@@ -266,8 +246,7 @@ public class EventsEmp extends VerticalLayout{
 		descField.clear();
 		urlField.clear();
 		dp.clear();
-		hour.clear();
-		min.clear();
+		tp.clear();
 	}
 	
 	private void displayEvents() {
@@ -275,10 +254,15 @@ public class EventsEmp extends VerticalLayout{
 		for(int i = 0; i < eventsList.size(); i++) {
 			Entry newEntry = new Entry();
 			newEntry.setTitle(eventsList.get(i).getTitle());
-			newEntry.setDescription(eventsList.get(i).getLocation() + ", " +
-					eventsList.get(i).getDescription() + 
-					" For more information, check out " + 
-					eventsList.get(i).getUrl());
+			if(eventsList.get(i).getUrl()==null) {
+				newEntry.setDescription(eventsList.get(i).getLocation() + ", " +
+						eventsList.get(i).getDescription());
+			} else {
+				newEntry.setDescription(eventsList.get(i).getLocation() + ", " +
+						eventsList.get(i).getDescription() + 
+						" For more information, check out " + 
+						eventsList.get(i).getUrl());
+			}
 			newEntry.setStart(LocalDate.of(eventsList.get(i).getYear(), eventsList.get(i).getMonth(), 
 								eventsList.get(i).getDay()).atTime(eventsList.get(i).getHour(), 
 								eventsList.get(i).getMinute()));
@@ -319,6 +303,7 @@ public class EventsEmp extends VerticalLayout{
 		DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE;
 		String formattedDate = x.format(formatter);
 		currentMonth = new Label("");
+		currentMonth.addClassName("view-toolbar__event-title");
 		currentYear = new String(formattedDate.substring(0, 4));
 		yearNum = Integer.parseInt(currentYear);
 		
@@ -378,13 +363,5 @@ public class EventsEmp extends VerticalLayout{
 		//Add all of the components to the page
         lay.add(currentMonth, monthMoveLayout, calendar);
         add(lay);
-        
-//        calendar.addDayNumberClickedListener(event -> {
-//        	Dialog d = new Dialog();
-//        	d.setCloseOnEsc(false);
-//            d.setCloseOnOutsideClick(false);
-//            Label sup = new Label("sup");
-//            d.add(sup);
-//        });
 	}
 }
