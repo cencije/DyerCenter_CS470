@@ -34,15 +34,17 @@ public class ProjectProposalAlum extends VerticalLayout {
 	private String pay;
 	private TextField name;
 	private ComboBox<String> cB;
-	private Grid firstGrid;
+	private Grid<SkillStud> firstGrid;
     private List<Projects> projectList = new ArrayList<Projects>();
 	private DatePicker dialog;
 	private String nameStr;
 	
+	SQLProjectAlum sqlPA = new SQLProjectAlum();
 	public ProjectProposalAlum() {
 		setWidthFull();
 		setHeightFull();
 		addClassName("main-layout-emp");
+		projectList = sqlPA.loadProjects();
 		HorizontalLayout hL = new HorizontalLayout();
 		hL.add(projectTitle(), duration());
 		add(hL);
@@ -54,7 +56,9 @@ public class ProjectProposalAlum extends VerticalLayout {
 		add(skills());
 		HorizontalLayout hL2 = new HorizontalLayout();
     	Button saveButton = new Button("Save", event -> {
-    		Set<String> skills = firstGrid.getSelectedItems();
+    		Set<SkillStud> setSkills = firstGrid.getSelectedItems();
+    		ArrayList<SkillStud> listSkills = new ArrayList<SkillStud>();
+    		for (SkillStud skill : setSkills) { listSkills.add(skill); }
     		Projects newProj = new Projects(pTField.getValue());
     		newProj.setStartDate(datePickerFirst.getValue().format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
     		newProj.setEndDate(datePickerSecond.getValue().format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
@@ -63,7 +67,7 @@ public class ProjectProposalAlum extends VerticalLayout {
     		newProj.setPay(pay);
     		newProj.setProposedBy(name.getValue());
     		newProj.setDatePosted(LocalDate.now().format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
-    		newProj.setSkillsSet(skills);
+    		newProj.setSkillsList(listSkills);
     		projectList.add(newProj);
     		clearAll();
     	});
@@ -154,14 +158,15 @@ public class ProjectProposalAlum extends VerticalLayout {
      */
     public VerticalLayout skills() {
     	VerticalLayout vL = new VerticalLayout();
-    	List<SkillStud> personList = new ArrayList<SkillStud>(); //personService.fetchAll();
-		personList.add(new SkillStud("CompSci", "Coding"));
-		personList.add(new SkillStud("Anthropology & Sociology", "Social Constructs"));
+    	List<SkillStud> skillList = new ArrayList<SkillStud>(); 
+    	skillList = sqlPA.loadAllSkills();
 		cB = new ComboBox<String>("Skills required: ");
 		cB.setPlaceholder("Category");
-		firstGrid = new Grid<>();
-		firstGrid.setItems(personList);
+		firstGrid = new Grid<SkillStud>();
+		firstGrid.setItems(skillList);
 		firstGrid.setSelectionMode(SelectionMode.MULTI);
+		firstGrid.addColumn(SkillStud::getCategory).setHeader("Category");
+		firstGrid.addColumn(SkillStud::getName).setHeader("Skill Name");
 		vL.add(cB, firstGrid);
 		vL.setWidthFull();
 		return vL;

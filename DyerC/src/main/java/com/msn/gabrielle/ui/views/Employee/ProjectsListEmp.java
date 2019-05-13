@@ -54,19 +54,6 @@ public class ProjectsListEmp extends VerticalLayout {
         addSearchBar();
         addContent();
         projectList = sqlPE.loadProjects();
-        /*
-        System.out.println("LOADED LIST -------------------");
-        for (int i = 0; i < projectList.size(); i++) {
-        	ArrayList<SkillStud> listS = projectList.get(i).getSkillList();
-        	for (int j = 0; j < listS.size(); j++) {
-        		System.out.println("Project: " + projectList.get(i).getProjectIDSQL() + 
-        						   " Cat: " + listS.get(j).skillCategory + " Name: " + listS.get(j).skillName);
-        	}
-        }
-        
-        	projectList.add(new Projects("Web App"));
-        	projectList.add(new Projects("Database: SQL"));
-        */
         updateView();
     }
 

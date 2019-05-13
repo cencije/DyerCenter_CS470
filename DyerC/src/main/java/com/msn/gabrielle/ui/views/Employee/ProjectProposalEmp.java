@@ -163,7 +163,7 @@ public class ProjectProposalEmp extends VerticalLayout {
      */
     public VerticalLayout skills() {
     	VerticalLayout vL = new VerticalLayout();
-    	List<SkillStud> skillList = new ArrayList<SkillStud>(); //personService.fetchAll();
+    	List<SkillStud> skillList = new ArrayList<SkillStud>(); 
     	skillList = sqlPE.loadAllSkills();
 		cB = new ComboBox<String>("Skills required: ");
 		cB.setPlaceholder("Category");

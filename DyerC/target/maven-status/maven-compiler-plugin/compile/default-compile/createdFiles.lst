@@ -36,6 +36,7 @@ com/msn/gabrielle/ui/EmployeePage.class
 com/msn/gabrielle/backend/CategoryService$SingletonHolder.class
 com/msn/gabrielle/backend/ReviewService$1.class
 com/msn/gabrielle/backend/CategoryService$1.class
+com/msn/gabrielle/ui/views/Alumni/SQLProjectAlum.class
 com/msn/gabrielle/ui/views/reviewslist/ReviewsList.class
 com/msn/gabrielle/backend/StaticData.class
 com/msn/gabrielle/ui/views/Alumni/ProjectProposalAlum.class
