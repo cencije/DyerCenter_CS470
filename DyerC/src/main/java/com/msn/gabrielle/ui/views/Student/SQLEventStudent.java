@@ -16,6 +16,11 @@ public class SQLEventStudent {
 	
 	public SQLEventStudent() {}
 	
+	public ArrayList<Events> getAllEvents() {
+		loadAll();
+		return listAllEvents;
+	}
+	
 	public void loadAll() {
 		
 		listAllEvents.clear();

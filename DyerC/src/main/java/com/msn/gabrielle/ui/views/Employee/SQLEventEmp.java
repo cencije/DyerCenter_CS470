@@ -67,7 +67,7 @@ public class SQLEventEmp {
 			
 			Class.forName("org.postgresql.Driver");
 			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
-			System.out.println("Adding profile to database!");
+			System.out.println("Loading Month from TABLE_EVENTS_MASTER");
 			Statement statementSelectMonth = c.createStatement();
 			String sqlSelectMonth = "SELECT * FROM TABLE_EVENTS_MASTER WHERE MONTH ='" + monthNo + "';";
 
@@ -115,17 +115,42 @@ public class SQLEventEmp {
 			rsCount.next();
 			int idNumber = rsCount.getInt(1) + 1;
 			statementCount.close();
-			Statement statementInsertStudent = c.createStatement();
+			Statement statementInsertEvent = c.createStatement();
 			
-			String sqlInsertStudent = "INSERT INTO TABLE_EVENTS_MASTER "
+			String sqlInsertEvent = "INSERT INTO TABLE_EVENTS_MASTER "
 					+ "(EVENT_ID,TITLE,LOCATION,DESCRIPTION,URL,DAY,MONTH,YEAR,HOUR,MINUTE) VALUES "
 					+ "(" + idNumber + ", '" + mTitle + "', '" + mLocation 
 					+ "', '" + mDesc + "', '" + mURL + "', '" + mDay + "', '" + mMonth 
 					+ "', '" + mYear + "', '" + mHour + "', '" + mMinute + "');";
-			statementInsertStudent.executeUpdate(sqlInsertStudent);
-			statementInsertStudent.close();
+			statementInsertEvent.executeUpdate(sqlInsertEvent);
+			statementInsertEvent.close();
 			c.close();
 			System.out.println("Successful Insertion to TABLE_EVENTS_MASTER");
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println(e.getClass().getName()+": "+e.getMessage());
+			System.exit(0);
+		}
+	}
+	public void deleteEvent(String title, String location, String desc, String url,
+							 String day, String month, String year, String hour, String min) {
+		try {
+			Class.forName("org.postgresql.Driver");
+			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
+			System.out.println("-----------------------------------------------------------------");
+			System.out.println("Deleting Event from TABLE_EVENTS_MASTER");
+
+			Statement statementDeleteEvent = c.createStatement();
+			
+			String sqlDeleteEvent = "DELETE FROM TABLE_EVENTS_MASTER WHERE TITLE = '" + title +
+									  "' AND LOCATION = '" + location + "' AND DESCRIPTION = '" + desc +
+									  "' AND URL = '" + url + "' AND DAY = '" + day +
+									  "' AND MONTH = '" + month + "' AND YEAR = '" + year +
+									  "' AND HOUR = '" + hour + "' AND MIN = '" + min +"';";
+			statementDeleteEvent.executeUpdate(sqlDeleteEvent);
+			statementDeleteEvent.close();
+			c.close();
+			System.out.println("Successful Deletion from TABLE_EVENTS_MASTER");
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.err.println(e.getClass().getName()+": "+e.getMessage());

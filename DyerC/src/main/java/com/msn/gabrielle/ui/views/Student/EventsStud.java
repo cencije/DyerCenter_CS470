@@ -28,6 +28,7 @@ import org.vaadin.stefan.fullcalendar.FullCalendarBuilder;
 import com.vaadin.flow.component.dialog.*;
 
 import com.msn.gabrielle.ui.*;
+import com.msn.gabrielle.ui.views.Employee.SQLEventEmp;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.HasText;
@@ -55,9 +56,16 @@ public class EventsStud extends VerticalLayout{
 	ArrayList<Events> eventsList = new ArrayList<Events>();
 	Label readTitle, readLoc, readTime;
 
+	SQLEventStudent sqlES = new SQLEventStudent();
+	
 	public EventsStud() {
         initView();
+        
+        sqlES.loadAll();
+        eventsList = sqlES.getAllEvents();
+        
         displayCalendar();  
+        displayEvents();
     }
 	
 	private void initView() {
@@ -85,8 +93,6 @@ public class EventsStud extends VerticalLayout{
 		calendar.setHeight(500);
 		calendar.addClassName("calendar-color");
 		setFlexGrow(1, calendar);
-		HasText intervalLabel = new Span();
-	    
 		
 		VerticalLayout vlay = new VerticalLayout();
 		
@@ -110,6 +116,7 @@ public class EventsStud extends VerticalLayout{
 		if(formattedDate.charAt(5) == '1' && formattedDate.charAt(6) == '0') { cMN = 10; monthNumber = 10;}
 		if(formattedDate.charAt(5) == '1' && formattedDate.charAt(6) == '1') { cMN = 11; monthNumber = 11;}
 		if(formattedDate.charAt(5) == '1' && formattedDate.charAt(6) == '2') { cMN = 12;monthNumber = 12;}
+		
 		monthLabelSetUp();
 		
 		today = new Button("Today", event -> {
@@ -121,14 +128,14 @@ public class EventsStud extends VerticalLayout{
 		
 		lastMonth = new Button(new Icon(VaadinIcon.ANGLE_LEFT), event -> {
         	calendar.previous();
-        	if(monthNumber == 1) { monthNumber = 12; } else { monthNumber--;}
+        	if(monthNumber == 1) { yearNum--; monthNumber = 12; } else { monthNumber--;}
         	monthLabelSetUp();
         });
         lastMonth.addClassName("view-toolbar__event-click");
 
         nextMonth = new Button(new Icon(VaadinIcon.ANGLE_RIGHT), event -> {
         	calendar.next();
-        	if(monthNumber == 12) { monthNumber = 1; } else { monthNumber++;}
+        	if(monthNumber == 12) { yearNum++; monthNumber = 1; } else { monthNumber++;}
         	monthLabelSetUp();
         });
         nextMonth.addClassName("view-toolbar__event-click");
@@ -150,5 +157,28 @@ public class EventsStud extends VerticalLayout{
         	p.open();
         });
         
+	}
+	
+	private void displayEvents() {
+		calendar.removeAllEntries();
+		for(int i = 0; i < eventsList.size(); i++) {
+			Entry newEntry = new Entry();
+			newEntry.setTitle(eventsList.get(i).getTitle());
+			if(eventsList.get(i).getUrl()==null) {
+				newEntry.setDescription(eventsList.get(i).getLocation() + ", " +
+						eventsList.get(i).getDescription());
+			} else {
+				newEntry.setDescription(eventsList.get(i).getLocation() + ", " +
+						eventsList.get(i).getDescription() + 
+						" For more information, check out " + 
+						eventsList.get(i).getUrl());
+			}
+			newEntry.setStart(LocalDate.of(eventsList.get(i).getYear(), eventsList.get(i).getMonth(), 
+								eventsList.get(i).getDay()).atTime(eventsList.get(i).getHour(), 
+								eventsList.get(i).getMinute()));
+			newEntry.setEnd(newEntry.getStart().plusHours(1));
+			newEntry.setEditable(false);
+			calendar.addEntry(newEntry);
+		}
 	}
 }
