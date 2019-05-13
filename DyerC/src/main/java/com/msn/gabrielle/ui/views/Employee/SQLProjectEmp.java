@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.msn.gabrielle.backend.Projects;
 import com.msn.gabrielle.ui.views.Student.SkillStud;
@@ -69,7 +70,7 @@ public class SQLProjectEmp {
 	 * @param idNo ID number of the project to be associated with the skills list.
 	 * @param listSkills The list of skills associated with the project.
 	 */
-	public void insertProjectSkills(int idNo, ArrayList<SkillStud> listSkills) {
+	public void insertProjectSkills(int idNo, List<SkillStud> listSkills) {
 		
 		try {
 			Class.forName("org.postgresql.Driver");
@@ -139,7 +140,7 @@ public class SQLProjectEmp {
 			System.out.println("Loading Skill Studs for Projects from TABLE_PROJECT_SKILLS");
 			
 			for (int i = 0; i < listProjects.size(); i++) {
-				ArrayList<SkillStud> skillsListProject = new ArrayList<SkillStud>();
+				List<SkillStud> skillsListProject = new ArrayList<SkillStud>();
 				Statement statementGetProjectSkills= c.createStatement();
 				
 				String sqlGetProjectSkills = "SELECT * FROM TABLE_PROJECT_SKILLS WHERE PROJECT_ID = '" + 
@@ -171,8 +172,8 @@ public class SQLProjectEmp {
 	 * Loads the list of skills that can be used for projects.
 	 * @return The list of skills that can be used for projects.
 	 */
-	public ArrayList<SkillStud> loadAllSkills() {
-		ArrayList<SkillStud> skillsList = new ArrayList<SkillStud>();
+	public List<SkillStud> loadAllSkills() {
+		List<SkillStud> skillsList = new ArrayList<SkillStud>();
 		try {
 			Class.forName("org.postgresql.Driver");
 			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");

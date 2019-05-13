@@ -1,13 +1,11 @@
 package com.msn.gabrielle.backend;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-
 import com.msn.gabrielle.ui.views.Student.SkillStud;
 
-public class Projects implements Serializable {
+public class Projects {
 	
 	private String projectIDSQL;
 	
@@ -31,7 +29,7 @@ public class Projects implements Serializable {
     
     private List<String> skills;
     
-    ArrayList<SkillStud> listSkillStud;
+    List<SkillStud> listSkillStud;
     
     
     public Projects() {
@@ -252,11 +250,11 @@ public class Projects implements Serializable {
      * 
      * @return
      */
-    public ArrayList<SkillStud> getSkillList(){
+    public List<SkillStud> getSkillList(){
     	return listSkillStud;
     }
     
-    public void setSkillsList(ArrayList<SkillStud> skillsList) {
+    public void setSkillsList(List<SkillStud> skillsList) {
     	listSkillStud = skillsList;
     }
     

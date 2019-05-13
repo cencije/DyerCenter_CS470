@@ -7,6 +7,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import com.msn.gabrielle.backend.Projects;
@@ -103,7 +104,7 @@ public class SQLProjectStud {
 			System.out.println("Loading Skill Studs for Projects from TABLE_PROJECT_SKILLS");
 			
 			for (int i = 0; i < listProjects.size(); i++) {
-				ArrayList<SkillStud> skillsListProject = new ArrayList<SkillStud>();
+				List<SkillStud> skillsListProject = new ArrayList<SkillStud>();
 				Statement statementGetProjectSkills= c.createStatement();
 				
 				String sqlGetProjectSkills = "SELECT * FROM TABLE_PROJECT_SKILLS WHERE PROJECT_ID = '" + 
@@ -141,7 +142,7 @@ public class SQLProjectStud {
 	 */
 	public ArrayList<Projects> loadMatchingProjectsCategory(String email) {
 		
-		ArrayList<SkillStud> listSkills = new ArrayList<SkillStud>();
+		List<SkillStud> listSkills = new ArrayList<SkillStud>();
 		ArrayList<String> listProjectIDs = new ArrayList<String>();
 		
 		Set<String> uniqueProjects;
@@ -210,7 +211,7 @@ public class SQLProjectStud {
 			System.out.println("Loading Skill Studs for Projects from TABLE_PROJECT_SKILLS");
 			
 			for (int i = 0; i < listProjects.size(); i++) {
-				ArrayList<SkillStud> skillsListProject = new ArrayList<SkillStud>();
+				List<SkillStud> skillsListProject = new ArrayList<SkillStud>();
 				Statement statementGetProjectSkills= c.createStatement();
 				
 				String sqlGetProjectSkills = "SELECT * FROM TABLE_PROJECT_SKILLS WHERE PROJECT_ID = '" + 
@@ -280,7 +281,7 @@ public class SQLProjectStud {
 			System.out.println("Loading Skill Studs for Projects from TABLE_PROJECT_SKILLS");
 			
 			for (int i = 0; i < listProjects.size(); i++) {
-				ArrayList<SkillStud> skillsListProject = new ArrayList<SkillStud>();
+				List<SkillStud> skillsListProject = new ArrayList<SkillStud>();
 				Statement statementGetProjectSkills= c.createStatement();
 				
 				String sqlGetProjectSkills = "SELECT * FROM TABLE_PROJECT_SKILLS WHERE PROJECT_ID = '" + 

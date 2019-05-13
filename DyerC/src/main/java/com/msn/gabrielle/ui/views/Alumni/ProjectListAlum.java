@@ -42,6 +42,7 @@ public class ProjectListAlum extends VerticalLayout{
 	    private String nameProposerStr;
 
 	    SQLProjectAlum sqlPA = new SQLProjectAlum();
+	    
 	    public ProjectListAlum() {
 	    	initView();
 	        addSearchBar();

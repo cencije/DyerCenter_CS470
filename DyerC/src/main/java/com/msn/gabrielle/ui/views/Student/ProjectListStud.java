@@ -49,7 +49,7 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
 	SQLProjectStud sqlPStud = new SQLProjectStud();
 	private TextField searchField = new TextField("",
             "Search projects");
-    private List<Projects> projectList = new ArrayList<Projects>();
+    private List<Projects> projectList;
     private String nameStr;
     private TextField pTField;
     private DatePicker datePickerFirst;
@@ -64,7 +64,7 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
     public interface ProjectsModel extends TemplateModel{
     	@Encode(value = LongToStringEncoder.class, path = "id")
         @Encode(value = LocalDateToStringEncoder.class, path = "date")
-        void setReviews(List<String> projects);
+        void setReviews(List<Projects> projectlis);
     }
     
     @Id("search")
@@ -82,17 +82,8 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
       search.setValueChangeMode(ValueChangeMode.EAGER);
       search.addFocusShortcut(Key.KEY_F, KeyModifier.CONTROL);
         //initView();
-      //projectList = sqlPStud.loadProjects();
-      //projectList.add(new Projects("Web App"));
-      //projectList.add(new Projects("Database: SQL"));
-      for (int i = 0; i < projectList.size(); i++) {
-      	ArrayList<SkillStud> listS = projectList.get(i).getSkillList();
-      	for (int j = 0; j < listS.size(); j++) {
-      		System.out.println("Project: " + projectList.get(i).getProjectIDSQL() + 
-      						   " Cat: " + listS.get(j).skillCategory + " Name: " + listS.get(j).skillName);
-      	}
-      }
-      //getModel().setReviews(projectList);
+      projectList = sqlPStud.loadProjects();
+      getModel().setReviews(projectList);
       getElement().setProperty("reviewButtonText", "New project");
       getElement().setProperty("editButtonText", "View");
       addReview.addClickListener(e -> getUI().ifPresent(ui -> ui.add(dialog())));
@@ -143,7 +134,7 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
     
     @EventHandler
     private void view_click() {
-    	updateList();
+    	//updateList();
     }
     
     @EventHandler
@@ -311,7 +302,7 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
         	header.setText("Project Proposals");
             header.addClassName("main-layout-project-title");
         }
-        //getModel().setReviews(projects);
+        getModel().setReviews(projects);
     }
     
     private List<Projects> getSearchValues(String value){
