@@ -14,12 +14,24 @@ public class SQLEventEmp {
 	public ArrayList<Events> listAllEvents = new ArrayList<Events>();
 	public ArrayList<Events> listMonthEvents = new ArrayList<Events>();
 	
+	/**
+	 * Constructor for the SQLEventEmp class
+	 */
 	public SQLEventEmp() {}
 	
+	/**
+	 * Generates the list of all events by calling loadAll() and returns that list
+	 * @return The list of events in TABLE_EVENTS_MASTER.
+	 */
 	public ArrayList<Events> getAllEvents() {
 		loadAll();
 		return listAllEvents;
 	}
+	
+	/**
+	 * Loads the list of all events found in TABLE_EVENTS_MASTER.
+	 * Adds them to the list object listAllEvents.
+	 */
 	public void loadAll() {
 		
 		listAllEvents.clear();
@@ -60,6 +72,10 @@ public class SQLEventEmp {
 		}
 	}
 
+	/**
+	 * Loads the events associated with the passed month value.
+	 * @param monthNo The number of the current displayed month so that the database can load them all.
+	 */
 	public void loadMonth(int monthNo) {
 		
 		try {
@@ -101,6 +117,18 @@ public class SQLEventEmp {
 		}
 	}
 
+	/**
+	 * Inserts an event into TABLE_EVENTS_MASTER based on the passed values.
+	 * @param mTitle Title of the event to be inserted.
+	 * @param mLocation Location of the event to be inserted.
+	 * @param mDesc Description of the event to be inserted.
+	 * @param mURL URL of the event to be inserted.
+	 * @param mDay Day of the event to be inserted.
+	 * @param mMonth Month of the event to be inserted.
+	 * @param mYear Year of the event to be inserted.
+	 * @param mHour Hour of the event to be inserted.
+	 * @param mMinute Minute of the event to be inserted.
+	 */
 	public void insertEvent(String mTitle, String mLocation, String mDesc, String mURL,
 							String mDay, String mMonth, String mYear, String mHour, String mMinute ) {
 		try {
@@ -132,6 +160,19 @@ public class SQLEventEmp {
 			System.exit(0);
 		}
 	}
+	
+	/**
+	 * Deletes an event from TABLE_EVENTS_MASTER based on the passed values.
+	 * @param title Title of the event to be deleted.
+	 * @param location Location of the event to be deleted.
+	 * @param desc Description of the event to be deleted.
+	 * @param url URL of the event to be deleted.
+	 * @param day Day of the event to be deleted.
+	 * @param month Month of the event to be deleted.
+	 * @param year Year of the event to be deleted.
+	 * @param hour Hour of the event to be deleted.
+	 * @param min Minute of the event to be deleted.
+	 */
 	public void deleteEvent(String title, String location, String desc, String url,
 							 String day, String month, String year, String hour, String min) {
 		try {

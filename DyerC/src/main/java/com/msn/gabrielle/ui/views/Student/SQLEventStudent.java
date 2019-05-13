@@ -19,11 +19,20 @@ public class SQLEventStudent {
 	 */
 	public SQLEventStudent() {}
 	
+	
+	/**
+	 * Generates the list of all events by calling loadAll() and returns that list
+	 * @return The list of events in TABLE_EVENTS_MASTER.
+	 */
 	public ArrayList<Events> getAllEvents() {
 		loadAll();
 		return listAllEvents;
 	}
 	
+	/**
+	 * Loads the list of all events found in TABLE_EVENTS_MASTER.
+	 * Adds them to the list object listAllEvents.
+	 */
 	public void loadAll() {
 		
 		listAllEvents.clear();
@@ -63,6 +72,11 @@ public class SQLEventStudent {
 			System.exit(0);
 		}
 	}
+	
+	/**
+	 * Loads the events associated with the passed month value.
+	 * @param monthNo The number of the current displayed month so that the database can load them all.
+	 */
 	public void loadMonth(int monthNo) {
 		
 		try {

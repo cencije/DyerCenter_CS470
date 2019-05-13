@@ -12,9 +12,24 @@ import com.msn.gabrielle.ui.views.Student.SkillStud;
 public class SQLProjectEmp {
 
 	
+	/**
+	 * Constructor for the SQLProjectEmp class
+	 */
 	public SQLProjectEmp() { }
 	
 	
+	/**
+	 * Inserts a project into TABLE_PROJECT_INDEX using the passed values
+	 * @param title Title of the project to be inserted.
+	 * @param start Start date of the project to be inserted.
+	 * @param end End date of the project to be inserted.
+	 * @param location Location of the project to be inserted.
+	 * @param desc Description of the project to be inserted.
+	 * @param pay Pay flag of the project to be inserted.
+	 * @param proposer Proposer of the project to be inserted.
+	 * @param posted Date posted of the project to be inserted.
+	 * @return The ID number given to the project.
+	 */
 	public int insertProject(String title, String start, String end, String location,
 							  String desc, String pay, String proposer, String posted) {
 		int idNumber = 0;
@@ -49,6 +64,11 @@ public class SQLProjectEmp {
 		return idNumber;
 	}
 	
+	/**
+	 * Inserts the project number and skills on multiple rows in TABLE_PROJECT_SKILLS.
+	 * @param idNo ID number of the project to be associated with the skills list.
+	 * @param listSkills The list of skills associated with the project.
+	 */
 	public void insertProjectSkills(int idNo, ArrayList<SkillStud> listSkills) {
 		
 		try {
@@ -75,6 +95,10 @@ public class SQLProjectEmp {
 		}	
 	}
 	
+	/**
+	 * Loads all the projects that have been approved from TABLE_PROJECT_INDEX.
+	 * @return The list of all projects that have been approved.
+	 */
 	public ArrayList<Projects> loadProjects() {
 		
 		String pID = "", pTitle = "", pStart = "", pEnd = "", 
@@ -144,6 +168,10 @@ public class SQLProjectEmp {
 		return listProjects;
 	}
 	
+	/**
+	 * Loads the list of skills that can be used for projects.
+	 * @return The list of skills that can be used for projects.
+	 */
 	public ArrayList<SkillStud> loadAllSkills() {
 		ArrayList<SkillStud> skillsList = new ArrayList<SkillStud>();
 		try {
