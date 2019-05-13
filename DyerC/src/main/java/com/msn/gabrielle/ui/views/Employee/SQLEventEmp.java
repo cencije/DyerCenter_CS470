@@ -1,11 +1,14 @@
 package com.msn.gabrielle.ui.views.Employee;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Properties;
 
 import com.msn.gabrielle.backend.Events;
 
@@ -35,9 +38,19 @@ public class SQLEventEmp {
 	public void loadAll() {
 		
 		listAllEvents.clear();
+		Properties prop = new Properties();
+		String propFileName = "config_DB.properties";
 		try {
 			Class.forName("org.postgresql.Driver");
-			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
+			InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+			 
+			if (inputStream != null) {
+				prop.load(inputStream);
+			} else {
+				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+			}
+			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + prop.getProperty("dbLocal"),
+					 								   prop.getProperty("dbLocal"),  prop.getProperty("dbLocalPassword"));
 			System.out.println("Loading All Events from TABLE_EVENTS_MASTER!");
 			Statement statementSelectMonth = c.createStatement();
 			String sqlSelectMonth = "SELECT * FROM TABLE_EVENTS_MASTER;";
@@ -78,11 +91,21 @@ public class SQLEventEmp {
 	 */
 	public void loadMonth(int monthNo) {
 		
+		Properties prop = new Properties();
+		String propFileName = "config_DB.properties";
 		try {
 			listMonthEvents.clear();
 			
 			Class.forName("org.postgresql.Driver");
-			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
+			InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+			 
+			if (inputStream != null) {
+				prop.load(inputStream);
+			} else {
+				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+			}
+			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + prop.getProperty("dbLocal"),
+					 								   prop.getProperty("dbLocal"),  prop.getProperty("dbLocalPassword"));
 			System.out.println("Loading Month from TABLE_EVENTS_MASTER");
 			Statement statementSelectMonth = c.createStatement();
 			String sqlSelectMonth = "SELECT * FROM TABLE_EVENTS_MASTER WHERE MONTH ='" + monthNo + "';";
@@ -131,9 +154,19 @@ public class SQLEventEmp {
 	 */
 	public void insertEvent(String mTitle, String mLocation, String mDesc, String mURL,
 							String mDay, String mMonth, String mYear, String mHour, String mMinute ) {
+		Properties prop = new Properties();
+		String propFileName = "config_DB.properties";
 		try {
 			Class.forName("org.postgresql.Driver");
-			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
+			InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+			 
+			if (inputStream != null) {
+				prop.load(inputStream);
+			} else {
+				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+			}
+			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + prop.getProperty("dbLocal"),
+					 								   prop.getProperty("dbLocal"),  prop.getProperty("dbLocalPassword"));
 			System.out.println("-----------------------------------------------------------------");
 			System.out.println("Inserting Event into database");
 
@@ -175,9 +208,19 @@ public class SQLEventEmp {
 	 */
 	public void deleteEvent(String title, String location, String desc, String url,
 							 String day, String month, String year, String hour, String min) {
+		Properties prop = new Properties();
+		String propFileName = "config_DB.properties";
 		try {
 			Class.forName("org.postgresql.Driver");
-			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
+			InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+			 
+			if (inputStream != null) {
+				prop.load(inputStream);
+			} else {
+				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+			}
+			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + prop.getProperty("dbLocal"),
+					 								   prop.getProperty("dbLocal"),  prop.getProperty("dbLocalPassword"));
 			System.out.println("-----------------------------------------------------------------");
 			System.out.println("Deleting Event from TABLE_EVENTS_MASTER");
 

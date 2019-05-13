@@ -1,5 +1,7 @@
 package com.msn.gabrielle.ui.views.Student;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -8,6 +10,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Properties;
 import java.util.Set;
 
 import com.msn.gabrielle.backend.Projects;
@@ -42,9 +45,19 @@ public class SQLProjectStud {
 		String pID = "", pTitle = "", pStart = "", pEnd = "", 
 				   pLocation = "", pDesc = "", pPaid = "", pProp = "", pPosted = "";
 		ArrayList<Projects> listProjects = new ArrayList<Projects>();
+		Properties prop = new Properties();
+		String propFileName = "config_DB.properties";
 		try {
 			Class.forName("org.postgresql.Driver");
-			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
+			InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+			 
+			if (inputStream != null) {
+				prop.load(inputStream);
+			} else {
+				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+			}
+			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + prop.getProperty("dbLocal"),
+					 								   prop.getProperty("dbLocal"),  prop.getProperty("dbLocalPassword"));
 			System.out.println("-----------------------------------------------------------------");
 			System.out.println("Getting Unique Matching Project IDS from TABLE_PROJECT_SKILLS");
 
@@ -151,9 +164,19 @@ public class SQLProjectStud {
 		String pID = "", pTitle = "", pStart = "", pEnd = "", 
 				   pLocation = "", pDesc = "", pPaid = "", pProp = "", pPosted = "";
 		ArrayList<Projects> listProjects = new ArrayList<Projects>();
+		Properties prop = new Properties();
+		String propFileName = "config_DB.properties";
 		try {
 			Class.forName("org.postgresql.Driver");
-			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
+			InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+			 
+			if (inputStream != null) {
+				prop.load(inputStream);
+			} else {
+				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+			}
+			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + prop.getProperty("dbLocal"),
+					 								   prop.getProperty("dbLocal"),  prop.getProperty("dbLocalPassword"));
 			System.out.println("-----------------------------------------------------------------");
 			System.out.println("Getting Unique Matching Project IDS from TABLE_PROJECT_SKILLS");
 
@@ -247,9 +270,19 @@ public class SQLProjectStud {
 		String pID = "", pTitle = "", pStart = "", pEnd = "", 
 				   pLocation = "", pDesc = "", pPaid = "", pProp = "", pPosted = "";
 		ArrayList<Projects> listProjects = new ArrayList<Projects>();
+		Properties prop = new Properties();
+		String propFileName = "config_DB.properties";
 		try {
 			Class.forName("org.postgresql.Driver");
-			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
+			InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+			 
+			if (inputStream != null) {
+				prop.load(inputStream);
+			} else {
+				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+			}
+			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + prop.getProperty("dbLocal"),
+					 								   prop.getProperty("dbLocal"),  prop.getProperty("dbLocalPassword"));
 			System.out.println("-----------------------------------------------------------------");
 			System.out.println("Loading Projects from TABLE_PROJECT_INDEX");
 
