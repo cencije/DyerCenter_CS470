@@ -33,7 +33,7 @@ import com.vaadin.flow.router.Route;
 @PageTitle("Projects Alumni")
 public class ProjectListAlum extends VerticalLayout{
 		private final TextField searchField = new TextField("",
-	            "Search projects");
+	            "Search by title");
 	    private final H2 header = new H2("Project Proposals");
 	    private final Grid<Projects> grid = new Grid<>();
 	    private List<Projects> projectList = new ArrayList();

@@ -77,7 +77,7 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
     private RadioButtonGroup<String> combo;
     
     public ProjectListStud() {
-      search.setPlaceholder("Search reviews");
+      search.setPlaceholder("Search by title");
       search.addValueChangeListener(e -> updateList());
       search.setValueChangeMode(ValueChangeMode.EAGER);
       search.addFocusShortcut(Key.KEY_F, KeyModifier.CONTROL);
