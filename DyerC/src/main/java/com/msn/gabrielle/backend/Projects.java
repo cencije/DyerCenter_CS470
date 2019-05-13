@@ -97,8 +97,7 @@ public class Projects implements Serializable {
     /**
      * Sets the value of the project proposer
      *
-     * @param proposedBy
-     *            new value value of the project proposer
+     * @param proposedBy new value of the project proposer
      */
     public void setProposedBy(String proposedBy) {
     	System.out.println("Name:" + proposedBy);
