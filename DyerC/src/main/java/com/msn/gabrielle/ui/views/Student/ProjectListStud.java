@@ -267,12 +267,14 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
      */
     public VerticalLayout skills() {
     	VerticalLayout vL = new VerticalLayout();
-    	List<SkillStud> skillsList = new ArrayList<SkillStud>(); //personService.fetchAll();
-		
+    	List<SkillStud> skillsList = new ArrayList<SkillStud>(); 
+		skillsList = sqlPStud.loadAllSkills();
 		cB = new ComboBox<String>("Skills required: ");
 		cB.setPlaceholder("Category");
 		firstGrid = new Grid<>();
 		firstGrid.setItems(skillsList);
+		firstGrid.addColumn(SkillStud::getCategory).setHeader("Category");
+		firstGrid.addColumn(SkillStud::getName).setHeader("Skill Name");
 		firstGrid.setSelectionMode(SelectionMode.MULTI);
 		vL.add(cB, firstGrid);
 		vL.setWidthFull();

@@ -334,4 +334,45 @@ public class SQLProjectStud {
 		}	
 		return listProjects;
 	}
+	
+	/**
+	 * Loads the list of skills that can be used for projects.
+	 * @return The list of skills that can be used for projects.
+	 */
+	public List<SkillStud> loadAllSkills() {
+		List<SkillStud> skillsList = new ArrayList<SkillStud>();
+		Properties prop = new Properties();
+		String propFileName = "config_DB.properties";
+		try {
+			Class.forName("org.postgresql.Driver");
+			InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+			 
+			if (inputStream != null) {
+				prop.load(inputStream);
+			} else {
+				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+			}
+			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + prop.getProperty("dbLocal"),
+					 								   prop.getProperty("dbLocal"),  prop.getProperty("dbLocalPassword"));
+			System.out.println("-----------------------------------------------------------------");
+			System.out.println("Loading all skills from TABLE_SKILLS_MASTER");
+			Statement statementGetAllSkills = c.createStatement();
+			String sqlGetAllSkills = "SELECT * FROM TABLE_SKILLS_MASTER;";
+
+			ResultSet rsSkills = statementGetAllSkills.executeQuery(sqlGetAllSkills);
+			while(rsSkills.next()) {
+				String sCategory = rsSkills.getString(2);
+				String sSkill	 = rsSkills.getString(3);
+				skillsList.add(new SkillStud(sCategory, sSkill));
+			}
+			statementGetAllSkills.close();
+			c.close();
+			System.out.println("Successful loading of all skills from TABLE_SKILLS_MASTER");
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println(e.getClass().getName()+": "+e.getMessage());
+			System.exit(0);
+		}
+		return skillsList;
+	}
 }
