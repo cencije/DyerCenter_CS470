@@ -63,6 +63,7 @@ public class EventsStud extends VerticalLayout{
 	 */
 	public EventsStud() {
         initView();
+		addClassName("main-layout");
         
         sqlES.loadAll();
         eventsList = sqlES.getAllEvents();
@@ -104,7 +105,7 @@ public class EventsStud extends VerticalLayout{
 	private void displayCalendar() {
 		
 		calendar.setHeight(500);
-		calendar.addClassName("calendar-color");
+		calendar.addClassName("main-lay__calendar");
 		setFlexGrow(1, calendar);
 		
 		VerticalLayout vlay = new VerticalLayout();
@@ -113,7 +114,7 @@ public class EventsStud extends VerticalLayout{
 		DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE;
 		String formattedDate = x.format(formatter);
 		currentMonth = new Label("");
-		currentMonth.addClassName("view-toolbar__event-title");
+		currentMonth.addClassName("main-layout__event-title");
 		currentYear = new String(formattedDate.substring(0, 4));
 		yearNum = Integer.parseInt(currentYear);
 
@@ -137,21 +138,21 @@ public class EventsStud extends VerticalLayout{
         	monthNumber = cMN;
         	monthLabelSetUp();
         });
-		today.addClassName("view-toolbar__event-today");
+		today.addClassName("main-layout__event-today");
 		
 		lastMonth = new Button(new Icon(VaadinIcon.ANGLE_LEFT), event -> {
         	calendar.previous();
         	if(monthNumber == 1) { yearNum--; monthNumber = 12; } else { monthNumber--;}
         	monthLabelSetUp();
         });
-        lastMonth.addClassName("view-toolbar__event-click");
+        lastMonth.addClassName("main-layout__next-button");
 
         nextMonth = new Button(new Icon(VaadinIcon.ANGLE_RIGHT), event -> {
         	calendar.next();
         	if(monthNumber == 12) { yearNum++; monthNumber = 1; } else { monthNumber++;}
         	monthLabelSetUp();
         });
-        nextMonth.addClassName("view-toolbar__event-click");
+        nextMonth.addClassName("main-layout__next-button");
         
         monthMoveLayout = new HorizontalLayout();
         monthMoveLayout.add(today, lastMonth, nextMonth);

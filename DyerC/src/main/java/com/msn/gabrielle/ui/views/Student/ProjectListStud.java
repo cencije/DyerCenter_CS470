@@ -168,7 +168,7 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
     	projectForum.add(skills());
     	
     	HorizontalLayout buttons = new HorizontalLayout();
-    	Button saveButton = new Button("Save", event -> {
+    	Button saveButton = new Button("Submit", event -> {
     		if( projectError() == true) {
     			Projects newProj = new Projects(pTField.getValue());
     			// SQL ADD HERE to PROPOSED TABLE
