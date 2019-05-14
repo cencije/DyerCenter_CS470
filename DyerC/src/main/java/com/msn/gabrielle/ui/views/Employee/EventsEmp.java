@@ -15,10 +15,8 @@
  */
 package com.msn.gabrielle.ui.views.Employee;
 
-import java.time.LocalDate;   
+import java.time.LocalDate;    
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
 import java.time.format.DateTimeFormatter;
 
 import org.vaadin.stefan.fullcalendar.Entry;
@@ -31,7 +29,6 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.icon.Icon;
@@ -49,6 +46,8 @@ import com.vaadin.flow.component.textfield.*;
 @HtmlImport("frontend://styles/shared-styles-ALUMNI.html")
 public class EventsEmp extends VerticalLayout{
 	
+	private static final long serialVersionUID = 23456789012345L;
+	
 	FullCalendar calendar = FullCalendarBuilder.create().build();
 	private Button addEventButton, saveEvent, closeD, lastMonth, nextMonth, today, removeEvent;
 	VerticalLayout lay, addEventDialogVLay;
@@ -57,12 +56,18 @@ public class EventsEmp extends VerticalLayout{
 	int monthValue, dayValue, hourValue, minuteValue, 
 		monthNumber, cMN, yearValue, yearNum;
 	public ArrayList<Events> eventsList = new ArrayList<Events>();
-	Label errorMessage, currentMonth, readTitle, readLoc, readTime;
-	TextField titleField, locField, descField, urlField;
+	Label errorMessage, currentMonth, readTitle, readLoc, readTime, characterErrorMessage, cEM2;
+	TextField titleField, locField, urlField;
+	TextArea descField;
 	Dialog newEventDialog, eventClickedDialog;
 	DatePicker dp;
 	TimePicker tp;
 	SQLEventEmp sqlEE = new SQLEventEmp();
+	CharSequence invalidApos, invalidSemi, invalidQuote;
+	
+	/**
+	 * Constructor; handles SQL code and EntryClicked functionality.
+	 */
 	public EventsEmp() {
 		addClassName("main-lay");
         initView();
@@ -95,14 +100,25 @@ public class EventsEmp extends VerticalLayout{
         displayCalendar();
         displayEvents();
         
+        invalidApos = "'";
+		invalidSemi = ";";
+		invalidQuote = "\"";
+        
         ButtonsLay = new HorizontalLayout();
 		saveEvent = new Button("Save Event");
 		closeD = new Button("Close");
 		errorMessage = new Label("Please fill out all of the required fields.");
+		characterErrorMessage = new Label("Please don't use any apostrophes ('), ");
+		cEM2 = new Label("semicolons (;), or quotation marks (\").");
         
         ButtonsLay.add(saveEvent, closeD);
     }
 	
+	/**
+	 * Creates and opens the Dialog for creating a new Event in the calendar when the 
+	 * button to add a new event is clicked. Within the Dialog the Event object is created and then 
+	 * stored in the database. 
+	 */
 	private void openAddEvent() {
 		
 		// Create the Dialog
@@ -112,18 +128,23 @@ public class EventsEmp extends VerticalLayout{
         
         // Create the title text box
         titleField = new TextField("Event Title:");
+        titleField.setWidth("200px");
 		titleField.addValueChangeListener(event -> { titleValue = event.getValue(); });
         
         // Create the location text field
 		locField = new TextField("Location:");
+		locField.setWidth("200px");
 		locField.addValueChangeListener(event -> { locationValue = event.getValue(); });
 		
 		// Create the description text field
-		descField = new TextField("Description:");
+		descField = new TextArea("Description:");
+		descField.setWidth("300px");
+		descField.setHeight("150px");
 		descField.addValueChangeListener(event -> { descValue = event.getValue();});
 		
 		// Create the URL link text field
 		urlField = new TextField("Link:");
+		urlField.setWidth("300px");
 		urlField.addValueChangeListener(event -> { urlLink = event.getValue();});
 		
 		// Create the date picker
@@ -162,7 +183,13 @@ public class EventsEmp extends VerticalLayout{
         		descField.setLabel("Description: *");
         		dp.setLabel("Choose a date: *");
         		tp.setLabel("Choose a time: *");
-        	} else {
+        	} else { 
+        		if(checkContainsInvalidSymbols(titleValue) ||
+        				checkContainsInvalidSymbols(locationValue) ||
+        				checkContainsInvalidSymbols(descValue)) {
+        			addEventDialogVLay.add(characterErrorMessage);
+        			addEventDialogVLay.add(cEM2);
+        		} else {
         		// Create a new Events object
         		Events newE = new Events(titleValue, locationValue, descValue, urlLink,
         							dayValue, monthValue, yearValue, hourValue, minuteValue);
@@ -190,6 +217,8 @@ public class EventsEmp extends VerticalLayout{
 
         		// Reset the error messages
         		addEventDialogVLay.remove(errorMessage);
+        		addEventDialogVLay.remove(characterErrorMessage);
+        		addEventDialogVLay.remove(cEM2);
         		titleField.setLabel("Event Title:");
         		locField.setLabel("Location:");
         		descField.setLabel("Description:");
@@ -198,6 +227,7 @@ public class EventsEmp extends VerticalLayout{
         	
     			// Close the Dialog
     			newEventDialog.close();
+        		}
         	}
 		});
 		saveEvent.addClassName("main-lay__button");
@@ -240,6 +270,10 @@ public class EventsEmp extends VerticalLayout{
 		newEventDialog.open();
 	}
 	
+	/**
+	 * Clears all of the input from the add New Event Dialog so that it's refreshed for
+	 * the next time it's clicked.
+	 */
 	private void clearFields() {
 		titleField.clear();
 		locField.clear();
@@ -249,6 +283,22 @@ public class EventsEmp extends VerticalLayout{
 		tp.clear();
 	}
 	
+	/**
+	 * Checks that a passed String does not contain any of the special characters that can't be
+	 * stored in the database. It's called from openAddEvent().
+	 * @param s A variable of type String.
+	 * @return true If the String contains any of the invalid symbols.
+	 */
+	private boolean checkContainsInvalidSymbols(String s) {
+		if(s.contains(invalidApos) || s.contains(invalidSemi) || s.contains(invalidQuote)) {
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Iterates through the the list of Events and adds them all as Entry objects to the calendar.
+	 */
 	private void displayEvents() {
 		calendar.removeAllEntries();
 		for(int i = 0; i < eventsList.size(); i++) {
@@ -272,25 +322,34 @@ public class EventsEmp extends VerticalLayout{
 		}
 	}
 	
+	/**
+	 * Initialize the view of the calendar.
+	 */
 	private void initView() {
         setDefaultHorizontalComponentAlignment(Alignment.STRETCH);
     }
 	
+	/**
+	 * Sets the calendar title Label based on the month and year numbers.
+	 */
 	private void monthLabelSetUp() {
-		if(monthNumber == 1) { currentMonth.setText("January " + currentYear);}
-		if(monthNumber == 2) { currentMonth.setText("February " + currentYear);}
-		if(monthNumber == 3) { currentMonth.setText("March " + currentYear);}
-		if(monthNumber == 4) { currentMonth.setText("April " + currentYear);}
-		if(monthNumber == 5) { currentMonth.setText("May " + currentYear);}
-		if(monthNumber == 6) { currentMonth.setText("June " + currentYear);}
-		if(monthNumber == 7) { currentMonth.setText("July " + currentYear);}
-		if(monthNumber == 8) { currentMonth.setText("August " + currentYear);}
-		if(monthNumber == 9) { currentMonth.setText("September " + currentYear);}
-		if(monthNumber == 10) { currentMonth.setText("October " + currentYear);}
-		if(monthNumber == 11) { currentMonth.setText("November " + currentYear);}
-		if(monthNumber == 12) { currentMonth.setText("December " + currentYear);}
+		if(monthNumber == 1) { currentMonth.setText("January " + yearNum);}
+		if(monthNumber == 2) { currentMonth.setText("February " + yearNum);}
+		if(monthNumber == 3) { currentMonth.setText("March " + yearNum);}
+		if(monthNumber == 4) { currentMonth.setText("April " + yearNum);}
+		if(monthNumber == 5) { currentMonth.setText("May " + yearNum);}
+		if(monthNumber == 6) { currentMonth.setText("June " + yearNum);}
+		if(monthNumber == 7) { currentMonth.setText("July " + yearNum);}
+		if(monthNumber == 8) { currentMonth.setText("August " + yearNum);}
+		if(monthNumber == 9) { currentMonth.setText("September " + yearNum);}
+		if(monthNumber == 10) { currentMonth.setText("October " + yearNum);}
+		if(monthNumber == 11) { currentMonth.setText("November " + yearNum);}
+		if(monthNumber == 12) { currentMonth.setText("December " + yearNum);}
 	}
 	
+	/**
+	 * Displays the view of the Events page; creates the labels, buttons, and calendar.
+	 */
 	private void displayCalendar() {
 		
 	    calendar.setHeight(500);
@@ -326,6 +385,7 @@ public class EventsEmp extends VerticalLayout{
 		today = new Button("Today", event -> { 
 			calendar.today();
 			monthNumber = cMN;
+			yearNum = Integer.parseInt(currentYear);
 			monthLabelSetUp();
 		});
 		today.addClassName("main-lay__event-today");
