@@ -1,0 +1,11 @@
+com.dyerspot.ejb
+com.dyerspot.servlet
+com.msn.gabrielle.backend
+com.msn.gabrielle.ui
+com.msn.gabrielle.ui.common
+com.msn.gabrielle.ui.encoders
+com.msn.gabrielle.ui.views.Alumni
+com.msn.gabrielle.ui.views.Employee
+com.msn.gabrielle.ui.views.Student
+com.msn.gabrielle.ui.views.categorieslist
+com.msn.gabrielle.ui.views.reviewslist
