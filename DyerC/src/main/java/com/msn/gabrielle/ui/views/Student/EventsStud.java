@@ -58,6 +58,9 @@ public class EventsStud extends VerticalLayout{
 
 	SQLEventStudent sqlES = new SQLEventStudent();
 	
+	/**
+	 * Constructor; handles SQL code. 
+	 */
 	public EventsStud() {
         initView();
         
@@ -68,26 +71,36 @@ public class EventsStud extends VerticalLayout{
         displayEvents();
     }
 	
+	/**
+	 * Initialize the view of the calendar.
+	 */
 	private void initView() {
         addClassName("main-layout");
         setDefaultHorizontalComponentAlignment(Alignment.STRETCH);
     }
 	
+	/**
+	 * Sets the calendar title Label based on the month and year numbers.
+	 */
 	private void monthLabelSetUp() {
-		if(monthNumber == 1) { currentMonth.setText("January " + currentYear);}
-		if(monthNumber == 2) { currentMonth.setText("February " + currentYear);}
-		if(monthNumber == 3) { currentMonth.setText("March " + currentYear);}
-		if(monthNumber == 4) { currentMonth.setText("April " + currentYear);}
-		if(monthNumber == 5) { currentMonth.setText("May " + currentYear);}
-		if(monthNumber == 6) { currentMonth.setText("June " + currentYear);}
-		if(monthNumber == 7) { currentMonth.setText("July " + currentYear);}
-		if(monthNumber == 8) { currentMonth.setText("August " + currentYear);}
-		if(monthNumber == 9) { currentMonth.setText("September " + currentYear);}
-		if(monthNumber == 10) { currentMonth.setText("October " + currentYear);}
-		if(monthNumber == 11) { currentMonth.setText("November " + currentYear);}
-		if(monthNumber == 12) { currentMonth.setText("December " + currentYear);}
+		if(monthNumber == 1) { currentMonth.setText("January " + yearNum);}
+		if(monthNumber == 2) { currentMonth.setText("February " + yearNum);}
+		if(monthNumber == 3) { currentMonth.setText("March " + yearNum);}
+		if(monthNumber == 4) { currentMonth.setText("April " + yearNum);}
+		if(monthNumber == 5) { currentMonth.setText("May " + yearNum);}
+		if(monthNumber == 6) { currentMonth.setText("June " + yearNum);}
+		if(monthNumber == 7) { currentMonth.setText("July " + yearNum);}
+		if(monthNumber == 8) { currentMonth.setText("August " + yearNum);}
+		if(monthNumber == 9) { currentMonth.setText("September " + yearNum);}
+		if(monthNumber == 10) { currentMonth.setText("October " + yearNum);}
+		if(monthNumber == 11) { currentMonth.setText("November " + yearNum);}
+		if(monthNumber == 12) { currentMonth.setText("December " + yearNum);}
 	}
 	
+	/**
+	 * Displays the view of the Events page; creates the labels, buttons, and calendar,
+	 * and handles EntryClicked functionality.
+	 */
 	private void displayCalendar() {
 		
 		calendar.setHeight(500);
@@ -159,6 +172,9 @@ public class EventsStud extends VerticalLayout{
         
 	}
 	
+	/**
+	 * Iterates through the the list of Events and adds them all as Entry objects to the calendar.
+	 */
 	private void displayEvents() {
 		calendar.removeAllEntries();
 		for(int i = 0; i < eventsList.size(); i++) {

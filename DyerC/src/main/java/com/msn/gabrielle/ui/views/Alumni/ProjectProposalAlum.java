@@ -55,7 +55,7 @@ public class ProjectProposalAlum extends VerticalLayout {
 		add(hL1);
 		add(skills());
 		HorizontalLayout hL2 = new HorizontalLayout();
-    	Button saveButton = new Button("Save", event -> {
+    	Button saveButton = new Button("Submit", event -> {
     		Set<SkillStud> setSkills = firstGrid.getSelectedItems();
     		List<SkillStud> listSkills = new ArrayList<SkillStud>();
     		for (SkillStud skill : setSkills) { listSkills.add(skill); }
