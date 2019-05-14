@@ -42,45 +42,45 @@ import com.msn.gabrielle.ui.views.reviewslist.ReviewsList;
  * child views below that.
  */
 @Route(value = "employeePage")
-@HtmlImport("frontend://styles/shared-styles.html")
+@HtmlImport("frontend://styles/shared-styles-ALUMNI.html")
 
 public class EmployeePage extends Div
         implements RouterLayout{
 		
     public EmployeePage() {
 		H2 title = new H2("DYER CENTER");
-		title.addClassName("main-layout__title");
+		title.addClassName("main-lay__title");
 
 		RouterLink projects = new RouterLink(null, ProjectsListEmp.class);
 		projects.add(new Icon(VaadinIcon.FORM), new Text("Projects"));
-		projects.addClassName("main-layout__nav-item");
+		projects.addClassName("main-lay__nav-item");
 		// Only show as active for the exact URL, but not for sub paths
 		projects.setHighlightCondition(HighlightConditions.sameLocation());
 
 		RouterLink eventsemp = new RouterLink(null, EventsEmp.class);
 		eventsemp.add(new Icon(VaadinIcon.CALENDAR), new Text("Events"));
-		eventsemp.addClassName("main-layout__nav-item");
+		eventsemp.addClassName("main-lay__nav-item");
 		eventsemp.setHighlightCondition(HighlightConditions.sameLocation());
 		
 		RouterLink skillsEmp = new RouterLink(null, SkillsEmp.class);
 		skillsEmp.add(new Icon(VaadinIcon.TASKS), new Text("SkillSet"));
-		skillsEmp.addClassName("main-layout__nav-item");
+		skillsEmp.addClassName("main-lay__nav-item");
 		skillsEmp.setHighlightCondition(HighlightConditions.sameLocation());
 		
 		RouterLink projectpropemp = new RouterLink(null, ProjectProposalEmp.class);
 		projectpropemp.add(new Icon(VaadinIcon.EDIT), new Text("Project Proposal"));
-		projectpropemp.addClassName("main-layout__nav-item");
+		projectpropemp.addClassName("main-lay__nav-item");
 		projectpropemp.setHighlightCondition(HighlightConditions.sameLocation());
 
 		Div navigation = new Div(projects, eventsemp, skillsEmp, projectpropemp); //, skillsEmp, );
-		navigation.addClassName("main-layout__nav");
+		navigation.addClassName("main-lay__nav");
 		
 		Div header = new Div(title, navigation);
-		header.addClassName("main-layout__header");
+		header.addClassName("main-lay__header");
 		
 		add(header);
 
-		addClassName("main-layout");
+		addClassName("main-lay");
     }
    
 }

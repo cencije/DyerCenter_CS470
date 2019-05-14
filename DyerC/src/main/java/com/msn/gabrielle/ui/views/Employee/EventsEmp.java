@@ -46,7 +46,7 @@ import com.vaadin.flow.component.textfield.*;
 
 @Route(value = "eventsemp", layout = EmployeePage.class)
 @PageTitle("Events")
-@HtmlImport("frontend://styles/calendar-style.html")
+@HtmlImport("frontend://styles/shared-styles-ALUMNI.html")
 public class EventsEmp extends VerticalLayout{
 	
 	FullCalendar calendar = FullCalendarBuilder.create().build();
@@ -64,9 +64,9 @@ public class EventsEmp extends VerticalLayout{
 	TimePicker tp;
 	SQLEventEmp sqlEE = new SQLEventEmp();
 	public EventsEmp() {
+		addClassName("main-lay");
         initView();
-        
-         
+
         sqlEE.loadAll();
         eventsList = sqlEE.getAllEvents();
         
@@ -200,7 +200,7 @@ public class EventsEmp extends VerticalLayout{
     			newEventDialog.close();
         	}
 		});
-		saveEvent.addClassName("view-toolbar__button");
+		saveEvent.addClassName("main-lay__button");
 		
 		// Create the close button
 		closeD.addClickListener(event ->  {
@@ -229,7 +229,7 @@ public class EventsEmp extends VerticalLayout{
     		// Close the Dialog
     		newEventDialog.close();
 		});
-		closeD.addClassName("view-toolbar__button");
+		closeD.addClassName("main-lay__button");
 		
 		// Add all of these elements to a Vertical Layout, add that to the Dialog
 		addEventDialogVLay = new VerticalLayout();
@@ -273,7 +273,6 @@ public class EventsEmp extends VerticalLayout{
 	}
 	
 	private void initView() {
-        addClassName("events");
         setDefaultHorizontalComponentAlignment(Alignment.STRETCH);
     }
 	
@@ -295,7 +294,7 @@ public class EventsEmp extends VerticalLayout{
 	private void displayCalendar() {
 		
 	    calendar.setHeight(500);
-	    calendar.addClassName("calendar-color");
+	    calendar.addClassName("main-lay__calendar");
 		setFlexGrow(1, calendar);
 		
 		// Get the current date using LocalDate
@@ -303,7 +302,7 @@ public class EventsEmp extends VerticalLayout{
 		DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE;
 		String formattedDate = x.format(formatter);
 		currentMonth = new Label("");
-		currentMonth.addClassName("view-toolbar__event-title");
+		currentMonth.addClassName("main-lay__event-title");
 		currentYear = new String(formattedDate.substring(0, 4));
 		yearNum = Integer.parseInt(currentYear);
 		
@@ -329,7 +328,7 @@ public class EventsEmp extends VerticalLayout{
 			monthNumber = cMN;
 			monthLabelSetUp();
 		});
-		today.addClassName("view-toolbar__event-today");
+		today.addClassName("main-lay__event-today");
 		
 		// Button to move back into past months
         lastMonth = new Button(new Icon(VaadinIcon.ANGLE_LEFT), event -> {
@@ -337,7 +336,7 @@ public class EventsEmp extends VerticalLayout{
         	if(monthNumber == 1) { yearNum--; monthNumber = 12; } else { monthNumber--;}
         	monthLabelSetUp();
         });
-        lastMonth.addClassName("view-toolbar__event-click");
+        lastMonth.addClassName("main-lay__button");
         
         // Button to move forward into future months
         nextMonth = new Button(new Icon(VaadinIcon.ANGLE_RIGHT), event -> {
@@ -345,7 +344,7 @@ public class EventsEmp extends VerticalLayout{
         	if(monthNumber == 12) { yearNum++; monthNumber = 1; } else { monthNumber++;}
         	monthLabelSetUp();
         });
-        nextMonth.addClassName("view-toolbar__event-click");
+        nextMonth.addClassName("main-lay__button");
         
 
         // Create the add Events button
@@ -355,6 +354,7 @@ public class EventsEmp extends VerticalLayout{
         	} catch(Exception e) { e.printStackTrace(); }  }       
         );
         addEventButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        addEventButton.addClassName("main-lay__button");
 
         // Create the Horizontal Layout for the buttons, and add them
         monthMoveLayout = new HorizontalLayout();

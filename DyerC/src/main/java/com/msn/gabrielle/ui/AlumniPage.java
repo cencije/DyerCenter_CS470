@@ -40,7 +40,7 @@ import com.msn.gabrielle.ui.views.reviewslist.ReviewsList;
  * The main layout contains the header with the navigation buttons, and the
  * child views below that.
  */
-@Route(value = "alumniPage", layout = MainLayout.class)
+@Route(value = "alumniPage")
 @HtmlImport("frontend://styles/shared-styles-ALUMNI.html")
 
 public class AlumniPage extends Div
