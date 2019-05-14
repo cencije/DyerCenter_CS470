@@ -7,7 +7,7 @@ public class SkillStud implements Serializable {
 	public String skillCategory; // Category of skill
 	public String skillName; // Name of skill 
 	
-	
+	public SkillStud() {}
 	/**
 	 * Constructor for the skill object
 	 * @param category Category of the skill
