@@ -1,4 +1,5 @@
 com/msn/gabrielle/ui/views/categorieslist/CategoriesList.class
+com/dyerspot/ejb/MailSenderBean.class
 com/msn/gabrielle/ui/views/Student/SkillStud.class
 com/msn/gabrielle/ui/views/Student/SQLProjectStud.class
 com/msn/gabrielle/backend/Events.class
@@ -6,6 +7,7 @@ com/msn/gabrielle/ui/views/Student/SQLEventStudent.class
 com/msn/gabrielle/ui/views/Employee/SkillsEmp.class
 com/msn/gabrielle/backend/ReviewService.class
 com/msn/gabrielle/ui/encoders/LocalDateToStringEncoder.class
+com/dyerspot/servlet/MailDispatcherServlet.class
 com/msn/gabrielle/ui/common/ConfirmationDialog.class
 com/msn/gabrielle/backend/ReviewService$SingletonHolder.class
 com/msn/gabrielle/ui/views/Student/ProjectListStud.class
