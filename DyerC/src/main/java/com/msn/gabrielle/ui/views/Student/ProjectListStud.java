@@ -136,12 +136,16 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
     
     @EventHandler
     private void view_click() {
-    	//updateList();
+    	projectList = sqlPStud.loadProjects();
+    	getModel().setReviews(projectList);
+    	updateList();
     }
     
     @EventHandler
     private void match_click() {
-    	//viewDialog().open();
+    	projectList = sqlPStud.loadMatchingProjectsCatSkill("goodwayj@lafayette.edu");
+    	getModel().setReviews(projectList);
+    	updateList();
     }
     
     private Dialog dialog() {
@@ -247,7 +251,7 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
     
     /**
      * Layout for proposer of the projects name for project dialog
-     * @return vertical layout
+     * @return vertical Remove Projects?layout
      */
     public VerticalLayout proposerName() {
     	VerticalLayout vL = new VerticalLayout();
