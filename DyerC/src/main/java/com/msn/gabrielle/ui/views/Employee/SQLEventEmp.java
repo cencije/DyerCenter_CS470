@@ -68,8 +68,6 @@ public class SQLEventEmp {
 				String mYear  		= 	rsMonth.getString(8);
 				String mHour  		= 	rsMonth.getString(9);
 				String mMinute  	= 	rsMonth.getString(10);
-				System.out.println(mID + " " + mTitle + " " + mLocation + " " + mDesc + " " + mURL + " " +
-								   mMonth + " " + mYear + " " + mHour + " " + mMinute);
 				Events ev = new Events(mTitle, mLocation, mDesc, mURL, Integer.parseInt(mDay), 
 									   Integer.parseInt(mMonth), Integer.parseInt(mYear), 
 									   Integer.parseInt(mHour), Integer.parseInt(mMinute));
@@ -123,8 +121,6 @@ public class SQLEventEmp {
 				String mYear  		= 	rsMonth.getString(8);
 				String mHour  		= 	rsMonth.getString(9);
 				String mMinute  	= 	rsMonth.getString(10);
-				System.out.println(mID + " " + mTitle + " " + mLocation + " " + mDesc + " " + mURL + " " +
-								   mMonth + " " + mYear + " " + mHour + " " + mMinute);
 				Events ev = new Events(mTitle, mLocation, mDesc, mURL, Integer.parseInt(mDay), 
 						   Integer.parseInt(mMonth), Integer.parseInt(mYear), 
 						   Integer.parseInt(mHour), Integer.parseInt(mMinute));
@@ -197,17 +193,8 @@ public class SQLEventEmp {
 	/**
 	 * Deletes an event from TABLE_EVENTS_MASTER based on the passed values.
 	 * @param title Title of the event to be deleted.
-	 * @param location Location of the event to be deleted.
-	 * @param desc Description of the event to be deleted.
-	 * @param url URL of the event to be deleted.
-	 * @param day Day of the event to be deleted.
-	 * @param month Month of the event to be deleted.
-	 * @param year Year of the event to be deleted.
-	 * @param hour Hour of the event to be deleted.
-	 * @param min Minute of the event to be deleted.
 	 */
-	public void deleteEvent(String title, String location, String desc, String url,
-							 String day, String month, String year, String hour, String min) {
+	public void deleteEvent(String title) {
 		Properties prop = new Properties();
 		String propFileName = "config_DB.properties";
 		try {
@@ -226,11 +213,7 @@ public class SQLEventEmp {
 
 			Statement statementDeleteEvent = c.createStatement();
 			
-			String sqlDeleteEvent = "DELETE FROM TABLE_EVENTS_MASTER WHERE TITLE = '" + title +
-									  "' AND LOCATION = '" + location + "' AND DESCRIPTION = '" + desc +
-									  "' AND URL = '" + url + "' AND DAY = '" + day +
-									  "' AND MONTH = '" + month + "' AND YEAR = '" + year +
-									  "' AND HOUR = '" + hour + "' AND MIN = '" + min +"';";
+			String sqlDeleteEvent = "DELETE FROM TABLE_EVENTS_MASTER WHERE TITLE = '" + title + "';";
 			statementDeleteEvent.executeUpdate(sqlDeleteEvent);
 			statementDeleteEvent.close();
 			c.close();

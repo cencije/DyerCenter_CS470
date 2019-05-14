@@ -187,7 +187,7 @@ public class ProjectsListEmp extends VerticalLayout {
         edit.setIcon(new Icon("lumo", "view"));
         edit.addClassName("review__edit");
         edit.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
-        edit.addClickListener(e -> viewDialog(project).open());
+        edit.addClickListener(e -> viewDialog(project));
         return edit;
     }
 

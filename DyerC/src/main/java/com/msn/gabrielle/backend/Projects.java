@@ -75,8 +75,7 @@ public class Projects {
     /**
      * Sets the value the project title
      *
-     * @param name
-     *            new value of the project title
+     * @param projectTitle New value of the project title.
      */
     public void setProjectTitle(String projectTitle) {
     	System.out.println("Title:" + projectTitle);
@@ -177,7 +176,7 @@ public class Projects {
     /**
      * Set the end date of the project
      * 
-     * @param sD is the start date to be set
+     * @param eD is the start date to be set.
      */
     public void setEndDate(String eD) {
     	System.out.println("end Date:" + eD);
@@ -196,7 +195,7 @@ public class Projects {
     /**
      * Set the date the project was posted 
      * 
-     * @param sD date the project was posted to be set
+     * @param pD date the project was posted to be set
      */
     public void setDatePosted(String pD) {
     	System.out.println("Posted Date:" + pD);
@@ -233,7 +232,7 @@ public class Projects {
      
     /**
      * 
-     * @return
+     * @return list of skills String
      */
     public List<String> getSkillsSet(){
     	return skills;
@@ -248,7 +247,7 @@ public class Projects {
     
     /**
      * 
-     * @return
+     * @return list of skills SkillStud
      */
     public List<SkillStud> getSkillList(){
     	return listSkillStud;

@@ -17,6 +17,10 @@ import com.vaadin.flow.router.Route;
 @PageTitle("Profile")
 public class ProfileAlum extends VerticalLayout{
 	String profileName, profileEmail;
+	
+	/**
+	 * Constructor for ProfileAlum. Makes the labels and layouts.
+	 */
 	public ProfileAlum() {
 		
 		loadProfileValues();
@@ -36,11 +40,13 @@ public class ProfileAlum extends VerticalLayout{
 		add(vlNonGridSide);
 	}
 	
+	/**
+	 * Loads the profile values for the alumni from the database.
+	 */
 	public void loadProfileValues() {
-		// Select * WHERE EMAILADDRESS = ' ';
 		profileName = "N/A";
 		profileEmail = "N/A";
-		profileName = "John Goodway";
-		profileEmail = "goodwayj@alumniEmail";
+		profileName = "Ferris Asher";
+		profileEmail = "asherf@alumniEmail";
 	}
 }
