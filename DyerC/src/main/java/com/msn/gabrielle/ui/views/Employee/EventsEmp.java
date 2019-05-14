@@ -76,11 +76,13 @@ public class EventsEmp extends VerticalLayout{
         calendar.addEntryClickedListener(EntryClickedEvent -> {
         	Dialog p = new Dialog();
         	VerticalLayout k = new VerticalLayout();
-        	readTitle = new Label(EntryClickedEvent.getEntry().getTitle().toString());
-        	readLoc = new Label("Located in: " + EntryClickedEvent.getEntry().getDescription().toString());
-        	readTime = new Label("Event begins at: " + EntryClickedEvent.getEntry().getStart().toString().substring(11, 16));
+        	Entry e = EntryClickedEvent.getEntry();
+        	readTitle = new Label(e.getTitle().toString());
+        	readLoc = new Label("Located in: " + e.getDescription().toString());
+        	readTime = new Label("Event begins at: " + e.getStart().toString().substring(11, 16));
         	removeEvent = new Button("Remove this event");
         	removeEvent.addClickListener(event -> {
+        		//sqlEE.deleteEvent(e.getTitle(), e.getDescription(), e., e.location, desc, url, day, month, year, hour, min);
         		calendar.removeEntry(EntryClickedEvent.getEntry());
         		p.close();
         		//SQL code to remove the event
@@ -180,8 +182,6 @@ public class EventsEmp extends VerticalLayout{
         		sqlEE.insertEvent(titleValue, locationValue, descValue, urlLink, Integer.toString(dayValue), 
         						  Integer.toString(monthValue), Integer.toString(yearValue), 
         						  Integer.toString(hourValue), Integer.toString(minuteValue));
-        		//eventsList.add(newE);
-        		//calendar.addEntry(ne);
         		sqlEE.loadAll();
                 eventsList = sqlEE.getAllEvents();
                 displayEvents();

@@ -40,7 +40,7 @@ import com.vaadin.flow.router.Route;
 @PageTitle("Projects Employee")
 public class ProjectsListEmp extends VerticalLayout {
 	private final TextField searchField = new TextField("",
-            "Search projects");
+            "Search by title");
     private final H2 header = new H2("Project Proposals");
     private final Grid<Projects> grid = new Grid<>();
     private List<Projects> projectList = new ArrayList();
@@ -165,18 +165,18 @@ public class ProjectsListEmp extends VerticalLayout {
     	
     	projectForum.add(nameUnPaid);
     	viewDialog.add(projectForum);
-    	Button closeButton = new Button("Cancel", event -> {
+     	Button closeButton = new Button("Close", event -> {
     		viewDialog.close();
     	});
-    	List<SkillStud> skillList = new ArrayList<SkillStud>();
-    	skillList = currentProj.getSkillList();
-    	Grid<SkillStud> grid = new Grid<>();
-    	grid.setItems(skillList);
-    	grid.addColumn(SkillStud::getCategory).setHeader("Category");
-    	grid.addColumn(SkillStud::getName).setHeader("Skill Name");
-    	grid.addThemeVariants(GridVariant.LUMO_NO_BORDER,
+    	viewDialog.setCloseOnOutsideClick(true);
+    	List<SkillStud> skillList = currentProj.getSkillList();
+    	Grid<SkillStud> gridSkill = new Grid<SkillStud>(SkillStud.class);
+    	gridSkill.addColumn(SkillStud::getCategory).setHeader("Category");
+    	gridSkill.addColumn(SkillStud::getName).setHeader("Skill Name");
+    	gridSkill.addThemeVariants(GridVariant.LUMO_NO_BORDER,
     	        GridVariant.LUMO_NO_ROW_BORDERS);
-    	viewDialog.add(grid);
+    	gridSkill.setItems(skillList);
+    	viewDialog.add(gridSkill);
     	viewDialog.add(closeButton);
     	return viewDialog;
     }

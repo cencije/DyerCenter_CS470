@@ -1,15 +1,35 @@
 package com.msn.gabrielle.ui.views.Student;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Properties;
 
 public class SQLProfileStud {
 
-	ArrayList<String> listProfileInfo = new ArrayList<String>();
+	ArrayList<String> listProfileInfo = new ArrayList<String>(); // List of info for the student profile
+	
+	/**
+	 * Constructor for the SQLProfileStud class.
+	 */
+	public SQLProfileStud() {}
+	
+	/**
+	 * Will insert a new profile into TABLE_PROFILE_STUDENTS that, based off of passed values.
+	 * @param name Name of the student for the new profile.
+	 * @param email Email of the student for the new profile.
+	 * @param password Password of the student for the new profile.
+	 * @param phoneNo Phone number of the student for the new profile.
+	 * @param maj1 Major 1 of the student for the new profile.
+	 * @param maj2 Major 2 of the student for the new profile.
+	 * @param min1 Minor 1 of the student for the new profile.
+	 * @param min2 Minor 2 of the student for the new profile.
+	 */
 	public void insertNewProfile(String name, String email, String password, 
 			String phoneNo, String maj1, String maj2,
 			String min1, String min2) {
@@ -20,10 +40,20 @@ public class SQLProfileStud {
 		if (min2 	== null) min2 	 = "";
 
 		int idNumber;
-
+		Properties prop = new Properties();
+		String propFileName = "config_DB.properties";
 		try {
 			Class.forName("org.postgresql.Driver");
-			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
+			InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+			if (inputStream != null) {
+				prop.load(inputStream);
+			} else {
+				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+			}
+
+			Class.forName("org.postgresql.Driver");
+			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + prop.getProperty("dbLocal"),
+					   								   prop.getProperty("dbLocal"),  prop.getProperty("dbLocalPassword"));
 			System.out.println("-----------------------------------------------------------------");
 			System.out.println("Couting Max ID in TABLE_PROFILE_STUDENTS");
 			Statement statementCount = c.createStatement();
@@ -54,13 +84,29 @@ public class SQLProfileStud {
 
 	}
 
+	/**
+	 * Looks for the student based on a passed email value and finds their profile data from TABLE_PROFILE_STUDENTS.
+	 * @param email Email of the student to be found in TABLE_PROFILE_STUDENTS.
+	 * @return A list of skills associated with their profile.
+	 */
 	public ArrayList<SkillStud> getProfileValues(String email) {
 		String eID = "", eName = "", eEmail = "", ePword = "", 
 			   ePhone = "", eMaj1 = "", eMaj2 = "", eMin1 = "", eMin2 = "";
 		ArrayList<SkillStud> listProfileSkills = new ArrayList<SkillStud>();
+		Properties prop = new Properties();
+		String propFileName = "config_DB.properties";
 		try {
 			Class.forName("org.postgresql.Driver");
-			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
+			InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+			if (inputStream != null) {
+				prop.load(inputStream);
+			} else {
+				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+			}
+
+			Class.forName("org.postgresql.Driver");
+			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + prop.getProperty("dbLocal"),
+					   								   prop.getProperty("dbLocal"),  prop.getProperty("dbLocalPassword"));
 			System.out.println("-----------------------------------------------------------------");
 			System.out.println("Selecting on Email from TABLE_PROFILE_STUDENTS");
 			Statement statementSelectEmail = c.createStatement();
@@ -92,7 +138,16 @@ public class SQLProfileStud {
 		
 		try {
 			Class.forName("org.postgresql.Driver");
-			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
+			InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+			if (inputStream != null) {
+				prop.load(inputStream);
+			} else {
+				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+			}
+
+			Class.forName("org.postgresql.Driver");
+			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + prop.getProperty("dbLocal"),
+					   								   prop.getProperty("dbLocal"),  prop.getProperty("dbLocalPassword"));
 			System.out.println("-----------------------------------------------------------------");
 			System.out.println("Finding Skills from TABLE_SKILLS_STUDENT / TABLE_PROFILE_STUDENTS");
 			Statement statementSelectSkills = c.createStatement();
@@ -120,11 +175,28 @@ public class SQLProfileStud {
 	}
 	
 	
+	/**
+	 * Finds a student's profile in the database based off of a passed email value and updates their name to the passed
+	 * newName value in TABLE_PROFILE_STUDENTS.
+	 * @param newName New name of the student that is to be updated in TABLE_PROFILE_STUDENTS. 
+	 * @param studentEmail Email of the student to find their profile in TABLE_PROFILE_STUDENTS.
+	 */
 	public void updateName(String newName, String studentEmail) {
 		
+		Properties prop = new Properties();
+		String propFileName = "config_DB.properties";
 		try {
 			Class.forName("org.postgresql.Driver");
-			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
+			InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+			if (inputStream != null) {
+				prop.load(inputStream);
+			} else {
+				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+			}
+
+			Class.forName("org.postgresql.Driver");
+			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + prop.getProperty("dbLocal"),
+					   								   prop.getProperty("dbLocal"),  prop.getProperty("dbLocalPassword"));
 			System.out.println("-----------------------------------------------------------------");
 			System.out.println("Updating Profile Name in TABLE_PROFILE_STUDENTS");
 			Statement statementUpdateName = c.createStatement();
@@ -142,11 +214,30 @@ public class SQLProfileStud {
 		}
 	}
 	
+	/**
+	 * Finds the student based off of the passed email value and updates their majors and minors in TABLE_PROFILE_STUDENTS.
+	 * @param studentEmail Email of the student to find their profile in TABLE_PROFILE_STUDENTS.
+	 * @param maj1 New Major 1 of the student.
+	 * @param maj2 New Major 2 of the student.
+	 * @param min1 New Minor 1 of the student.
+	 * @param min2 New Minor 2 of the student.
+	 */
 	public void updateMajorsMinors(String studentEmail, String maj1, String maj2, 
 								   String min1, String min2) {
+		Properties prop = new Properties();
+		String propFileName = "config_DB.properties";
 		try {
 			Class.forName("org.postgresql.Driver");
-			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
+			InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+			if (inputStream != null) {
+				prop.load(inputStream);
+			} else {
+				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+			}
+
+			Class.forName("org.postgresql.Driver");
+			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + prop.getProperty("dbLocal"),
+					   								   prop.getProperty("dbLocal"),  prop.getProperty("dbLocalPassword"));
 			System.out.println("-----------------------------------------------------------------");
 			System.out.println("Updating Profile Name in TABLE_PROFILE_STUDENTS");
 			Statement statementUpdateName = c.createStatement();
@@ -165,12 +256,29 @@ public class SQLProfileStud {
 			System.exit(0);
 		}
 	}
+	
+	/**
+	 * Finds the student profile based off of the passed email value and updates their skills in TABLE_SKILLS_STUDENT.
+	 * @param studentEmail Email of the student to find their profile in TABLE_PROFILE_STUDENTS.
+	 * @param skillList List of skills of the student to be associated with the student profile in TABLE_SKILLS_STUDENT.
+	 */
 	public void addSkillsToProfile(String studentEmail, ArrayList<SkillStud> skillList) {
 		
 		String eID = "DUMMYVALUE";
+		Properties prop = new Properties();
+		String propFileName = "config_DB.properties";
 		try {
 			Class.forName("org.postgresql.Driver");
-			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
+			InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+			if (inputStream != null) {
+				prop.load(inputStream);
+			} else {
+				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+			}
+
+			Class.forName("org.postgresql.Driver");
+			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + prop.getProperty("dbLocal"),
+					   								   prop.getProperty("dbLocal"),  prop.getProperty("dbLocalPassword"));
 			System.out.println("-----------------------------------------------------------------");
 			System.out.println("Selecting on Email from TABLE_PROFILE_STUDENTS");
 			Statement statementSelectEmail = c.createStatement();
@@ -193,7 +301,7 @@ public class SQLProfileStud {
 			System.out.println("Successful Skills Removal from TABLE_SKILLS_STUDENT");
 			System.out.println("-----------------------------------------------------------------");
 			
-			System.out.println("Adding Skills for " + eID + " t TABLE_SKILLS_STUDENT");
+			System.out.println("Adding Skills for " + eID + " to TABLE_SKILLS_STUDENT");
 			
 			for (int i = 0; i < skillList.size(); i++) {
 				Statement statementAddSkills = c.createStatement();
@@ -211,11 +319,26 @@ public class SQLProfileStud {
 		}
 	}
 	
+	/**
+	 * Gets the entire list of skills that are in TABLE_SKILLS_MASTER that can be added to a student profile.
+	 * @return The entire list of skills that are in TABLE_SKILLS_MASTER that can be added to a student profile.
+	 */
 	public ArrayList<SkillStud> loadAllSkills() {
 		ArrayList<SkillStud> skillsList = new ArrayList<SkillStud>();
+		Properties prop = new Properties();
+		String propFileName = "config_DB.properties";
 		try {
 			Class.forName("org.postgresql.Driver");
-			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
+			InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+			if (inputStream != null) {
+				prop.load(inputStream);
+			} else {
+				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+			}
+
+			Class.forName("org.postgresql.Driver");
+			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + prop.getProperty("dbLocal"),
+					   								   prop.getProperty("dbLocal"),  prop.getProperty("dbLocalPassword"));
 			System.out.println("-----------------------------------------------------------------");
 			System.out.println("Loading all skills from TABLE_SKILLS_MASTER");
 			Statement statementGetAllSkills = c.createStatement();

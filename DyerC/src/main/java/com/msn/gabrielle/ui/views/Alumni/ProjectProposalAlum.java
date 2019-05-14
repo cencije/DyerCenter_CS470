@@ -57,7 +57,7 @@ public class ProjectProposalAlum extends VerticalLayout {
 		HorizontalLayout hL2 = new HorizontalLayout();
     	Button saveButton = new Button("Save", event -> {
     		Set<SkillStud> setSkills = firstGrid.getSelectedItems();
-    		ArrayList<SkillStud> listSkills = new ArrayList<SkillStud>();
+    		List<SkillStud> listSkills = new ArrayList<SkillStud>();
     		for (SkillStud skill : setSkills) { listSkills.add(skill); }
     		Projects newProj = new Projects(pTField.getValue());
     		newProj.setStartDate(datePickerFirst.getValue().format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));

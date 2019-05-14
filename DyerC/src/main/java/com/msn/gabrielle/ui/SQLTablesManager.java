@@ -1,8 +1,11 @@
 package com.msn.gabrielle.ui;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
+import java.util.Properties;
 
 import com.msn.gabrielle.ui.views.Student.SQLProfileStud;
 import com.msn.gabrielle.ui.views.Student.SQLProjectStud;
@@ -10,11 +13,18 @@ import com.msn.gabrielle.ui.views.Student.SkillsLoader;
 
 public class SQLTablesManager {
 
+
+	/**
+	 * Constructor for the SQLTablesManager class.
+	 */
 	public SQLTablesManager() { }
 	
+	
+	/**
+	 * Used to create the SQL Tables if they do not exist. 
+	 * Otherwise the tables existence will be checked and nothing else will be done.
+	 */
 	public void determineDBStates() {
-		//dropProfileTables(true, true, true);
-		//dropSkillTables(true, false);
 		createProfileTables();
 		createSkillTables();
 		createEventsTables();
@@ -28,17 +38,27 @@ public class SQLTablesManager {
 		//SkillsLoader sl = new SkillsLoader();
 		//sl.loadInJSONValues();
 		 
-		
-
-		
-		
 	}
 	
+	/**
+	 * Creates the tables associated with profiles.
+	 * TABLE_PROFILE_STUDENTS, TABLE_PROFILE_ALUMNI, TABLE_PROFILE_EMPLOYEE.
+	 */
 	public void createProfileTables() {
-		
+		Properties prop = new Properties();
+		String propFileName = "config_DB.properties";
 		try {
 			Class.forName("org.postgresql.Driver");
-			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres","postgres", "PostgresMall");
+			
+			InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+ 
+			if (inputStream != null) {
+				prop.load(inputStream);
+			} else {
+				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+			}
+			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + prop.getProperty("dbLocal"),
+					 								   prop.getProperty("dbLocal"),  prop.getProperty("dbLocalPassword"));
 			System.out.println("Creating/Checking Existence of TABLE_PROFILE_STUDENTS");
 			Statement statementCreate_TPS = c.createStatement();
 			String stringCreateTPS = "CREATE TABLE IF NOT EXISTS TABLE_PROFILE_STUDENTS" +
@@ -62,8 +82,16 @@ public class SQLTablesManager {
 		}
 		
 		try {
+			InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+			if (inputStream != null) {
+				prop.load(inputStream);
+			} else {
+				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+			}
+
 			Class.forName("org.postgresql.Driver");
-			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
+			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + prop.getProperty("dbLocal"),
+					   								   prop.getProperty("dbLocal"),  prop.getProperty("dbLocalPassword"));
 			System.out.println("Creating/Checking Existence of TABLE_PROFILE_ALUMNI");
 			Statement statementCreate_TPS = c.createStatement();
 			String stringCreateTPA = "CREATE TABLE IF NOT EXISTS TABLE_PROFILE_ALUMNI" +
@@ -83,8 +111,16 @@ public class SQLTablesManager {
 		}
 		
 		try {
+			InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+			if (inputStream != null) {
+				prop.load(inputStream);
+			} else {
+				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+			}
+
 			Class.forName("org.postgresql.Driver");
-			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
+			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/"+ prop.getProperty("dbLocal"),
+					   prop.getProperty("dbLocal"),  prop.getProperty("dbLocalPassword"));
 			System.out.println("Creating/Checking Existence of TABLE_PROFILE_EMPLOYEE");
 			Statement statementCreate_TPE = c.createStatement();
 			String stringCreateTPE = "CREATE TABLE IF NOT EXISTS TABLE_PROFILE_EMPLOYEE" +
@@ -104,12 +140,31 @@ public class SQLTablesManager {
 		}
 		
 	}
+	
+	/**
+	 * Drops the tables associated with profiles.
+	 * TABLE_PROFILE_STUDENTS, TABLE_PROFILE_ALUMNI, TABLE_PROFILE_EMPLOYEE.
+	 *
+	 * @param boolStudent If TABLE_PROFILE_STUDENTS should be dropped.
+	 * @param boolAlumni If TABLE_PROFILE_ALUMNI should be dropped.
+	 * @param boolEmployee If TABLE_PROFILE_EMPLOYEE should be dropped.
+	 */
 	public void dropProfileTables(boolean boolStudent, boolean boolAlumni, boolean boolEmployee) {
-		
+		Properties prop = new Properties();
+		String propFileName = "config_DB.properties";	
+			
 		if (boolStudent) {
 			try {
+				InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+				if (inputStream != null) {
+					prop.load(inputStream);
+				} else {
+					throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+				}
+
 				Class.forName("org.postgresql.Driver");
-				Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
+				Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/"+ prop.getProperty("dbLocal"),
+						   prop.getProperty("dbLocal"),  prop.getProperty("dbLocalPassword"));
 				System.out.println("Dropping Table TABLE_PROFILE_STUDENT");
 				Statement statementDrop_TPS = c.createStatement();
 				String stringDropTPS = "DROP TABLE IF EXISTS TABLE_PROFILE_STUDENTS;";
@@ -126,8 +181,16 @@ public class SQLTablesManager {
 		}
 		if (boolAlumni) {
 			try {
+				InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+				if (inputStream != null) {
+					prop.load(inputStream);
+				} else {
+					throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+				}
+
 				Class.forName("org.postgresql.Driver");
-				Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
+				Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/"+ prop.getProperty("dbLocal"),
+						   prop.getProperty("dbLocal"),  prop.getProperty("dbLocalPassword"));
 				System.out.println("Dropping Table IF EXISTS TABLE_PROFILE_ALUMNI");
 				Statement statementDrop_TPA = c.createStatement();
 				String stringDropTPA = "DROP TABLE TABLE_PROFILE_ALUMNI;";
@@ -144,9 +207,17 @@ public class SQLTablesManager {
 		}
 		if (boolEmployee) {
 			try {
+				InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+				if (inputStream != null) {
+					prop.load(inputStream);
+				} else {
+					throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+				}
+
 				Class.forName("org.postgresql.Driver");
-				Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
-				System.out.println("Dropping Table TABLE_PROFILE_EMPLOYEE!");
+				Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/"+ prop.getProperty("dbLocal"),
+						   prop.getProperty("dbLocal"),  prop.getProperty("dbLocalPassword"));
+				System.out.println("Dropping Table TABLE_PROFILE_EMPLOYEE");
 				Statement statementDrop_TPE = c.createStatement();
 				String stringDropTPE = "DROP TABLE IF EXISTS TABLE_PROFILE_EMPLOYEE;";
 				statementDrop_TPE.executeUpdate(stringDropTPE);
@@ -162,12 +233,25 @@ public class SQLTablesManager {
 		}
 	}
 	
+	/**
+	 * Creates the tables associated with events.
+	 * TABLE_EVENTS_MASTER.
+	 */
 	public void createEventsTables() {
-		
+		Properties prop = new Properties();
+		String propFileName = "config_DB.properties";
 		try {
+			InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+			if (inputStream != null) {
+				prop.load(inputStream);
+			} else {
+				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+			}
+
 			Class.forName("org.postgresql.Driver");
-			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
-			System.out.println("Creating/Checking Existence of TABLE_SKILLS_MASTER");
+			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + prop.getProperty("dbLocal"),
+					   prop.getProperty("dbLocal"),  prop.getProperty("dbLocalPassword"));
+			System.out.println("Creating/Checking Existence of TABLE_EVENTS_MASTER");
 			Statement statementCreate_TEM = c.createStatement();
 			String stringCreateTEM = "CREATE TABLE IF NOT EXISTS TABLE_EVENTS_MASTER" +
 			"(EVENT_ID INT PRIMARY KEY NOT NULL,   " +
@@ -192,11 +276,25 @@ public class SQLTablesManager {
 		
 	}
 	
+	/**
+	 * Creates the tables associated with skills.
+	 * TABLE_SKILLS_MASTER, TABLE_SKILLS_STUDENT.
+	 */
 	public void createSkillTables() {
+		Properties prop = new Properties();
+		String propFileName = "config_DB.properties";
 		
 		try {
+			InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+			if (inputStream != null) {
+				prop.load(inputStream);
+			} else {
+				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+			}
+
 			Class.forName("org.postgresql.Driver");
-			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
+			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + prop.getProperty("dbLocal"),
+					   prop.getProperty("dbLocal"),  prop.getProperty("dbLocalPassword"));
 			System.out.println("Creating/Checking Existence of TABLE_SKILLS_MASTER");
 			Statement statementCreate_TSM = c.createStatement();
 			String stringCreateTSM = "CREATE TABLE IF NOT EXISTS TABLE_SKILLS_MASTER" +
@@ -214,8 +312,16 @@ public class SQLTablesManager {
 		}
 		
 		try {
+			InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+			if (inputStream != null) {
+				prop.load(inputStream);
+			} else {
+				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+			}
+
 			Class.forName("org.postgresql.Driver");
-			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
+			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + prop.getProperty("dbLocal"),
+					   prop.getProperty("dbLocal"),  prop.getProperty("dbLocalPassword"));
 			System.out.println("Creating/Checking Existence of TABLE_SKILLS_STUDENT");
 			Statement statementCreate_TSS = c.createStatement();
 			String stringCreateTSS = "CREATE TABLE IF NOT EXISTS TABLE_SKILLS_STUDENT" +
@@ -233,12 +339,28 @@ public class SQLTablesManager {
 		}
 	}
 	
+	/**
+	 * Drops the tables associated with skills.
+	 * TABLE_SKILLS_MASTER, TABLE_SKILLS_STUDENT.
+	 * 
+	 * @param boolMaster If TABLE_SKILLS_MASTER should be dropped.
+	 * @param boolStudent If TABLE_SKILLS_STUDENT should be dropped.
+	 */
 	public void dropSkillTables(boolean boolMaster, boolean boolStudent) {
-		
+		Properties prop = new Properties();
+		String propFileName = "config_DB.properties";
 		if (boolMaster) {
 			try {
+				InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+				if (inputStream != null) {
+					prop.load(inputStream);
+				} else {
+					throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+				}
+
 				Class.forName("org.postgresql.Driver");
-				Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
+				Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + prop.getProperty("dbLocal"),
+						   prop.getProperty("dbLocal"),  prop.getProperty("dbLocalPassword"));
 				System.out.println("Dropping Table TABLE_SKILLS_MASTER");
 				Statement statementDrop_TSM = c.createStatement();
 				String stringDropTSM = "DROP TABLE IF EXISTS TABLE_SKILLS_MASTER;";
@@ -255,8 +377,16 @@ public class SQLTablesManager {
 		}
 		if (boolStudent) {
 			try {
+				InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+				if (inputStream != null) {
+					prop.load(inputStream);
+				} else {
+					throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+				}
+
 				Class.forName("org.postgresql.Driver");
-				Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
+				Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + prop.getProperty("dbLocal"),
+						   prop.getProperty("dbLocal"),  prop.getProperty("dbLocalPassword"));
 				System.out.println("Dropping Table TABLE_SKILLS_STUDENT");
 				Statement statementDrop_TSS = c.createStatement();
 				String stringDropTSS = "DROP TABLE IF EXISTS TABLE_SKILLS_STUDENT;";
@@ -273,11 +403,24 @@ public class SQLTablesManager {
 		}
 	}
 	
+	/**
+	 * Creates the tables associated with projects.
+	 * TABLE_PROJECT_INDEX, TABLE_PROJECT_SKILLS.
+	 */
 	public void createProjectTables() {
-		
+		Properties prop = new Properties();
+		String propFileName = "config_DB.properties";
 		try {
+			InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+			if (inputStream != null) {
+				prop.load(inputStream);
+			} else {
+				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+			}
+
 			Class.forName("org.postgresql.Driver");
-			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
+			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + prop.getProperty("dbLocal"),
+					   prop.getProperty("dbLocal"),  prop.getProperty("dbLocalPassword"));
 			System.out.println("Creating/Checking Existence of TABLE_PROJECT_INDEX");
 			Statement statementCreate_TPI = c.createStatement();
 			String sqlCreateTPI = "CREATE TABLE IF NOT EXISTS TABLE_PROJECT_INDEX" +
@@ -301,8 +444,16 @@ public class SQLTablesManager {
 		}
 		
 		try {
+			InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+			if (inputStream != null) {
+				prop.load(inputStream);
+			} else {
+				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+			}
+
 			Class.forName("org.postgresql.Driver");
-			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
+			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + prop.getProperty("dbLocal"),
+					   prop.getProperty("dbLocal"),  prop.getProperty("dbLocalPassword"));
 			System.out.println("Creating/Checking Existence of TABLE_PROJECT_SKILLS");
 			Statement statementCreate_TPS = c.createStatement();
 			String sqlCreateTPS = "CREATE TABLE IF NOT EXISTS TABLE_PROJECT_SKILLS" +
@@ -320,8 +471,16 @@ public class SQLTablesManager {
 		}
 		
 		try {
+			InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+			if (inputStream != null) {
+				prop.load(inputStream);
+			} else {
+				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+			}
+
 			Class.forName("org.postgresql.Driver");
-			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
+			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + prop.getProperty("dbLocal"),
+					   prop.getProperty("dbLocal"),  prop.getProperty("dbLocalPassword"));
 			System.out.println("Creating/Checking Existence of TABLE_PROJECT_PROPOSED");
 			Statement statementCreate_TPP = c.createStatement();
 			String sqlCreateTPP = "CREATE TABLE IF NOT EXISTS TABLE_PROJECT_PROPOSED" +

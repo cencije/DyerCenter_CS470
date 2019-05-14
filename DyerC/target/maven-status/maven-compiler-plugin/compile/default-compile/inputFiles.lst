@@ -3,6 +3,7 @@
 /Users/juliannapuleo/Desktop/Senior/SPR2019/CS470/CS470_DC/DyerCenter_CS470/DyerC/src/main/java/com/msn/gabrielle/backend/StaticData.java
 /Users/juliannapuleo/Desktop/Senior/SPR2019/CS470/CS470_DC/DyerCenter_CS470/DyerC/src/main/java/com/msn/gabrielle/ui/views/reviewslist/ReviewsList.java
 /Users/juliannapuleo/Desktop/Senior/SPR2019/CS470/CS470_DC/DyerCenter_CS470/DyerC/src/main/java/com/msn/gabrielle/ui/views/Employee/ProfileEmp.java
+/Users/juliannapuleo/Desktop/Senior/SPR2019/CS470/CS470_DC/DyerCenter_CS470/DyerC/src/main/java/com/dyerspot/servlet/MailDispatcherServlet.java
 /Users/juliannapuleo/Desktop/Senior/SPR2019/CS470/CS470_DC/DyerCenter_CS470/DyerC/src/main/java/com/msn/gabrielle/ui/SQLTablesManager.java
 /Users/juliannapuleo/Desktop/Senior/SPR2019/CS470/CS470_DC/DyerCenter_CS470/DyerC/src/main/java/com/msn/gabrielle/ui/views/categorieslist/CategoriesList.java
 /Users/juliannapuleo/Desktop/Senior/SPR2019/CS470/CS470_DC/DyerCenter_CS470/DyerC/src/main/java/com/msn/gabrielle/ui/views/Alumni/SQLProjectAlum.java
@@ -23,7 +24,6 @@
 /Users/juliannapuleo/Desktop/Senior/SPR2019/CS470/CS470_DC/DyerCenter_CS470/DyerC/src/main/java/com/msn/gabrielle/ui/views/Student/SQLProjectStud.java
 /Users/juliannapuleo/Desktop/Senior/SPR2019/CS470/CS470_DC/DyerCenter_CS470/DyerC/src/main/java/com/msn/gabrielle/ui/views/Student/ProfileStud.java
 /Users/juliannapuleo/Desktop/Senior/SPR2019/CS470/CS470_DC/DyerCenter_CS470/DyerC/src/main/java/com/msn/gabrielle/ui/EmployeePage.java
-/Users/juliannapuleo/Desktop/Senior/SPR2019/CS470/CS470_DC/DyerCenter_CS470/DyerC/src/main/java/com/msn/gabrielle/ui/views/Student/ProjectEditorDialog.java
 /Users/juliannapuleo/Desktop/Senior/SPR2019/CS470/CS470_DC/DyerCenter_CS470/DyerC/src/main/java/com/msn/gabrielle/ui/views/Student/EventsStud.java
 /Users/juliannapuleo/Desktop/Senior/SPR2019/CS470/CS470_DC/DyerCenter_CS470/DyerC/src/main/java/com/msn/gabrielle/ui/encoders/LocalDateToStringEncoder.java
 /Users/juliannapuleo/Desktop/Senior/SPR2019/CS470/CS470_DC/DyerCenter_CS470/DyerC/src/main/java/com/msn/gabrielle/ui/StudentPage.java
@@ -39,4 +39,5 @@
 /Users/juliannapuleo/Desktop/Senior/SPR2019/CS470/CS470_DC/DyerCenter_CS470/DyerC/src/main/java/com/msn/gabrielle/ui/views/Employee/SQLEventEmp.java
 /Users/juliannapuleo/Desktop/Senior/SPR2019/CS470/CS470_DC/DyerCenter_CS470/DyerC/src/main/java/com/msn/gabrielle/backend/ReviewService.java
 /Users/juliannapuleo/Desktop/Senior/SPR2019/CS470/CS470_DC/DyerCenter_CS470/DyerC/src/main/java/com/msn/gabrielle/ui/MainLayout.java
+/Users/juliannapuleo/Desktop/Senior/SPR2019/CS470/CS470_DC/DyerCenter_CS470/DyerC/src/main/java/com/dyerspot/ejb/MailSenderBean.java
 /Users/juliannapuleo/Desktop/Senior/SPR2019/CS470/CS470_DC/DyerCenter_CS470/DyerC/src/main/java/com/msn/gabrielle/backend/CategoryService.java

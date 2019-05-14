@@ -33,7 +33,7 @@ import com.vaadin.flow.router.Route;
 @PageTitle("Projects Alumni")
 public class ProjectListAlum extends VerticalLayout{
 		private final TextField searchField = new TextField("",
-	            "Search projects");
+	            "Search by title");
 	    private final H2 header = new H2("Project Proposals");
 	    private final Grid<Projects> grid = new Grid<>();
 	    private List<Projects> projectList = new ArrayList();
@@ -42,6 +42,7 @@ public class ProjectListAlum extends VerticalLayout{
 	    private String nameProposerStr;
 
 	    SQLProjectAlum sqlPA = new SQLProjectAlum();
+	    
 	    public ProjectListAlum() {
 	    	initView();
 	        addSearchBar();
@@ -109,18 +110,19 @@ public class ProjectListAlum extends VerticalLayout{
 	    	
 	    	projectForum.add(nameUnPaid);
 	    	viewDialog.add(projectForum);
-	    	Button closeButton = new Button("Cancel", event -> {
+	    	Button closeButton = new Button("Close", event -> {
 	    		viewDialog.close();
 	    	});
 	    	List<SkillStud> skillList = new ArrayList<SkillStud>();
 	    	skillList = currentProj.getSkillList();
-	    	Grid<SkillStud> grid = new Grid<>();
-	    	grid.setItems(skillList);
-	    	grid.addColumn(SkillStud::getCategory).setHeader("Category");
-	    	grid.addColumn(SkillStud::getName).setHeader("Skill Name");
-	    	grid.addThemeVariants(GridVariant.LUMO_NO_BORDER,
+	    	Grid<SkillStud> gridSkill = new Grid<>();
+	    	gridSkill.setItems(skillList);
+	    	gridSkill.addColumn(SkillStud::getCategory).setHeader("Category");
+	    	gridSkill.addColumn(SkillStud::getName).setHeader("Skill Name");
+	    	gridSkill.addThemeVariants(GridVariant.LUMO_NO_BORDER,
 	    	        GridVariant.LUMO_NO_ROW_BORDERS);
-	    	viewDialog.add(grid);
+	    	viewDialog.add(gridSkill);
+	    	viewDialog.setCloseOnOutsideClick(true);
 	    	viewDialog.add(closeButton);
 	    	return viewDialog;
 	    }

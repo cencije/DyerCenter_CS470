@@ -1,10 +1,14 @@
 package com.msn.gabrielle.ui.views.Employee;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
 
 import com.msn.gabrielle.backend.Projects;
 import com.msn.gabrielle.ui.views.Student.SkillStud;
@@ -12,15 +16,40 @@ import com.msn.gabrielle.ui.views.Student.SkillStud;
 public class SQLProjectEmp {
 
 	
+	/**
+	 * Constructor for the SQLProjectEmp class
+	 */
 	public SQLProjectEmp() { }
 	
 	
+	/**
+	 * Inserts a project into TABLE_PROJECT_INDEX using the passed values
+	 * @param title Title of the project to be inserted.
+	 * @param start Start date of the project to be inserted.
+	 * @param end End date of the project to be inserted.
+	 * @param location Location of the project to be inserted.
+	 * @param desc Description of the project to be inserted.
+	 * @param pay Pay flag of the project to be inserted.
+	 * @param proposer Proposer of the project to be inserted.
+	 * @param posted Date posted of the project to be inserted.
+	 * @return The ID number given to the project.
+	 */
 	public int insertProject(String title, String start, String end, String location,
 							  String desc, String pay, String proposer, String posted) {
 		int idNumber = 0;
+		Properties prop = new Properties();
+		String propFileName = "config_DB.properties";
 		try {
 			Class.forName("org.postgresql.Driver");
-			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
+			InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+			 
+			if (inputStream != null) {
+				prop.load(inputStream);
+			} else {
+				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+			}
+			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + prop.getProperty("dbLocal"),
+					 								   prop.getProperty("dbLocal"),  prop.getProperty("dbLocalPassword"));
 			System.out.println("-----------------------------------------------------------------");
 			System.out.println("Inserting Project into TABLE_PROJECT_INDEX");
 
@@ -49,11 +78,26 @@ public class SQLProjectEmp {
 		return idNumber;
 	}
 	
-	public void insertProjectSkills(int idNo, ArrayList<SkillStud> listSkills) {
+	/**
+	 * Inserts the project number and skills on multiple rows in TABLE_PROJECT_SKILLS.
+	 * @param idNo ID number of the project to be associated with the skills list.
+	 * @param listSkills The list of skills associated with the project.
+	 */
+	public void insertProjectSkills(int idNo, List<SkillStud> listSkills) {
 		
+		Properties prop = new Properties();
+		String propFileName = "config_DB.properties";
 		try {
 			Class.forName("org.postgresql.Driver");
-			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
+			InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+			 
+			if (inputStream != null) {
+				prop.load(inputStream);
+			} else {
+				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+			}
+			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + prop.getProperty("dbLocal"),
+					 								   prop.getProperty("dbLocal"),  prop.getProperty("dbLocalPassword"));
 			System.out.println("-----------------------------------------------------------------");
 			System.out.println("Inserting Project into TABLE_PROJECT_SKILLS");
 
@@ -75,14 +119,28 @@ public class SQLProjectEmp {
 		}	
 	}
 	
+	/**
+	 * Loads all the projects that have been approved from TABLE_PROJECT_INDEX.
+	 * @return The list of all projects that have been approved.
+	 */
 	public ArrayList<Projects> loadProjects() {
 		
 		String pID = "", pTitle = "", pStart = "", pEnd = "", 
 				   pLocation = "", pDesc = "", pPaid = "", pProp = "", pPosted = "";
 		ArrayList<Projects> listProjects = new ArrayList<Projects>();
+		Properties prop = new Properties();
+		String propFileName = "config_DB.properties";
 		try {
 			Class.forName("org.postgresql.Driver");
-			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
+			InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+			 
+			if (inputStream != null) {
+				prop.load(inputStream);
+			} else {
+				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+			}
+			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + prop.getProperty("dbLocal"),
+					 								   prop.getProperty("dbLocal"),  prop.getProperty("dbLocalPassword"));
 			System.out.println("-----------------------------------------------------------------");
 			System.out.println("Loading Projects from TABLE_PROJECT_INDEX");
 
@@ -115,7 +173,7 @@ public class SQLProjectEmp {
 			System.out.println("Loading Skill Studs for Projects from TABLE_PROJECT_SKILLS");
 			
 			for (int i = 0; i < listProjects.size(); i++) {
-				ArrayList<SkillStud> skillsListProject = new ArrayList<SkillStud>();
+				List<SkillStud> skillsListProject = new ArrayList<SkillStud>();
 				Statement statementGetProjectSkills= c.createStatement();
 				
 				String sqlGetProjectSkills = "SELECT * FROM TABLE_PROJECT_SKILLS WHERE PROJECT_ID = '" + 
@@ -126,7 +184,6 @@ public class SQLProjectEmp {
 					String pID2	= rsGetProjectSkills.getString(1);
 					String pCat = rsGetProjectSkills.getString(2);
 					String pName = rsGetProjectSkills.getString(3);
-					System.out.println(pID2 + " " + pCat + " " + pName);
 					skillsListProject.add(new SkillStud(pCat, pName));
 				}
 				listProjects.get(i).setSkillsList(skillsListProject);
@@ -144,11 +201,25 @@ public class SQLProjectEmp {
 		return listProjects;
 	}
 	
-	public ArrayList<SkillStud> loadAllSkills() {
-		ArrayList<SkillStud> skillsList = new ArrayList<SkillStud>();
+	/**
+	 * Loads the list of skills that can be used for projects.
+	 * @return The list of skills that can be used for projects.
+	 */
+	public List<SkillStud> loadAllSkills() {
+		List<SkillStud> skillsList = new ArrayList<SkillStud>();
+		Properties prop = new Properties();
+		String propFileName = "config_DB.properties";
 		try {
 			Class.forName("org.postgresql.Driver");
-			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "PostgresMall");
+			InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+			 
+			if (inputStream != null) {
+				prop.load(inputStream);
+			} else {
+				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+			}
+			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + prop.getProperty("dbLocal"),
+					 								   prop.getProperty("dbLocal"),  prop.getProperty("dbLocalPassword"));
 			System.out.println("-----------------------------------------------------------------");
 			System.out.println("Loading all skills from TABLE_SKILLS_MASTER");
 			Statement statementGetAllSkills = c.createStatement();

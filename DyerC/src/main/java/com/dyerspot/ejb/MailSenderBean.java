@@ -1,6 +1,5 @@
 package com.dyerspot.ejb;
 
-import javax.ejb.Stateless;
 import javax.mail.Session;
 import java.util.Properties;
 import java.util.logging.Level;

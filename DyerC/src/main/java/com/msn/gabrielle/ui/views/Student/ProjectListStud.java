@@ -49,7 +49,7 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
 	SQLProjectStud sqlPStud = new SQLProjectStud();
 	private TextField searchField = new TextField("",
             "Search projects");
-    private List<Projects> projectList = new ArrayList<Projects>();
+    private List<Projects> projectList;
     private String nameStr;
     private TextField pTField;
     private DatePicker datePickerFirst;
@@ -64,7 +64,7 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
     public interface ProjectsModel extends TemplateModel{
     	@Encode(value = LongToStringEncoder.class, path = "id")
         @Encode(value = LocalDateToStringEncoder.class, path = "date")
-        void setReviews(List<String> projects);
+        void setReviews(List<Projects> projectlis);
     }
     
     @Id("search")
@@ -77,46 +77,38 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
     private RadioButtonGroup<String> combo;
     
     public ProjectListStud() {
-      search.setPlaceholder("Search reviews");
+      search.setPlaceholder("Search by title");
       search.addValueChangeListener(e -> updateList());
       search.setValueChangeMode(ValueChangeMode.EAGER);
       search.addFocusShortcut(Key.KEY_F, KeyModifier.CONTROL);
         //initView();
-      //projectList = sqlPStud.loadProjects();
-      //projectList.add(new Projects("Web App"));
-      //projectList.add(new Projects("Database: SQL"));
-      for (int i = 0; i < projectList.size(); i++) {
-      	ArrayList<SkillStud> listS = projectList.get(i).getSkillList();
-      	for (int j = 0; j < listS.size(); j++) {
-      		System.out.println("Project: " + projectList.get(i).getProjectIDSQL() + 
-      						   " Cat: " + listS.get(j).skillCategory + " Name: " + listS.get(j).skillName);
-      	}
-      }
-      //getModel().setReviews(projectList);
+      projectList = sqlPStud.loadProjects();
+      getModel().setReviews(projectList);
       getElement().setProperty("reviewButtonText", "New project");
       getElement().setProperty("editButtonText", "View");
       addReview.addClickListener(e -> getUI().ifPresent(ui -> ui.add(dialog())));
       updateList();
     }
     
-    private Dialog viewDialog() {
+    private Dialog viewDialog(Projects currentProj) {
     	Dialog viewDialog = new Dialog();
     	viewDialog.setCloseOnEsc(false);
     	viewDialog.setCloseOnOutsideClick(false);
     	VerticalLayout projectForum = new VerticalLayout();
     	
     	HorizontalLayout titleDuration = new HorizontalLayout();
-    	Label projectTitleLabel = new Label("Project title: ");
-    	Label durationLabel = new Label("Duration: " + " to ");
+    	Label projectTitleLabel = new Label("Project title: " + currentProj.getProjectTitle());
+    	Label durationLabel = new Label("Duration: " + currentProj.getStartDate() + " to " +
+    												   currentProj.getEndDate());
     	titleDuration.add(projectTitleLabel, durationLabel);
     	
-    	projectForum.add(titleDuration, new Label("Location: "),
-    									new Label ("Description: "));
+    	projectForum.add(titleDuration, new Label("Location: " + currentProj.getLocation()),
+    									new Label ("Description: " + currentProj.getDescription()));
     	
     	HorizontalLayout nameUnPaid = new HorizontalLayout();
-    	Label payLabel = new Label("Pay: ");
+    	Label payLabel = new Label("Pay: " + currentProj.getPay());
     	nameUnPaid.add(payLabel);
-    	Label nameLabel = new Label("Proposer name: ");
+    	Label nameLabel = new Label("Proposer name: " + currentProj.getProposedBy());
     	nameUnPaid.add(nameLabel);
     	
     	projectForum.add(nameUnPaid);
@@ -124,31 +116,32 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
     	Button closeButton = new Button("Cancel", event -> {
     		viewDialog.close();
     	});
-    	List<SkillStud> personList = new ArrayList<SkillStud>();
+    	List<SkillStud> personList = currentProj.getSkillList();
     	Grid<SkillStud> grid = new Grid<>();
     	grid.setItems(personList);
     	grid.addColumn(SkillStud::getCategory).setHeader("Category");
-    	grid.addColumn(SkillStud::getName).setHeader("age");
+    	grid.addColumn(SkillStud::getName).setHeader("Skill Name");
     	grid.addThemeVariants(GridVariant.LUMO_NO_BORDER,
     	        GridVariant.LUMO_NO_ROW_BORDERS);
     	viewDialog.add(grid);
+    	viewDialog.setCloseOnOutsideClick(true);
     	viewDialog.add(closeButton);
     	return viewDialog;
     }
     
     @EventHandler
     private void edit(@ModelItem Projects project) {
-    	viewDialog().open();
+    	viewDialog(project).open();
     }
     
     @EventHandler
     private void view_click() {
-    	updateList();
+    	//updateList();
     }
     
     @EventHandler
     private void match_click() {
-    	viewDialog().open();
+    	//viewDialog().open();
     }
     
     private Dialog dialog() {
@@ -311,7 +304,7 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
         	header.setText("Project Proposals");
             header.addClassName("main-layout-project-title");
         }
-        //getModel().setReviews(projects);
+        getModel().setReviews(projects);
     }
     
     private List<Projects> getSearchValues(String value){
