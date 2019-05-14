@@ -17,8 +17,10 @@ import com.vaadin.flow.component.HasComponents;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
+import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.Grid.SelectionMode;
+import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
@@ -56,25 +58,52 @@ public class ProjectProposalAlum extends VerticalLayout {
 		add(skills());
 		HorizontalLayout hL2 = new HorizontalLayout();
     	Button saveButton = new Button("Save", event -> {
-    		Set<SkillStud> setSkills = firstGrid.getSelectedItems();
-    		List<SkillStud> listSkills = new ArrayList<SkillStud>();
-    		for (SkillStud skill : setSkills) { listSkills.add(skill); }
-    		Projects newProj = new Projects(pTField.getValue());
-    		newProj.setStartDate(datePickerFirst.getValue().format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
-    		newProj.setEndDate(datePickerSecond.getValue().format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
-    		newProj.setLocation(locationTF.getValue());
-    		newProj.setDescription(area.getValue());
-    		newProj.setPay(pay);
-    		newProj.setProposedBy(name.getValue());
-    		newProj.setDatePosted(LocalDate.now().format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
-    		newProj.setSkillsList(listSkills);
-    		projectList.add(newProj);
-    		clearAll();
+    		if(projectError() == true) {
+	    		Set<SkillStud> setSkills = firstGrid.getSelectedItems();
+	    		List<SkillStud> listSkills = new ArrayList<SkillStud>();
+	    		for (SkillStud skill : setSkills) { listSkills.add(skill); }
+	    		Projects newProj = new Projects(pTField.getValue());
+	    		newProj.setStartDate(datePickerFirst.getValue().format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
+	    		newProj.setEndDate(datePickerSecond.getValue().format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
+	    		newProj.setLocation(locationTF.getValue());
+	    		newProj.setDescription(area.getValue());
+	    		newProj.setPay(pay);
+	    		newProj.setProposedBy(name.getValue());
+	    		newProj.setDatePosted(LocalDate.now().format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
+	    		newProj.setSkillsList(listSkills);
+	    		projectList.add(newProj);
+	    		clearAll();
+	    		Dialog good = new Dialog();
+				Label goodLabel = new Label("Successfully submitted! A Dyer Center Employee will review it shortly");
+				good.add(goodLabel);
+				good.setCloseOnOutsideClick(true);
+				good.open();
+	    		return;
+	    	}
+			Dialog error = new Dialog();
+			Label errorBlank = new Label("Error: please enter all the required fields");
+			error.add(errorBlank);
+			error.setCloseOnOutsideClick(true);
+			error.open();
     	});
     	saveButton.addClassName("view-toolbar__event-click");
     	hL2.add(saveButton);
     	add(hL2);
 	}
+	
+	public boolean projectError() {
+	    if(projectList.isEmpty()) { return false; }
+	    if(pTField.isEmpty()) {   return false; }
+	    if(datePickerFirst.isEmpty()) {   return false; }
+	    if(datePickerSecond.isEmpty()) {  return false; }
+	    if(locationTF.isEmpty()) {  return false; }
+	    if(area.isEmpty()) {  return false; }
+	    if(name.isEmpty()) {  return false; }
+	    if(comboBox.isEmpty()) {  return false; }
+	    if(firstGrid.getSelectedItems().size() == 0) {  return false; }
+	    return true;
+	}
+	 
     /**
      * Layout for project title & text field for project dialog
      * @return vertical layout

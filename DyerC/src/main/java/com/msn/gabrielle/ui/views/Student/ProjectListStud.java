@@ -82,6 +82,7 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
       search.setValueChangeMode(ValueChangeMode.EAGER);
       search.addFocusShortcut(Key.KEY_F, KeyModifier.CONTROL);
         //initView();
+      nameStr = "";
       projectList = sqlPStud.loadProjects();
       getModel().setReviews(projectList);
       getElement().setProperty("reviewButtonText", "New project");
@@ -164,13 +165,19 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
     	
     	HorizontalLayout buttons = new HorizontalLayout();
     	Button saveButton = new Button("Save", event -> {
-    		Projects newProj = new Projects(nameStr);
-    		// SQL ADD HERE to PROPOSED TABLE
-    		// Reload Projects List
-    		projectList.add(newProj);
-    		dialog.close();
-    		clearAll();
-    		updateList();
+    		if( projectError() == true) {
+    			Projects newProj = new Projects(pTField.getValue());
+    			// SQL ADD HERE to PROPOSED TABLE
+    			// Reload Projects List
+    			projectList.add(newProj);
+    			dialog.close();
+    			clearAll();
+    			updateList();
+    		}
+    		HorizontalLayout error = new HorizontalLayout();
+    		Label errorBlank = new Label("Error: please enter all the required fields");
+    		error.add(errorBlank);
+    		dialog.add(error);
     	});
     	Button cancelButton = new Button("Cancel", event -> {
     		clearAll();
@@ -182,6 +189,19 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
     	dialog.add(projectForum, buttons);
     	dialog.open();
     	return dialog;
+    }
+    
+    public boolean projectError() {
+    	if(projectList.isEmpty()) { return false; }
+        if(pTField.isEmpty()) {   return false; }
+        if(datePickerFirst.isEmpty()) {   return false; }
+        if(datePickerSecond.isEmpty()) {  return false; }
+        if(locationTF.isEmpty()) {  return false; }
+        if(area.isEmpty()) {  return false; }
+        if(name.isEmpty()) {  return false; }
+        if(comboBox.isEmpty()) {  return false; }
+        if(firstGrid.getSelectedItems().size() == 0) {  return false; }
+        return true;
     }
     
     /**
@@ -229,9 +249,6 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
     public VerticalLayout projectDescription() {
     	VerticalLayout descrip = new VerticalLayout();
     	area = new TextArea("Description: ");
-    	area.setValue(""+
-    	              "\n"+
-    	              "\n");
     	area.setWidthFull();
     	descrip.add(area);
     	return descrip;
