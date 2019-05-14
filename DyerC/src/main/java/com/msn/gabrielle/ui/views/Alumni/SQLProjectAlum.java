@@ -183,7 +183,6 @@ public class SQLProjectAlum {
 					String pID2	= rsGetProjectSkills.getString(1);
 					String pCat = rsGetProjectSkills.getString(2);
 					String pName = rsGetProjectSkills.getString(3);
-					System.out.println(pID2 + " " + pCat + " " + pName);
 					skillsListProject.add(new SkillStud(pCat, pName));
 				}
 				listProjects.get(i).setSkillsList(skillsListProject);

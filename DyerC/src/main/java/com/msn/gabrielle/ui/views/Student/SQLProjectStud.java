@@ -102,8 +102,6 @@ public class SQLProjectStud {
 					pPaid  = rsUniqueProjects.getString(7); 
 					pProp  = rsUniqueProjects.getString(8); 
 					pPosted  = rsUniqueProjects.getString(9); 
-					//System.out.println(pID + " " + pTitle + " " + pStart + " " + pEnd + " " + pLocation + " " + 
-					//		 		  pDesc + " " + pPaid + " " + pProp + " " + pPosted);
 					
 					// Create New Project and Add to List
 					Projects p = new Projects(pID, pTitle,pStart,pEnd,pLocation,pDesc,pPaid,pProp,pPosted);
@@ -128,7 +126,6 @@ public class SQLProjectStud {
 					String pID2	= rsGetProjectSkills.getString(1);
 					String pCat = rsGetProjectSkills.getString(2);
 					String pName = rsGetProjectSkills.getString(3);
-					System.out.println(pID2 + " " + pCat + " " + pName);
 					skillsListProject.add(new SkillStud(pCat, pName));
 				}
 				listProjects.get(i).setSkillsList(skillsListProject);
@@ -218,9 +215,6 @@ public class SQLProjectStud {
 					pPaid  = rsUniqueProjects.getString(7); 
 					pProp  = rsUniqueProjects.getString(8); 
 					pPosted  = rsUniqueProjects.getString(9); 
-					System.out.println(pID + " " + pTitle + " " + pStart + " " + pEnd + " " + pLocation + " " + 
-									   pDesc + " " + pPaid + " " + pProp + " " + pPosted);
-					
 					// Create New Project and Add to List
 					Projects p = new Projects(pID, pTitle,pStart,pEnd,pLocation,pDesc,pPaid,pProp,pPosted);
 					listProjects.add(p);
@@ -245,7 +239,6 @@ public class SQLProjectStud {
 					String pID2	= rsGetProjectSkills.getString(1);
 					String pCat = rsGetProjectSkills.getString(2);
 					String pName = rsGetProjectSkills.getString(3);
-					System.out.println(pID2 + " " + pCat + " " + pName);
 					skillsListProject.add(new SkillStud(pCat, pName));
 				}
 				listProjects.get(i).setSkillsList(skillsListProject);
@@ -325,7 +318,6 @@ public class SQLProjectStud {
 					String pID2	= rsGetProjectSkills.getString(1);
 					String pCat = rsGetProjectSkills.getString(2);
 					String pName = rsGetProjectSkills.getString(3);
-					System.out.println(pID2 + " " + pCat + " " + pName);
 					skillsListProject.add(new SkillStud(pCat, pName));
 				}
 				listProjects.get(i).setSkillsList(skillsListProject);

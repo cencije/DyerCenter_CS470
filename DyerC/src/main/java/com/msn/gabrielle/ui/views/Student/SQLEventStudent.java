@@ -68,8 +68,6 @@ public class SQLEventStudent {
 				String mYear  		= 	rsMonth.getString(8);
 				String mHour  		= 	rsMonth.getString(9);
 				String mMinute  	= 	rsMonth.getString(10);
-				System.out.println(mID + " " + mTitle + " " + mLocation + " " + mDesc + " " + mURL + " " +
-								   mMonth + " " + mYear + " " + mHour + " " + mMinute);
 				Events ev = new Events(mTitle, mLocation, mDesc, mURL, Integer.parseInt(mDay), 
 									   Integer.parseInt(mMonth), Integer.parseInt(mYear), 
 									   Integer.parseInt(mHour), Integer.parseInt(mMinute));
@@ -122,8 +120,6 @@ public class SQLEventStudent {
 				String mYear  		= 	rsMonth.getString(8);
 				String mHour  		= 	rsMonth.getString(9);
 				String mMinute  	= 	rsMonth.getString(10);
-				System.out.println(mID + " " + mTitle + " " + mLocation + " " + mDesc + " " + mURL + " " +
-								   mMonth + " " + mYear + " " + mHour + " " + mMinute);
 				Events ev = new Events(mTitle, mLocation, mDesc, mURL, Integer.parseInt(mDay), 
 						   Integer.parseInt(mMonth), Integer.parseInt(mYear), 
 						   Integer.parseInt(mHour), Integer.parseInt(mMinute));

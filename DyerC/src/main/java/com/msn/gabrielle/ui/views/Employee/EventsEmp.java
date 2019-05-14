@@ -82,7 +82,7 @@ public class EventsEmp extends VerticalLayout{
         	readTime = new Label("Event begins at: " + e.getStart().toString().substring(11, 16));
         	removeEvent = new Button("Remove this event");
         	removeEvent.addClickListener(event -> {
-        		//sqlEE.deleteEvent(e.getTitle(), e.getDescription(), e., e.location, desc, url, day, month, year, hour, min);
+        		sqlEE.deleteEvent(e.getTitle());
         		calendar.removeEntry(EntryClickedEvent.getEntry());
         		p.close();
         		//SQL code to remove the event
