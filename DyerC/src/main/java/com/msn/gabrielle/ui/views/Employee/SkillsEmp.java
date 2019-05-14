@@ -46,6 +46,12 @@ public class SkillsEmp extends VerticalLayout {
 	Grid<SkillStud> grid;
 	
 	ArrayList<SkillStud> skillsList = new ArrayList<SkillStud>();
+	
+	
+	/**
+	 * Constructor for SkillsEmp that builds the UI and loads all of the skills from the database.
+	 * Allows the user to add and remove skills.
+	 */
 	public SkillsEmp() {
 		loadSkillsList();
 		grid = new Grid<>(SkillStud.class);
@@ -130,16 +136,32 @@ public class SkillsEmp extends VerticalLayout {
 		vlSkills.add(lblSkillsTable); vlSkills.add(grid);
 		add(hlTFSkills); add(hlBTNSkills); add(vlSkills);
 	}
-	public void loadSkillsList() {
-		
-		skillsList = sqlPStud.loadAllSkills();
-	}
 	
+	
+	/**
+	 * Loads all the skills from the database and sets the skills list to the returned list.
+	 */
+	public void loadSkillsList() { skillsList = sqlPStud.loadAllSkills(); }
+	
+	/**
+	 * Adds the passed skill given its category and name to TABLE_SKILLS_MASTER.
+	 * @param category Category of the skill
+	 * @param name Name of the skill
+	 */
 	public void addSkill(String category, String name) {
-		
+		Properties prop = new Properties();
+		String propFileName = "config_DB.properties";
 		try {
 			Class.forName("org.postgresql.Driver");
-			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/dc_postgres", "dc_postgres", "dc$2019$");
+			InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+			 
+			if (inputStream != null) {
+				prop.load(inputStream);
+			} else {
+				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+			}
+			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + prop.getProperty("dbLocal"),
+					 								   prop.getProperty("dbLocal"),  prop.getProperty("dbLocalPassword"));
 			System.out.println("-----------------------------------------------------------------");
 			System.out.println("Inserting Skill into database");
 	
@@ -168,6 +190,13 @@ public class SkillsEmp extends VerticalLayout {
 			System.exit(0);
 		}
 	}
+	
+	/**
+	 * Finds the provided skill in the table to determine if it should be added. Checks existence.
+	 * @param category Category of the skill
+	 * @param name Name of the skill
+	 * @return Whether or not the skill existed in TABLE_SKILLS_MASTER 
+	 */
 	public boolean checkSkill(String category, String name) {
 		boolean skillExists = false;
 		Properties prop = new Properties();
@@ -191,20 +220,13 @@ public class SkillsEmp extends VerticalLayout {
 			statementGetCount.executeQuery(sqlGetCount);
 			
 			ResultSet rsCount = statementGetCount.executeQuery(sqlGetCount);
-			//int count = 0;
-			if (rsCount.next()) 
-			{
-				skillExists = true;
-				
-			}
+			if (rsCount.next()) { skillExists = true; }
 			
 			statementGetCount.close();
 			
 			c.close();
 			
-			
 			System.out.println("Successful Skill check of TABLE_SKILLS_MASTER!");
-			//if (count >= 1) 
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.err.println(e.getClass().getName()+": "+e.getMessage());
@@ -213,6 +235,11 @@ public class SkillsEmp extends VerticalLayout {
 		return skillExists;
 	}
 	
+	/**
+	 * Deletes the skill from TABLE_SKILLS_MASTER based upon the passed values of the category and name.
+	 * @param category Category of the skill.
+	 * @param name Name of the skill.
+	 */
 	public void deleteSkill(String category, String name) {
 		
 		Properties prop = new Properties();
@@ -245,9 +272,12 @@ public class SkillsEmp extends VerticalLayout {
 				System.exit(0);
 			}
 	}
+	
+    /**
+     * Updates the grid of skills that are within TABLE_SKILLS_MASTER on the UI. Loades them first and then sets.
+     */
     public void updateGrid() {
     	loadSkillsList();
     	grid.setItems(skillsList);
-    	//Recall to the database to change values as necessary
     }
 }
