@@ -101,6 +101,11 @@ public class ProfileStud extends VerticalLayout{
 			"Spanish", 
 			"Theater",
 			"Women’s and Gender Studies", "Writing"};
+	
+	/**
+	 * Constructor for ProfileStud, loads the UI and skills values from the database.
+	 * Also loads in profile values for the student logged in.
+	 */
 	public ProfileStud() {
 		gridChosenSkills = new Grid<>();
 		loadProfileValues();
@@ -249,6 +254,10 @@ public class ProfileStud extends VerticalLayout{
 		add(hlFinalLayout);
 		
 	}
+	
+	/**
+	 * Loads values pertaining to the user profile within the database.
+	 */
 	public void loadProfileValues() {
 		// Dummy Value used for email right now
 		// Should be loaded from the Databases upon login
@@ -264,6 +273,9 @@ public class ProfileStud extends VerticalLayout{
 		
 	}
 	
+	/**
+	 * Updates the skills the user has based upon what was selected and updated in the grid on the right.
+	 */
 	public void updateProfileSkills() {
 		ArrayList<SkillStud> profileSkillsList = sqlPS.getProfileValues(profileEmail);
 		gridChosenSkills.setItems(profileSkillsList);

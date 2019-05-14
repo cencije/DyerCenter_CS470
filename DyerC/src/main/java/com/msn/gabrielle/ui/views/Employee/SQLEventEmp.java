@@ -193,14 +193,6 @@ public class SQLEventEmp {
 	/**
 	 * Deletes an event from TABLE_EVENTS_MASTER based on the passed values.
 	 * @param title Title of the event to be deleted.
-	 * @param location Location of the event to be deleted.
-	 * @param desc Description of the event to be deleted.
-	 * @param url URL of the event to be deleted.
-	 * @param day Day of the event to be deleted.
-	 * @param month Month of the event to be deleted.
-	 * @param year Year of the event to be deleted.
-	 * @param hour Hour of the event to be deleted.
-	 * @param min Minute of the event to be deleted.
 	 */
 	public void deleteEvent(String title) {
 		Properties prop = new Properties();

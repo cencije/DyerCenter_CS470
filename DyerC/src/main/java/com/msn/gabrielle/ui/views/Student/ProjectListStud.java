@@ -205,7 +205,7 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
     }
     
     /**
-     * Layout for project title & text field for project dialog
+     * Layout for project title and text field for project dialog
      * @return vertical layout
      */
     public VerticalLayout projectTitle() {
@@ -244,7 +244,7 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
     
     /**
      * Layout for project description for project dialog
-     * @return
+     * @return vertical layout
      */
     public VerticalLayout projectDescription() {
     	VerticalLayout descrip = new VerticalLayout();

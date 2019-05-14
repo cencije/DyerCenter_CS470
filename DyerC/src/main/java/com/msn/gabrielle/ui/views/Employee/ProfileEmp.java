@@ -17,6 +17,10 @@ import com.vaadin.flow.router.Route;
 @PageTitle("Profile")
 public class ProfileEmp extends VerticalLayout {
 	String profileName, profileEmail;
+	
+	/**
+	 * Constructor for ProfileEmp. Makes the labels and layouts.
+	 */
 	public ProfileEmp() {
 		
 		loadProfileValues();
@@ -36,11 +40,13 @@ public class ProfileEmp extends VerticalLayout {
 		add(vlNonGridSide);
 	}
 	
+	/**
+	 * Loads the profile values for the employee from the database.
+	 */
 	public void loadProfileValues() {
-		// Select * WHERE EMAILADDRESS = ' ';
 		profileName = "N/A";
 		profileEmail = "N/A";
-		profileName = "John Goodway";
-		profileEmail = "goodwayj@alumniEmail";
+		profileName = "Yusuf S. Dahl";
+		profileEmail = "dahly@lafayette.edu";
 	}
 }

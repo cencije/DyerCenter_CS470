@@ -19,7 +19,15 @@ public class SkillsLoader {
 	ArrayList<String> listSkillCategories = new ArrayList<String>();
 	ArrayList<String> listSkills = new ArrayList<String>();
  
+	/**
+	 * Constructor for SkillsLoader.
+	 */
 	public SkillsLoader() {}
+	
+	
+	/**
+	 * Load values from the passed JSON file into the database.
+	 */
 	public void loadInJSONValues() {
 		
         //JSON parser object to parse read file
@@ -36,7 +44,7 @@ public class SkillsLoader {
              
             //Iterate over employee array
             arraySkills.forEach( skillItem -> parseSkillObject( (JSONObject) skillItem ) );
-            getListValues();
+            //getListValues();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -45,6 +53,11 @@ public class SkillsLoader {
             e.printStackTrace();
         }
 	}
+	
+    /**
+     * Gets the rows of the passed skills file and reads them one by one, putting them in TABLE_SKILLS_MASTER.
+     * @param skill The individual skill row read one by one from the loadInJSONValues() method.
+     */
     private void parseSkillObject(JSONObject skill) {
 
     	Properties prop = new Properties();
@@ -100,6 +113,9 @@ public class SkillsLoader {
 		}
     }
     
+    /**
+     * Prints out the lists of categories and skill names read from the file.
+     */
     public void getListValues() {
     	System.out.println("---------- Printing List of Categories ----------");
     	for (int i = 0; i < listSkillCategories.size(); i++) {

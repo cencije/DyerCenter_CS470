@@ -29,6 +29,7 @@ public class SQLTablesManager {
 		createSkillTables();
 		createEventsTables();
 		createProjectTables();
+		
 		//SQLProfileStud sqlPS = new SQLProfileStud();
 		//sqlPS.insertNewProfile("fqfgqg", "email", "password", "phoneNo", null, "m2", null, "min2");
 		//sqlPS.getProfileValues("lol");
