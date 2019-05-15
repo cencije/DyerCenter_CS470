@@ -44,38 +44,38 @@ import com.msn.gabrielle.ui.views.reviewslist.ReviewsList;
  * child views below that.
  */
 @Route(value = "studentPage")
-@HtmlImport("frontend://styles/shared-styles.html")
+@HtmlImport("frontend://styles/shared-styles-ALUMNI.html")
 public class StudentPage extends Div
         implements RouterLayout{
 		
     public StudentPage() {
+		addClassName("main-lay");
+		
 		H2 title = new H2("DYER CENTER");
-		title.addClassName("main-layout__title");
+		title.addClassName("main-lay__title");
 		
 		RouterLink events = new RouterLink(null, EventsStud.class);
 		events.add(new Icon(VaadinIcon.CALENDAR), new Text("Events"));
-		events.addClassName("main-layout__nav-item");
+		events.addClassName("main-lay__nav-item");
 		// Only show as active for the exact URL, but not for sub paths
 		events.setHighlightCondition(HighlightConditions.sameLocation());
 
 		RouterLink projects = new RouterLink(null, ProjectListStud.class);
 		projects.add(new Icon(VaadinIcon.FORM), new Text("Projects"));
-		projects.addClassName("main-layout__nav-item");
+		projects.addClassName("main-lay__nav-item");
 		projects.setHighlightCondition(HighlightConditions.sameLocation());
 		
 		RouterLink profile = new RouterLink(null, ProfileStud.class);
 		profile.add(new Icon(VaadinIcon.USER), new Text("Profile"));
-		profile.addClassName("main-layout__nav-item");
+		profile.addClassName("main-lay__nav-item");
 		profile.setHighlightCondition(HighlightConditions.sameLocation());
 
 		Div navigation = new Div(projects, events, profile);
-		navigation.addClassName("main-layout__nav");
+		navigation.addClassName("main-lay__nav");
 
 		Div header = new Div(title, navigation);
-		header.addClassName("main-layout__header");
+		header.addClassName("main-lay__header");
 		add(header);
-
-		addClassName("main-layout");
     }
    
 }
