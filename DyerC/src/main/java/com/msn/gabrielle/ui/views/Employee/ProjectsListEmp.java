@@ -33,6 +33,7 @@ import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.html.NativeButton;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
@@ -177,7 +178,10 @@ public class ProjectsListEmp extends VerticalLayout {
     	        GridVariant.LUMO_NO_ROW_BORDERS);
     	gridSkill.setItems(skillList);
     	viewDialog.add(gridSkill);
-    	viewDialog.add(closeButton);
+    	Button deleteProject = new Button("Delete",
+    	        new Icon(VaadinIcon.TRASH));
+    	//ADD SQL FOR DELETING A PROJECT
+    	viewDialog.add(closeButton, deleteProject);
     	return viewDialog;
     }
 
