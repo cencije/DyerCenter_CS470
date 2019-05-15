@@ -83,8 +83,8 @@ public class ProjectProposalAlum extends VerticalLayout {
 	    		EmailSender es = new EmailSender();
 	    		String titleToSend = pTField.getValue();
 	    		String descToSend = area.getValue();
-	    		String timeStart = datePickerFirst.getValue().toString();
-	    		String timeEnd = datePickerSecond.getValue().toString();
+	    		String timeStart = datePickerFirst.getValue().format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+	    		String timeEnd = datePickerSecond.getValue().format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
 	    		String timeframe = timeStart + " to " + timeEnd;
 	    		String locToSend = locationTF.getValue();
 	    		String paidToSend = comboBox.getValue();
@@ -110,7 +110,7 @@ public class ProjectProposalAlum extends VerticalLayout {
 	}
 	
 	public boolean projectError() {
-	    if(projectList.isEmpty()) { return false; }
+	    //if(projectList.isEmpty()) { return false; }
 	    if(pTField.isEmpty()) {   return false; }
 	    if(datePickerFirst.isEmpty()) {   return false; }
 	    if(datePickerSecond.isEmpty()) {  return false; }
