@@ -30,4 +30,9 @@ public class SkillStud implements Serializable {
 	 */
 	public String getName()  { return skillName; }
 	
+	public String printSkill() {
+		String skillPrinted = "Category: " + this.getCategory() + " -> Skill: " + this.getName() + "\n";
+		return skillPrinted;
+	}
+	
 }

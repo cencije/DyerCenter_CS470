@@ -1,6 +1,10 @@
 package com.msn.gabrielle.backend;
 
 import java.util.Properties;
+import java.util.ArrayList;
+import java.util.Date;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 import javax.mail.*;
 import javax.mail.Message;
@@ -55,7 +59,12 @@ public class EmailSender {
 	}
 
 	public void sendSpecificEmail(String sub, String title, String description,
-			String timeframe, String location, String paid, int senderType) {
+			String timeframe, String location, String paid, int senderType, String name, 
+			String skillsRequired) {
+		Date d = new Date();
+		Timestamp current = new java.sql.Timestamp(d.getTime());
+		String timeStamp = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(current);
+		
 		final String username = "ignitemDyer@gmail.com";
         final String password = "ignitem470";
 
@@ -82,15 +91,20 @@ public class EmailSender {
             );
             message.setSubject(sub);
             if(senderType ==1) {
-            	message.setText("A new project has been proposed by a student with the following information: "
-            		+ "\n\nPROJECT TITLE: " + title
-            		+ "\n\nDESCRIPTION: " + description
+            	message.setText("A student named " + name
+            		+ " has submitted a project with the following information: \n(Submitted on " 
+            		+ timeStamp + ")"
+            		+ "\n\nPROJECT TITLE: \n" + title
+            		+ "\n\nDESCRIPTION: \n" + description 
+            		+ "\n\nSKILLS REQUIRED: \n" + skillsRequired
             		+ "\n\nDETAILS:\n" + timeframe + "\n" + location + "\n" + paid);
             }
             if(senderType ==2) {
-            	message.setText("A new project has been proposed by an alumnus with the following information: "
-            		+ "\n\nPROJECT TITLE: " + title
-            		+ "\n\nDESCRIPTION: " + description
+            	message.setText("An alumnus named " + name
+            		+ " has submitted a project proposal with the following information: "
+            		+ "\n\nPROJECT TITLE: \n" + title
+            		+ "\n\nDESCRIPTION: \n" + description
+            		+ "\n\nSKILLS REQUIRED: \n" + skillsRequired
             		+ "\n\nDETAILS:\n" + timeframe + "\n" + location + "\n" + paid);
             }
 
