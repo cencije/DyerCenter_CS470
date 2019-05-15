@@ -29,6 +29,6 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/home/geeja/DC/DyerCenter_CS470/postgresql-42.2.5.jar"/>
+	<classpathentry kind="lib" path="/Users/juliannapuleo/Desktop/Senior/SPR2019/CS470/CS470_DC/DyerCenter_CS470/postgresql-42.2.5.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

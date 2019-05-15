@@ -13,6 +13,10 @@ import java.util.Properties;
 import com.msn.gabrielle.backend.Projects;
 import com.msn.gabrielle.ui.views.Student.SkillStud;
 
+/**
+ * 
+ * @author Dyer Center Senior Design
+ */
 public class SQLProjectAlum {
 
 	/**

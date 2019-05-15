@@ -15,6 +15,7 @@
  */
 package com.msn.gabrielle.ui;
 
+
 import com.vaadin.flow.component.Text; 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.HtmlImport;
@@ -23,14 +24,10 @@ import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.component.page.Viewport;
 import com.vaadin.flow.router.HighlightConditions;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouterLayout;
 import com.vaadin.flow.router.RouterLink;
-import com.vaadin.flow.server.InitialPageSettings;
-import com.vaadin.flow.server.PWA;
-import com.vaadin.flow.server.PageConfigurator;
 import com.msn.gabrielle.ui.views.Alumni.ProfileAlum;
 import com.msn.gabrielle.ui.views.Alumni.ProjectProposalAlum;
 import com.msn.gabrielle.ui.views.Alumni.ProjectListAlum;
@@ -38,49 +35,61 @@ import com.msn.gabrielle.ui.views.categorieslist.CategoriesList;
 import com.msn.gabrielle.ui.views.reviewslist.ReviewsList;
 import com.vaadin.flow.component.dialog.Dialog;
 
+
 /**
- * The main layout contains the header with the navigation buttons, and the
+ * The Alumni layout contains the header with the navigation buttons for the project list for alumni,
+ * the project proposal, and the profile for alumni. This class uses routerlinks and was routed from the 
+ * MainPage.java class
  * child views below that.
+ * 
+ * @author Dyer Center Senior Design
  */
 @Route(value = "alumniPage")
 @HtmlImport("frontend://styles/shared-styles-ALUMNI.html")
-
 public class AlumniPage extends Div
         implements RouterLayout{
-		
+	
+	/**
+	 * Constructor that sets up the header and navigation layout
+	 */
     public AlumniPage() {
+    	//Header title
 		H2 title = new H2("DYER CENTER");
 		title.addClassName("main-lay__title");
 		Dialog initial = new Dialog();
 		Label welcome = new Label("Welcome, Ferris! Click one of the items from the control panel above to navigate to a new page.");
 		initial.add(welcome);
 		initial.open();
-		
+
+		//app layout button for project
 		RouterLink projects = new RouterLink(null, ProjectListAlum.class);
 		projects.add(new Icon(VaadinIcon.FORM), new Text("Projects"));
 		projects.addClassName("main-lay__nav-item");
-		// Only show as active for the exact URL, but not for sub paths
 		projects.setHighlightCondition(HighlightConditions.sameLocation());
 		
+		//app layout button for project proposal 
 		RouterLink projectproposal = new RouterLink(null, ProjectProposalAlum.class);
 		projectproposal.add(new Icon(VaadinIcon.EDIT), new Text("Project Proposal"));
 		projectproposal.addClassName("main-lay__nav-item");
-		// Only show as active for the exact URL, but not for sub paths
 		projectproposal.setHighlightCondition(HighlightConditions.sameLocation());
-
+		
+		//app layout button for profile 
 		RouterLink profile = new RouterLink(null, ProfileAlum.class);
 		profile.add(new Icon(VaadinIcon.USER), new Text("Profile"));
 		profile.addClassName("main-lay__nav-item");
 		profile.setHighlightCondition(HighlightConditions.sameLocation());
-
+		
+		//sets up the navigation bar with those app layout buttons
 		Div navigation = new Div(projects, projectproposal, profile);
 		navigation.addClassName("main-lay__nav");
-
+		
+		//Adds the title and navigation to the full header
 		Div header = new Div(title, navigation);
 		header.addClassName("main-lay__header");
 		add(header);
 
 		addClassName("main-lay");
+		
     }
    
 }

@@ -57,6 +57,7 @@ public class SkillsEmp extends VerticalLayout {
 	public SkillsEmp() {
 		addClassName("main-lay");
 		loadSkillsList();
+		addClassName("main-layout-emp");
 		grid = new Grid<>(SkillStud.class);
 		grid.setItems(skillsList);
 	

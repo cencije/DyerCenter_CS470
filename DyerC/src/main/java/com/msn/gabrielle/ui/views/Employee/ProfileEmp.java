@@ -13,6 +13,10 @@ import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
+/**
+ * Class for the profile page for Employee. Routes from AlumniPage.class and uses that layout 
+ * @author Dyer Center Senior Design
+ */
 @Route(value = "profileemp", layout = EmployeePage.class)
 @PageTitle("Profile")
 public class ProfileEmp extends VerticalLayout {

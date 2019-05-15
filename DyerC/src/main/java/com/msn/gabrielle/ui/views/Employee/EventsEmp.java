@@ -76,6 +76,7 @@ public class EventsEmp extends VerticalLayout{
 	public EventsEmp() {
 		addClassName("main-lay");
         initView();
+		addClassName("main-layout-emp");
 
         sqlEE.loadAll();
         eventsList = sqlEE.getAllEvents();

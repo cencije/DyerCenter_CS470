@@ -71,6 +71,7 @@ public class EventsStud extends VerticalLayout{
 		addClassName("main-lay");
         
         sqlES.loadAll();
+		addClassName("main-layout-emp");
         eventsList = sqlES.getAllEvents();
         
         displayCalendar();  
