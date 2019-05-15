@@ -33,6 +33,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 @Route(value = "profilestud", layout = StudentPage.class)
+@HtmlImport("frontend://styles/shared-styles.html")
 @PageTitle("Profile")
 public class ProfileStud extends VerticalLayout{
 	String profileName, profileEmail, profileMajor1, profileMajor2, profileMinor1, profileMinor2;
@@ -107,6 +108,7 @@ public class ProfileStud extends VerticalLayout{
 	 * Also loads in profile values for the student logged in.
 	 */
 	public ProfileStud() {
+		addClassName("main-layout");
 		gridChosenSkills = new Grid<>();
 		loadProfileValues();
 		
