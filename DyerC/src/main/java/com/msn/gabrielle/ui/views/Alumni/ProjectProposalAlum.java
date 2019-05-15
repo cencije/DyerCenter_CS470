@@ -64,7 +64,7 @@ public class ProjectProposalAlum extends VerticalLayout {
 		updateSkillList();
 		HorizontalLayout hL2 = new HorizontalLayout();
     	Button saveButton = new Button("Submit", event -> {
-    		if(projectError() == true) {
+    		if(projectError() == true && projectStringError() == true) {
 	    		Set<SkillStud> setSkills = firstGrid.getSelectedItems();
 	    		List<SkillStud> listSkills = new ArrayList<SkillStud>();
 	    		for (SkillStud skill : setSkills) { listSkills.add(skill); }
@@ -98,11 +98,20 @@ public class ProjectProposalAlum extends VerticalLayout {
 				good.open();
 	    		return;
 	    	}
-			Dialog error = new Dialog();
-			Label errorBlank = new Label("Error: please enter all the required fields");
-			error.add(errorBlank);
-			error.setCloseOnOutsideClick(true);
-			error.open();
+    		if (projectError() == false) {
+	    		Dialog error = new Dialog();
+				Label errorBlank = new Label("Error: please enter all the required fields");
+				error.add(errorBlank);
+				error.setCloseOnOutsideClick(true);
+				error.open();
+    		}
+    		if (projectStringError() == false) {
+	    		Dialog errorString = new Dialog();
+				Label errorBlank = new Label("Error: " + "' " + "\" "+ "; are not allowed in the text fields");
+				errorString.add(errorBlank);
+				errorString.setCloseOnOutsideClick(true);
+				errorString.open();
+    		}
     	});
     	saveButton.addClassName("main-layout-emp__event");
     	hL2.add(saveButton);
@@ -120,6 +129,27 @@ public class ProjectProposalAlum extends VerticalLayout {
 	    if(comboBox.isEmpty()) {  return false; }
 	    if(firstGrid.getSelectedItems().size() == 0) {  return false; }
 	    return true;
+	}
+	
+	public boolean projectStringError() {
+	    if(checkContainsInvalidSymbols(pTField.getValue())) {   return false; }
+	    if(checkContainsInvalidSymbols(locationTF.getValue())) {  return false; }
+	    if(checkContainsInvalidSymbols(area.getValue())) {  return false; }
+	    if(checkContainsInvalidSymbols(name.getValue())) {  return false; }
+	    return true;
+	}
+	
+	/**
+	 * Checks that a passed String does not contain any of the special characters that can't be
+	 * stored in the database. It's called from openAddEvent().
+	 * @param s A variable of type String.
+	 * @return true If the String contains any of the invalid symbols.
+	 */
+	private boolean checkContainsInvalidSymbols(String s) {
+		if(s.contains(";") || s.contains("'") || s.contains("\"")) {
+			return true;
+		}
+		return false;
 	}
 	 
     /**

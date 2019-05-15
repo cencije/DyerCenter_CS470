@@ -128,7 +128,7 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
     	grid.addColumn(SkillStud::getCategory).setHeader("Category");
     	grid.addColumn(SkillStud::getName).setHeader("Skill Name");
     	grid.addThemeVariants(GridVariant.LUMO_NO_BORDER,
-    	        GridVariant.LUMO_NO_ROW_BORDERS);
+    	        GridVariant.LUMO_NO_ROW_BORDERS, GridVariant.LUMO_ROW_STRIPES);
     	viewDialog.add(grid);
     	viewDialog.setCloseOnOutsideClick(true);
     	viewDialog.add(closeButton);
