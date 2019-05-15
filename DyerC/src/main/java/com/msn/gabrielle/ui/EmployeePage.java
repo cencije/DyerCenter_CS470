@@ -20,6 +20,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H2;
+import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.page.Viewport;
@@ -50,6 +51,7 @@ public class EmployeePage extends Div
     public EmployeePage() {
 		H2 title = new H2("DYER CENTER");
 		title.addClassName("main-lay__title");
+		Label welcomeLabel = new Label("Welcome! Click on one of the tabs above to move to a new page!");
 
 		RouterLink projects = new RouterLink(null, ProjectsListEmp.class);
 		projects.add(new Icon(VaadinIcon.FORM), new Text("Projects"));
@@ -79,6 +81,7 @@ public class EmployeePage extends Div
 		header.addClassName("main-lay__header");
 		
 		add(header);
+		add(welcomeLabel);
 
 		addClassName("main-lay");
     }

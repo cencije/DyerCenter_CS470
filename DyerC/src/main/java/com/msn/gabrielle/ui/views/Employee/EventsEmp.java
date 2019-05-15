@@ -15,7 +15,6 @@
  */
 package com.msn.gabrielle.ui.views.Employee;
 
-import java.awt.Color;
 import java.time.LocalDate;    
 import java.util.ArrayList;
 import java.time.format.DateTimeFormatter;

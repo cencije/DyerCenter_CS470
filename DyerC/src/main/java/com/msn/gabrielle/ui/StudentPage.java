@@ -15,7 +15,8 @@
  */
 package com.msn.gabrielle.ui;
 
-import com.vaadin.flow.component.Text;
+import com.vaadin.flow.component.Text; 
+import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.html.Div;
@@ -47,10 +48,12 @@ import com.msn.gabrielle.ui.views.reviewslist.ReviewsList;
 @HtmlImport("frontend://styles/shared-styles.html")
 public class StudentPage extends Div
         implements RouterLayout{
+	Label welcomeLabel;
 		
     public StudentPage() {
 		H2 title = new H2("DYER CENTER");
 		title.addClassName("main-layout__title");
+		welcomeLabel = new Label("Welcome, John! Click on one of the tabs above to move to a new page!");
 		
 		RouterLink events = new RouterLink(null, EventsStud.class);
 		events.add(new Icon(VaadinIcon.CALENDAR), new Text("Events"));
@@ -74,6 +77,7 @@ public class StudentPage extends Div
 		Div header = new Div(title, navigation);
 		header.addClassName("main-layout__header");
 		add(header);
+		add(welcomeLabel);
 
 		addClassName("main-layout");
     }
