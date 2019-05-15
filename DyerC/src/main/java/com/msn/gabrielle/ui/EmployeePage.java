@@ -15,7 +15,7 @@
  */
 package com.msn.gabrielle.ui;
 
-import com.vaadin.flow.component.Text;
+import com.vaadin.flow.component.Text; 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.html.Div;
@@ -37,6 +37,7 @@ import com.msn.gabrielle.ui.views.Employee.ProjectsListEmp;
 import com.msn.gabrielle.ui.views.Employee.SkillsEmp;
 import com.msn.gabrielle.ui.views.categorieslist.CategoriesList;
 import com.msn.gabrielle.ui.views.reviewslist.ReviewsList;
+import com.vaadin.flow.component.dialog.Dialog;
 
 /**
  * The main layout contains the header with the navigation buttons, and the
@@ -51,7 +52,10 @@ public class EmployeePage extends Div
     public EmployeePage() {
 		H2 title = new H2("DYER CENTER");
 		title.addClassName("main-lay__title");
-		Label welcomeLabel = new Label("Welcome! Click on one of the tabs above to move to a new page!");
+		Dialog initial = new Dialog();
+		Label welcome = new Label("Welcome! Click one of the items from the control panel above to navigate to a new page.");
+		initial.add(welcome);
+		initial.open();
 
 		RouterLink projects = new RouterLink(null, ProjectsListEmp.class);
 		projects.add(new Icon(VaadinIcon.FORM), new Text("Projects"));
@@ -81,7 +85,6 @@ public class EmployeePage extends Div
 		header.addClassName("main-lay__header");
 		
 		add(header);
-		add(welcomeLabel);
 
 		addClassName("main-lay");
     }

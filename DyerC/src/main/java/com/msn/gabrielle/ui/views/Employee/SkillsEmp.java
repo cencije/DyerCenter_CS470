@@ -1,6 +1,7 @@
 package com.msn.gabrielle.ui.views.Employee;
 
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.html.NativeButton;
@@ -31,6 +32,7 @@ import com.msn.gabrielle.ui.views.Student.SQLProfileStud;
 import com.msn.gabrielle.ui.views.Student.SkillStud;
 
 @Route(value = "skillsemp", layout = EmployeePage.class)
+@HtmlImport("frontend://styles/shared-styles-ALUMNI.html")
 @PageTitle("Skills List")
 public class SkillsEmp extends VerticalLayout { 
 	
@@ -53,6 +55,7 @@ public class SkillsEmp extends VerticalLayout {
 	 * Allows the user to add and remove skills.
 	 */
 	public SkillsEmp() {
+		addClassName("main-lay");
 		loadSkillsList();
 		grid = new Grid<>(SkillStud.class);
 		grid.setItems(skillsList);
@@ -97,7 +100,7 @@ public class SkillsEmp extends VerticalLayout {
 			} catch (Exception e) { e.printStackTrace(); }
 		});
 		btnAddSkill.setEnabled(true);
-		btnAddSkill.addClassName("view-toolbar__button");
+		btnAddSkill.addClassName("main-lay__button");
 		
 		btnDeleteSkill = new Button("Delete Skill", event -> {
 			
@@ -123,7 +126,7 @@ public class SkillsEmp extends VerticalLayout {
 		});
 		btnDeleteSkill.setDisableOnClick(true);
 		btnDeleteSkill.setEnabled(true);
-		btnDeleteSkill.addClassName("view-toolbar__button");
+		btnDeleteSkill.addClassName("main-lay__button");
 		
 		hlTFSkills = new HorizontalLayout();
 		hlTFSkills.add(tfSkillCategory); hlTFSkills.add(tfSkillName);

@@ -122,9 +122,10 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
     	
     	projectForum.add(nameUnPaid);
     	viewDialog.add(projectForum);
-    	Button closeButton = new Button("Cancel", event -> {
+    	Button closeButton = new Button("Close", event -> {
     		viewDialog.close();
     	});
+    	closeButton.addClassName("main-layout__next-button");
     	List<SkillStud> personList = currentProj.getSkillList();
     	Grid<SkillStud> grid = new Grid<>();
     	grid.setItems(personList);
@@ -177,9 +178,7 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
     		if( projectError() == true && projectStringError() == true) {
     			Projects newProj = new Projects(pTField.getValue());
     			// SQL ADD HERE to PROPOSED TABLE
-    			// Reload Projects List
-    			projectList.add(newProj);
-    			
+    			// Reload Projects List    			
     			EmailSender es = new EmailSender();
     			String nameToSend = name.getValue();
         		String titleToSend = pTField.getValue();
@@ -203,7 +202,12 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
         		
     			dialog.close();
     			clearAll();
-    			updateList();
+    			Dialog good = new Dialog();
+				Label goodLabel = new Label("Successfully submitted! A Dyer Center Employee will review it shortly");
+				good.add(goodLabel);
+				good.setCloseOnOutsideClick(true);
+				good.open();
+	    		return;
     		}
     		if (projectError() == false) {
         		HorizontalLayout error = new HorizontalLayout();

@@ -78,7 +78,7 @@ public class ProjectProposalAlum extends VerticalLayout {
 	    		newProj.setProposedBy(name.getValue());
 	    		newProj.setDatePosted(LocalDate.now().format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
 	    		newProj.setSkillsList(listSkills);
-	    		projectList.add(newProj);
+	    		//projectList.add(newProj);
 	    		
 	    		EmailSender es = new EmailSender();
 	    		String nameToSend = name.getValue();

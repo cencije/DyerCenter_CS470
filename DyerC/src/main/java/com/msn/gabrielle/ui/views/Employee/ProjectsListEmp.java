@@ -170,6 +170,7 @@ public class ProjectsListEmp extends VerticalLayout {
      	Button closeButton = new Button("Close", event -> {
     		viewDialog.close();
     	});
+     	closeButton.addClassName("main-layout-emp__event");
     	viewDialog.setCloseOnOutsideClick(true);
     	List<SkillStud> skillList = currentProj.getSkillList();
     	Grid<SkillStud> gridSkill = new Grid<>();
@@ -186,6 +187,7 @@ public class ProjectsListEmp extends VerticalLayout {
     		updateView();
     		viewDialog.close();
     	});
+    	deleteProject.addClassName("main-layout-emp__event");
     	viewDialog.add(closeButton, deleteProject);
     	return viewDialog;
     }

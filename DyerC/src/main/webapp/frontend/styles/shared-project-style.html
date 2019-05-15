@@ -53,14 +53,17 @@
             .review {
                 display: flex;
                 align-items: center;
+                height: 100%;
                 width: 100%;
                 padding: var(--lumo-space-wide-xl);
                 padding-right: 8px calc(50vw - 50% + 16px);
                 padding-left: 8px calc(50vw - 50% + 16px);
                 box-sizing: border-box;
                 margin-bottom: 8px;
-                background-color: var(--lumo-base-color);                
-                box-shadow: 0 0 0 4px var(--lumo-shade-5pct), 0 5px 7px 0 var(--lumo-shade-10pct);
+            	background-color: white;
+            	background-attachment: fixed;
+            	background-repeat: no-repeat;              
+            	box-shadow: 0 0 0 4px var(--lumo-shade-5pct), 0 5px 7px 0 var(--lumo-shade-10pct);
                 border-radius: var(--lumo-border-radius);
             }
 
@@ -330,7 +333,7 @@
 
         body {
             background-color: white;
-            color:white;
+            color: black;
         }
 	`	
         .main-layout {

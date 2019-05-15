@@ -15,11 +15,12 @@
  */
 package com.msn.gabrielle.ui;
 
-import com.vaadin.flow.component.Text;
+import com.vaadin.flow.component.Text; 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H2;
+import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.page.Viewport;
@@ -35,6 +36,7 @@ import com.msn.gabrielle.ui.views.Alumni.ProjectProposalAlum;
 import com.msn.gabrielle.ui.views.Alumni.ProjectListAlum;
 import com.msn.gabrielle.ui.views.categorieslist.CategoriesList;
 import com.msn.gabrielle.ui.views.reviewslist.ReviewsList;
+import com.vaadin.flow.component.dialog.Dialog;
 
 /**
  * The main layout contains the header with the navigation buttons, and the
@@ -49,7 +51,11 @@ public class AlumniPage extends Div
     public AlumniPage() {
 		H2 title = new H2("DYER CENTER");
 		title.addClassName("main-lay__title");
-
+		Dialog initial = new Dialog();
+		Label welcome = new Label("Welcome, Ferris! Click one of the items from the control panel above to navigate to a new page.");
+		initial.add(welcome);
+		initial.open();
+		
 		RouterLink projects = new RouterLink(null, ProjectListAlum.class);
 		projects.add(new Icon(VaadinIcon.FORM), new Text("Projects"));
 		projects.addClassName("main-lay__nav-item");

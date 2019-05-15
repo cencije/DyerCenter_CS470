@@ -42,9 +42,14 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.component.icon.*;
 
+/**
+ * EventsStud creates and fills the layout for the Events page within the 
+ * student view.
+ * @author Dyer Center Senior Design
+ */
 @Route(value = "eventsstud", layout = StudentPage.class)
 @PageTitle("Events")
-@HtmlImport("frontend://styles/shared-styles.html")
+@HtmlImport("frontend://styles/shared-styles-ALUMNI.html")
 public class EventsStud extends VerticalLayout{
 	
 	FullCalendar calendar = FullCalendarBuilder.create().build();
@@ -63,7 +68,7 @@ public class EventsStud extends VerticalLayout{
 	 */
 	public EventsStud() {
         initView();
-		addClassName("main-layout");
+		addClassName("main-lay");
         
         sqlES.loadAll();
         eventsList = sqlES.getAllEvents();
@@ -76,7 +81,7 @@ public class EventsStud extends VerticalLayout{
 	 * Initialize the view of the calendar.
 	 */
 	private void initView() {
-        addClassName("main-layout");
+        addClassName("main-lay");
         setDefaultHorizontalComponentAlignment(Alignment.STRETCH);
     }
 	
@@ -114,7 +119,7 @@ public class EventsStud extends VerticalLayout{
 		DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE;
 		String formattedDate = x.format(formatter);
 		currentMonth = new Label("");
-		currentMonth.addClassName("main-layout__event-title");
+		currentMonth.addClassName("main-lay__event-title");
 		currentYear = new String(formattedDate.substring(0, 4));
 		yearNum = Integer.parseInt(currentYear);
 
@@ -138,21 +143,21 @@ public class EventsStud extends VerticalLayout{
         	monthNumber = cMN;
         	monthLabelSetUp();
         });
-		today.addClassName("main-layout__event-today");
+		today.addClassName("main-lay__event-today");
 		
 		lastMonth = new Button(new Icon(VaadinIcon.ANGLE_LEFT), event -> {
         	calendar.previous();
         	if(monthNumber == 1) { yearNum--; monthNumber = 12; } else { monthNumber--;}
         	monthLabelSetUp();
         });
-        lastMonth.addClassName("main-layout__next-button");
+        lastMonth.addClassName("main-lay__button");
 
         nextMonth = new Button(new Icon(VaadinIcon.ANGLE_RIGHT), event -> {
         	calendar.next();
         	if(monthNumber == 12) { yearNum++; monthNumber = 1; } else { monthNumber++;}
         	monthLabelSetUp();
         });
-        nextMonth.addClassName("main-layout__next-button");
+        nextMonth.addClassName("main-lay__button");
         
         monthMoveLayout = new HorizontalLayout();
         monthMoveLayout.add(today, lastMonth, nextMonth);

@@ -117,6 +117,7 @@ public class ProjectListAlum extends VerticalLayout{
 	    	Button closeButton = new Button("Close", event -> {
 	    		viewDialog.close();
 	    	});
+	    	closeButton.addClassName("main-layout-emp__event");
 	    	List<SkillStud> skillList = new ArrayList<SkillStud>();
 	    	skillList = currentProj.getSkillList();
 	    	Grid<SkillStud> gridSkill = new Grid<>();
@@ -140,7 +141,6 @@ public class ProjectListAlum extends VerticalLayout{
 	                .setResizable(true);
 	        grid.addColumn(new ComponentRenderer<>(this::createEditButton))
 	                .setFlexGrow(0);
-	        grid.addThemeVariants(GridVariant.LUMO_NO_BORDER);
 	        grid.setSelectionMode(SelectionMode.NONE);
 
 	        container.add(header, grid);
