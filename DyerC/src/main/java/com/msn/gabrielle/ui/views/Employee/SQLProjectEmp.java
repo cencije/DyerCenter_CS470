@@ -119,16 +119,12 @@ public class SQLProjectEmp {
 		}	
 	}
 	
+	/**
+	 * Deletes the passed project based upon the project_id from TABLE_PROJECT_INDEX and TABLE_PROJECT_SKILLS.
+	 * @param p The Project itself that is to be deleted
+	 */
 	public void deleteProject(Projects p) {
 		String pID = p.getProjectIDSQL();
-		String title = p.getProjectTitle();
-		String sDate = p.getStartDate();
-		String eDate = p.getEndDate();
-		String location = p.getLocation();
-		String paid = p.getPay();
-		String description = p.getDescription();
-		String proposedBy = p.getProposedBy();
-		String datePosted = p.getDatePosted();
 		
 		Properties prop = new Properties();
 		String propFileName = "config_DB.properties";
@@ -150,13 +146,15 @@ public class SQLProjectEmp {
 			statementRemoveProject.executeUpdate(sqlRemoveProject);
 			statementRemoveProject.close();
 			
+			System.out.println("Successful deletion of project from TABLE_PROJECT_INDEX");
+			
 			System.out.println("Deleting Project from TABLE_PROJECT_SKILLS");
 			Statement statementRemoveProjectSkills = c.createStatement();
 			String sqlRemoveProjectSkills = "DELETE FROM TABLE_PROJECT_SKILLS WHERE PROJECT_ID = '" + pID + "'; ";
 			statementRemoveProjectSkills.executeUpdate(sqlRemoveProjectSkills);
 			statementRemoveProjectSkills.close();
 			
-			System.out.println("Successful deletion of project from TABLE_PROJECT_INDEX");
+			System.out.println("Successful deletion of project from TABLE_PROJECT_SKILLS");
 			c.close();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -241,7 +239,7 @@ public class SQLProjectEmp {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.err.println(e.getClass().getName()+": "+e.getMessage());
+			System.err.println(e.getClass().getName() + ": " + e.getMessage());
 			System.exit(0);
 		}	
 		return listProjects;
