@@ -10,6 +10,7 @@ import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.KeyModifier;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
@@ -31,6 +32,7 @@ import com.vaadin.flow.router.Route;
 
 @Route(value = "projectsalum", layout = AlumniPage.class)
 @PageTitle("Projects Alumni")
+@HtmlImport("frontend://styles/shared-styles-ALUMNI.html")
 public class ProjectListAlum extends VerticalLayout{
 		private final TextField searchField = new TextField("",
 	            "Search by title");
@@ -44,6 +46,7 @@ public class ProjectListAlum extends VerticalLayout{
 	    SQLProjectAlum sqlPA = new SQLProjectAlum();
 	    
 	    public ProjectListAlum() {
+			addClassName("main-lay");
 	    	initView();
 	        addSearchBar();
 	        addContent();

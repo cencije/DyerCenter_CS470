@@ -17,6 +17,7 @@ import com.vaadin.flow.component.HasComponents;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
+import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.Grid.SelectionMode;
@@ -25,17 +26,19 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 @Route(value = "projectpropemp", layout = EmployeePage.class)
-@PageTitle("Project Proposal")
+@HtmlImport("frontend://styles/shared-styles-ALUMNI.html")
+@PageTitle("Project Proposal Emp")
 public class ProjectProposalEmp extends VerticalLayout {
 	private TextField pTField;
 	private DatePicker datePickerFirst;
 	private DatePicker datePickerSecond;
 	private TextField locationTF;
+	private List<SkillStud> skillList;
 	private TextArea area;
 	private ComboBox<String> comboBox;
 	private String pay;
 	private TextField name;
-	private ComboBox<String> cB;
+	private TextField searchBar;
 	private Grid<SkillStud> firstGrid;
     private List<Projects> projectList = new ArrayList<Projects>();
 	private DatePicker dialog;
@@ -44,6 +47,7 @@ public class ProjectProposalEmp extends VerticalLayout {
 	SQLProjectEmp sqlPE = new SQLProjectEmp();
 	
 	public ProjectProposalEmp() {
+		addClassName("main-lay");
 		setWidthFull();
 		setHeightFull();
 		addClassName("main-layout-emp");
@@ -57,6 +61,7 @@ public class ProjectProposalEmp extends VerticalLayout {
 		hL1.add(salary(), proposerName());
 		add(hL1);
 		add(skills());
+		updateSkillList();
 		HorizontalLayout hL2 = new HorizontalLayout();
     	Button saveButton = new Button("Submit", event -> {
     		if(projectError() == true) {
@@ -91,7 +96,7 @@ public class ProjectProposalEmp extends VerticalLayout {
 			error.setCloseOnOutsideClick(true);
 			error.open();
     	});
-    	saveButton.addClassName("view-toolbar__event-click");
+    	saveButton.addClassName("main-layout-emp__event");
     	hL2.add(saveButton);
     	add(hL2);
 	}
@@ -192,20 +197,42 @@ public class ProjectProposalEmp extends VerticalLayout {
      */
     public VerticalLayout skills() {
     	VerticalLayout vL = new VerticalLayout();
-    	List<SkillStud> skillList = new ArrayList<SkillStud>(); 
+    	skillList = new ArrayList<SkillStud>(); 
     	skillList = sqlPE.loadAllSkills();
-		cB = new ComboBox<String>("Skills required: ");
-		cB.setPlaceholder("Category");
+    	searchBar = new TextField();
+		searchBar.setWidthFull();
+		searchBar.setPlaceholder("Search by skill name");
+		searchBar.addValueChangeListener(e -> updateSkillList());
 		firstGrid = new Grid<SkillStud>();
 		firstGrid.setItems(skillList);
 		firstGrid.setSelectionMode(SelectionMode.MULTI);
 		firstGrid.addColumn(SkillStud::getCategory).setHeader("Category");
 		firstGrid.addColumn(SkillStud::getName).setHeader("Skill Name");
-		vL.add(cB, firstGrid);
+		vL.add(searchBar, firstGrid);
 		vL.setWidthFull();
 		return vL;
     }
     
+    private List<SkillStud> getSearchSkills (List<SkillStud> skills, String value){
+    	List<SkillStud> skillsEdit = skills;
+
+    	if (value.isEmpty()) {
+    		return skillsEdit;
+    	}
+    	
+    	List<SkillStud> listToDisplay = new ArrayList<SkillStud>();
+    	for (int i = 0; i < skillsEdit.size(); i++) {
+    		if (skillsEdit.get(i).getName().toLowerCase().contains(value.toLowerCase())) {
+    			listToDisplay.add(skillsEdit.get(i));
+    		}
+    	}
+		return listToDisplay;
+    }
+    
+    public void updateSkillList() {
+    	List<SkillStud> listToDisplay = getSearchSkills(skillList, searchBar.getValue());
+        firstGrid.setItems(listToDisplay);
+    }
     /**
      * clear all the fields in project dialog
      */
@@ -217,7 +244,7 @@ public class ProjectProposalEmp extends VerticalLayout {
     	area.clear();
     	name.clear();
     	comboBox.clear();
-    	cB.clear();
+    	searchBar.clear();
     	firstGrid.deselectAll();
     }
 }

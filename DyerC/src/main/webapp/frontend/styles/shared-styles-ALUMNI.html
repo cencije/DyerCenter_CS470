@@ -51,14 +51,10 @@
   				color: white;
 			}
 			
+			
             .view-container {
                 flex: auto;
             }
-            
-            .view-toolbar__button{
-            	background-color: #232323;
-  				box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
-			}
         </style>
     </template>
 </dom-module>
@@ -72,8 +68,6 @@
         }
 
         body {
-            /* Avoid horizontal scrollbars, mainly on IE11 */
-            overflow-x: hidden;
             background-color: white;
             color:white;
         }
@@ -83,12 +77,37 @@
             flex-direction: column;
             width: 100%;
             height: 100%;
-            min-height: 100vh;
-            max-width: 960px;
             margin: 0 auto;
-            background-color: url("dyer-teamwork.jpg") !important;
+            color: black;
+            background-color: white;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
         }
-
+		
+		.main-lay__event-title{
+			font-size: 2.55em;
+           	font-family: "Scala Sans.";
+           	margin: 0;
+           	/* Allow the nav-items to take all the space so they are centered */
+           	width: 1 !important;
+           	line-height: 1;
+           	color: black;
+           	letter-spacing: -0.02em;
+           	font-weight: 500;
+		}
+		
+		.main-lay__calendar{
+			color: black;
+			background-color: white;
+		}
+		
+		
+		.main-lay__event-today{
+			background-color: #4EA8D8;
+  			box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  			color: white;
+		}
+			
         .main-lay__title {
             font-size: 1.75em;
             font-family: "ITC Caslon 224";
@@ -100,6 +119,12 @@
             letter-spacing: -0.02em;
             font-weight: 500;
         }
+        
+        .main-lay__button{
+           	background-color: #232323;
+           	color:white;
+  			box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+		}
         
         .main-lay-project-title {
         	color: #1D1D1D;
@@ -114,11 +139,17 @@
             flex-direction: column;
             width: 100%;
             height: 100%;
-            min-height: 100vh;
-            max-width: 960px;
             margin: 0 auto;
             background-color: white;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
         }
+        
+        .main-layout-emp__event{
+			background-color: #232323;
+  			box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  			color: white;
+		}
 
         .main-lay__header {
             display: flex;
@@ -187,6 +218,7 @@
             <style include="lumo-color lumo-typography">
                 h3 {
                     margin-top: 0;
+                    background-color: white;
                 }
 
                 vaadin-form-layout {

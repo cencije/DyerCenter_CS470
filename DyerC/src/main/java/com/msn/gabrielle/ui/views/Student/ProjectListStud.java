@@ -51,6 +51,7 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
 	private TextField searchField = new TextField("",
             "Search projects");
     private List<Projects> projectList;
+    private List<SkillStud> skillsList;
     private String nameStr;
     private TextField pTField;
     private DatePicker datePickerFirst;
@@ -59,7 +60,7 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
     private TextArea area;
     private TextField name;   
     private ComboBox<String> comboBox;
-    private ComboBox<String> cB;
+    private TextField searchBar;
     private Grid<SkillStud> firstGrid;
     
     public interface ProjectsModel extends TemplateModel{
@@ -88,7 +89,10 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
       getModel().setReviews(projectList);
       getElement().setProperty("reviewButtonText", "New project");
       getElement().setProperty("editButtonText", "View");
-      addReview.addClickListener(e -> getUI().ifPresent(ui -> ui.add(dialog())));
+      addReview.addClickListener(e -> {
+    	  getUI().ifPresent(ui -> ui.add(dialog()));
+    	  updateSkillList();
+      });
       updateList();
     }
     
@@ -299,18 +303,41 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
      */
     public VerticalLayout skills() {
     	VerticalLayout vL = new VerticalLayout();
-    	List<SkillStud> skillsList = new ArrayList<SkillStud>(); 
+    	skillsList = new ArrayList<SkillStud>(); 
 		skillsList = sqlPStud.loadAllSkills();
-		cB = new ComboBox<String>("Skills required: ");
-		cB.setPlaceholder("Category");
+		searchBar = new TextField();
+		searchBar.setWidthFull();
+		searchBar.setPlaceholder("Search by skill name");
+		searchBar.addValueChangeListener(e -> updateSkillList());
 		firstGrid = new Grid<>();
 		firstGrid.setItems(skillsList);
 		firstGrid.addColumn(SkillStud::getCategory).setHeader("Category");
 		firstGrid.addColumn(SkillStud::getName).setHeader("Skill Name");
 		firstGrid.setSelectionMode(SelectionMode.MULTI);
-		vL.add(cB, firstGrid);
+		vL.add(searchBar, firstGrid);
 		vL.setWidthFull();
 		return vL;
+    }
+    
+    private List<SkillStud> getSearchSkills (List<SkillStud> skills, String value){
+    	List<SkillStud> skillsEdit = skills;
+
+    	if (value.isEmpty()) {
+    		return skillsEdit;
+    	}
+    	
+    	List<SkillStud> listToDisplay = new ArrayList<SkillStud>();
+    	for (int i = 0; i < skillsEdit.size(); i++) {
+    		if (skillsEdit.get(i).getName().toLowerCase().contains(value.toLowerCase())) {
+    			listToDisplay.add(skillsEdit.get(i));
+    		}
+    	}
+		return listToDisplay;
+    }
+    
+    public void updateSkillList() {
+    	List<SkillStud> listToDisplay = getSearchSkills(skillsList, searchBar.getValue());
+        firstGrid.setItems(listToDisplay);
     }
     
     /**
@@ -324,7 +351,7 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
     	area.clear();
     	name.clear();
     	comboBox.clear();
-    	cB.clear();
+    	searchBar.clear();
     	firstGrid.deselectAll();
     }
     
