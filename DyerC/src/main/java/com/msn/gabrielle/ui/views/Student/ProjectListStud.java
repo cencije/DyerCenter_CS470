@@ -178,9 +178,7 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
     		if( projectError() == true && projectStringError() == true) {
     			Projects newProj = new Projects(pTField.getValue());
     			// SQL ADD HERE to PROPOSED TABLE
-    			// Reload Projects List
-    			projectList.add(newProj);
-    			
+    			// Reload Projects List    			
     			EmailSender es = new EmailSender();
     			String nameToSend = name.getValue();
         		String titleToSend = pTField.getValue();
