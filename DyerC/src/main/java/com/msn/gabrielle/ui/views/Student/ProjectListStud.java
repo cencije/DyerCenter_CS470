@@ -131,7 +131,7 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
     	grid.addColumn(SkillStud::getCategory).setHeader("Category");
     	grid.addColumn(SkillStud::getName).setHeader("Skill Name");
     	grid.addThemeVariants(GridVariant.LUMO_NO_BORDER,
-    	        GridVariant.LUMO_NO_ROW_BORDERS);
+    	        GridVariant.LUMO_NO_ROW_BORDERS, GridVariant.LUMO_ROW_STRIPES);
     	viewDialog.add(grid);
     	viewDialog.setCloseOnOutsideClick(true);
     	viewDialog.add(closeButton);
@@ -174,7 +174,7 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
     	//********************************************************
     	HorizontalLayout buttons = new HorizontalLayout();
     	Button saveButton = new Button("Submit", event -> {
-    		if( projectError() == true) {
+    		if( projectError() == true && projectStringError() == true) {
     			Projects newProj = new Projects(pTField.getValue());
     			// SQL ADD HERE to PROPOSED TABLE
     			// Reload Projects List
@@ -205,11 +205,18 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
     			clearAll();
     			updateList();
     		}
-    		
-    		HorizontalLayout error = new HorizontalLayout();
-    		Label errorBlank = new Label("Error: please enter all the required fields");
-    		error.add(errorBlank);
-    		dialog.add(error);
+    		if (projectError() == false) {
+        		HorizontalLayout error = new HorizontalLayout();
+        		Label errorBlank = new Label("Error: please enter all the required fields");
+        		error.add(errorBlank);
+        		dialog.add(error);
+    		}
+    		if (projectStringError() == false) {
+    			HorizontalLayout errorStr = new HorizontalLayout();
+				Label errorBlank = new Label("Error: " + "' " + "\" "+ "; are not allowed in the text fields");
+				errorStr.add(errorBlank);
+        		dialog.add(errorStr);
+    		}
     	});
     	Button cancelButton = new Button("Cancel", event -> {
     		clearAll();
@@ -235,6 +242,27 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
         if(firstGrid.getSelectedItems().size() == 0) {  return false; }
         return true;
     }
+    
+    public boolean projectStringError() {
+	    if(checkContainsInvalidSymbols(pTField.getValue())) {   return false; }
+	    if(checkContainsInvalidSymbols(locationTF.getValue())) {  return false; }
+	    if(checkContainsInvalidSymbols(area.getValue())) {  return false; }
+	    if(checkContainsInvalidSymbols(name.getValue())) {  return false; }
+	    return true;
+	}
+    
+    /**
+	 * Checks that a passed String does not contain any of the special characters that can't be
+	 * stored in the database. It's called from openAddEvent().
+	 * @param s A variable of type String.
+	 * @return true If the String contains any of the invalid symbols.
+	 */
+	private boolean checkContainsInvalidSymbols(String s) {
+		if(s.contains(";") || s.contains("'") || s.contains("\"")) {
+			return true;
+		}
+		return false;
+	}
     
     /**
      * Layout for project title and text field for project dialog

@@ -33,6 +33,7 @@ import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.html.NativeButton;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
@@ -88,7 +89,7 @@ public class ProjectsListEmp extends VerticalLayout {
         searchField.addValueChangeListener(e -> updateView());
         searchField.setValueChangeMode(ValueChangeMode.EAGER);
         searchField.addFocusShortcut(Key.KEY_F, KeyModifier.CONTROL);
-        
+        searchField.setWidthFull();
         viewToolbar.add(searchField);
         add(viewToolbar);
     }
@@ -137,6 +138,7 @@ public class ProjectsListEmp extends VerticalLayout {
                 .setResizable(true);
         grid.addColumn(new ComponentRenderer<>(this::createEditButton))
                 .setFlexGrow(0);
+        grid.addThemeName("rounded-rows");
         grid.setSelectionMode(SelectionMode.NONE);
 
         container.add(header, grid);
@@ -170,14 +172,21 @@ public class ProjectsListEmp extends VerticalLayout {
     	});
     	viewDialog.setCloseOnOutsideClick(true);
     	List<SkillStud> skillList = currentProj.getSkillList();
-    	Grid<SkillStud> gridSkill = new Grid<SkillStud>(SkillStud.class);
+    	Grid<SkillStud> gridSkill = new Grid<>();
+    	gridSkill.setItems(skillList);
     	gridSkill.addColumn(SkillStud::getCategory).setHeader("Category");
     	gridSkill.addColumn(SkillStud::getName).setHeader("Skill Name");
     	gridSkill.addThemeVariants(GridVariant.LUMO_NO_BORDER,
-    	        GridVariant.LUMO_NO_ROW_BORDERS);
-    	gridSkill.setItems(skillList);
+    	        GridVariant.LUMO_NO_ROW_BORDERS, GridVariant.LUMO_ROW_STRIPES);
     	viewDialog.add(gridSkill);
-    	viewDialog.add(closeButton);
+    	Button deleteProject = new Button("Delete",
+    	        new Icon(VaadinIcon.TRASH));
+    	deleteProject.addClickListener(e -> {
+    		sqlPE.deleteProject(currentProj);
+    		updateView();
+    		viewDialog.close();
+    	});
+    	viewDialog.add(closeButton, deleteProject);
     	return viewDialog;
     }
 
@@ -205,6 +214,7 @@ public class ProjectsListEmp extends VerticalLayout {
     }
     
     private List<Projects> getSearchValues(String value){
+    	projectList = sqlPE.loadProjects();
     	if (value.isEmpty()) {
     		return projectList;
     	}

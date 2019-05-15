@@ -20,6 +20,7 @@ import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.html.NativeButton;
 import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
@@ -123,7 +124,7 @@ public class ProjectListAlum extends VerticalLayout{
 	    	gridSkill.addColumn(SkillStud::getCategory).setHeader("Category");
 	    	gridSkill.addColumn(SkillStud::getName).setHeader("Skill Name");
 	    	gridSkill.addThemeVariants(GridVariant.LUMO_NO_BORDER,
-	    	        GridVariant.LUMO_NO_ROW_BORDERS);
+	    	        GridVariant.LUMO_NO_ROW_BORDERS, GridVariant.LUMO_ROW_STRIPES);
 	    	viewDialog.add(gridSkill);
 	    	viewDialog.setCloseOnOutsideClick(true);
 	    	viewDialog.add(closeButton);
@@ -139,6 +140,7 @@ public class ProjectListAlum extends VerticalLayout{
 	                .setResizable(true);
 	        grid.addColumn(new ComponentRenderer<>(this::createEditButton))
 	                .setFlexGrow(0);
+	        grid.addThemeVariants(GridVariant.LUMO_NO_BORDER);
 	        grid.setSelectionMode(SelectionMode.NONE);
 
 	        container.add(header, grid);
