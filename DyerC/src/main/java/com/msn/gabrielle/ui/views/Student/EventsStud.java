@@ -195,6 +195,7 @@ public class EventsStud extends VerticalLayout{
 								eventsList.get(i).getMinute()));
 			newEntry.setEnd(newEntry.getStart().plusHours(1));
 			newEntry.setEditable(false);
+			newEntry.setColor("#4DA8D8");
 			calendar.addEntry(newEntry);
 		}
 	}

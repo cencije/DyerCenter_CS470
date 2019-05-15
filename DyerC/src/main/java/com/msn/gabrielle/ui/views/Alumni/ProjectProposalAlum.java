@@ -1,11 +1,12 @@
 package com.msn.gabrielle.ui.views.Alumni;
 
-import java.time.LocalDate;
+import java.time.LocalDate; 
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import com.msn.gabrielle.backend.EmailSender;
 import com.msn.gabrielle.backend.Projects;
 import com.msn.gabrielle.ui.*;
 import com.msn.gabrielle.ui.views.Student.SkillStud;
@@ -78,6 +79,18 @@ public class ProjectProposalAlum extends VerticalLayout {
 	    		newProj.setSkillsList(listSkills);
 	    		projectList.add(newProj);
 	    		clearAll();
+	    		
+	    		EmailSender es = new EmailSender();
+	    		String titleToSend = pTField.getValue();
+	    		String descToSend = area.getValue();
+	    		String timeStart = datePickerFirst.getValue().format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+	    		String timeEnd = datePickerSecond.getValue().format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+	    		String timeframe = timeStart + " to " + timeEnd;
+	    		String locToSend = locationTF.getValue();
+	    		String paidToSend = comboBox.getValue();
+	    		es.sendSpecificEmail("New Project Proposal!", titleToSend, descToSend, 
+	    				timeframe, locToSend, paidToSend, 2);
+	    		
 	    		Dialog good = new Dialog();
 				Label goodLabel = new Label("Successfully submitted! A Dyer Center Employee will review it shortly");
 				good.add(goodLabel);
@@ -97,7 +110,7 @@ public class ProjectProposalAlum extends VerticalLayout {
 	}
 	
 	public boolean projectError() {
-	    if(projectList.isEmpty()) { return false; }
+	    //if(projectList.isEmpty()) { return false; }
 	    if(pTField.isEmpty()) {   return false; }
 	    if(datePickerFirst.isEmpty()) {   return false; }
 	    if(datePickerSecond.isEmpty()) {  return false; }
