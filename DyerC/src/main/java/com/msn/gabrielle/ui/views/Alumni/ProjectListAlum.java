@@ -141,7 +141,6 @@ public class ProjectListAlum extends VerticalLayout{
 	                .setResizable(true);
 	        grid.addColumn(new ComponentRenderer<>(this::createEditButton))
 	                .setFlexGrow(0);
-	        grid.addThemeVariants(GridVariant.LUMO_NO_BORDER);
 	        grid.setSelectionMode(SelectionMode.NONE);
 
 	        container.add(header, grid);

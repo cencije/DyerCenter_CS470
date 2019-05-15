@@ -33,7 +33,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 @Route(value = "profilestud", layout = StudentPage.class)
-@HtmlImport("frontend://styles/shared-styles.html")
+@HtmlImport("frontend://styles/shared-styles-ALUMNI.html")
 @PageTitle("Profile")
 public class ProfileStud extends VerticalLayout{
 	String profileName, profileEmail, profileMajor1, profileMajor2, profileMinor1, profileMinor2;
@@ -108,8 +108,9 @@ public class ProfileStud extends VerticalLayout{
 	 * Also loads in profile values for the student logged in.
 	 */
 	public ProfileStud() {
-		addClassName("main-layout");
+		addClassName("main-lay");
 		gridChosenSkills = new Grid<>();
+		addClassName("main-layout-emp");
 		loadProfileValues();
 		
 		Label lblName = new Label("Name:");
@@ -174,7 +175,7 @@ public class ProfileStud extends VerticalLayout{
 		});
 		btnUpdateFields.setDisableOnClick(true);
 		btnUpdateFields.setEnabled(false);
-		btnUpdateFields.addClassName("view-toolbar__profile-click");
+		btnUpdateFields.addClassName("main-lay__button");
 		cbMajor1.addValueChangeListener(event -> {
 		    if (!event.getSource().isEmpty()) { btnUpdateFields.setEnabled(true); }
 		});
@@ -228,10 +229,12 @@ public class ProfileStud extends VerticalLayout{
 		Button deselectBtn = new Button("Deselect all");
 		deselectBtn.addClickListener(
 		        event -> firstGrid.asMultiSelect().deselectAll());
+		deselectBtn.addClassName("main-lay__button");
 		Button selectAllBtn = new Button("Select all");
 		selectAllBtn.addClickListener(
 		        event -> ((GridMultiSelectionModel<SkillStud>) firstGrid
 		                .getSelectionModel()).selectAll());
+		selectAllBtn.addClassName("main-lay__button");
 		Button btnUpdateSkills = new Button("Update Skills");
 		btnUpdateSkills.addClickListener(
 				event -> {
@@ -246,6 +249,7 @@ public class ProfileStud extends VerticalLayout{
 					updateProfileSkills();
 				}
 		);
+		btnUpdateSkills.addClassName("main-lay__button");
 		HorizontalLayout hlGridBtns = new HorizontalLayout();
 		hlGridBtns.add(deselectBtn); hlGridBtns.add(selectAllBtn); hlGridBtns.add(btnUpdateSkills); 
 		VerticalLayout vlGrid = new VerticalLayout();
