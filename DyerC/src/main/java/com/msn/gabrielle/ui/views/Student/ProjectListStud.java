@@ -44,7 +44,7 @@ import com.msn.gabrielle.ui.views.Student.ProjectListStud.ProjectsModel;
 import com.msn.gabrielle.ui.views.Student.SkillStud;
 import com.msn.gabrielle.backend.EmailSender;
 
-@Route(value = "projectsstud")
+@Route(value = "projectsstud", layout = StudentPage.class)
 @PageTitle("Projects")
 @HtmlImport("frontend://styles/shared-project-style.html")
 @Tag("reviews-list")
