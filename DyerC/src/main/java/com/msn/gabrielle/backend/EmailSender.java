@@ -20,6 +20,9 @@ public class EmailSender {
 		es.sendEmail();
     }
 	
+	/**
+	 * Sends a generic email, useful for testing.
+	 */
 	public void sendEmail() {
 		final String username = "ignitemDyer@gmail.com";
         final String password = "ignitem470";
@@ -58,6 +61,20 @@ public class EmailSender {
         }
 	}
 
+	/**
+	 * Sends an email with a structured message including specific information 
+	 * about a new project when it is submitted.
+	 * 
+	 * @param sub A variable of type String.
+	 * @param title A variable of type String.
+	 * @param description A variable of type String.
+	 * @param timeframe A variable of type String.
+	 * @param location A variable of type String.
+	 * @param paid A variable of type String.
+	 * @param senderType A variable of type int.
+	 * @param name A variable of type String.
+	 * @param skillsRequired A variable of type String.
+	 */
 	public void sendSpecificEmail(String sub, String title, String description,
 			String timeframe, String location, String paid, int senderType, String name, 
 			String skillsRequired) {
