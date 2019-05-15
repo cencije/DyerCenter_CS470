@@ -1,6 +1,6 @@
 package com.msn.gabrielle.ui.views.Student;
 
-import java.util.ArrayList;
+import java.util.ArrayList; 
 import java.util.List;
 
 import com.msn.gabrielle.backend.Projects;
@@ -39,6 +39,7 @@ import com.vaadin.flow.templatemodel.Encode;
 import com.vaadin.flow.templatemodel.TemplateModel;
 import com.msn.gabrielle.ui.views.Student.ProjectListStud.ProjectsModel;
 import com.msn.gabrielle.ui.views.Student.SkillStud;
+import com.msn.gabrielle.backend.EmailSender;
 
 @Route(value = "projectsstud", layout = StudentPage.class)
 @PageTitle("Projects")
@@ -163,17 +164,31 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
     	projectForum.add(titleDuration, location(), projectDescription(), nameUnPaid);
     	projectForum.add(skills());
     	
+    	//********************************************************
     	HorizontalLayout buttons = new HorizontalLayout();
-    	Button saveButton = new Button("Save", event -> {
+    	Button saveButton = new Button("Submit", event -> {
     		if( projectError() == true) {
     			Projects newProj = new Projects(pTField.getValue());
     			// SQL ADD HERE to PROPOSED TABLE
     			// Reload Projects List
     			projectList.add(newProj);
+    			
+    			EmailSender es = new EmailSender();
+        		String titleToSend = pTField.getValue();
+        		String descToSend = area.getValue();
+        		String timeStart = datePickerFirst.getValue().toString();
+        		String timeEnd = datePickerSecond.getValue().toString();
+        		String timeframe = timeStart + " to " + timeEnd;
+        		String locToSend = locationTF.getValue();
+        		String paidToSend = comboBox.getValue();
+        		es.sendSpecificEmail("New Project Proposal!", titleToSend, descToSend, 
+        				timeframe, locToSend, paidToSend, 1);
+    			
     			dialog.close();
     			clearAll();
     			updateList();
     		}
+    		
     		HorizontalLayout error = new HorizontalLayout();
     		Label errorBlank = new Label("Error: please enter all the required fields");
     		error.add(errorBlank);
@@ -192,7 +207,7 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
     }
     
     public boolean projectError() {
-    	if(projectList.isEmpty()) { return false; }
+    	//if(projectList.isEmpty()) { return false; }
         if(pTField.isEmpty()) {   return false; }
         if(datePickerFirst.isEmpty()) {   return false; }
         if(datePickerSecond.isEmpty()) {  return false; }

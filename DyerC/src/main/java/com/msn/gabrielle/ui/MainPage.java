@@ -15,7 +15,7 @@
  */
 package com.msn.gabrielle.ui;
 
-import com.vaadin.flow.component.ClickNotifier;
+import com.vaadin.flow.component.ClickNotifier; 
 import com.vaadin.flow.component.Html;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
@@ -48,6 +48,7 @@ import com.msn.gabrielle.ui.views.Student.SQLProjectStud;
 import com.msn.gabrielle.ui.views.categorieslist.CategoriesList;
 import com.msn.gabrielle.ui.views.reviewslist.ReviewsList;
 import com.msn.gabrielle.ui.SQLTablesManager;
+
 
 /**
  * The main layout contains the header with the navigation buttons, and the

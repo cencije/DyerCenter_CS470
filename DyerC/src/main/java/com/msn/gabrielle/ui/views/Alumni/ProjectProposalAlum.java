@@ -1,11 +1,12 @@
 package com.msn.gabrielle.ui.views.Alumni;
 
-import java.time.LocalDate;
+import java.time.LocalDate; 
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import com.msn.gabrielle.backend.EmailSender;
 import com.msn.gabrielle.backend.Projects;
 import com.msn.gabrielle.ui.*;
 import com.msn.gabrielle.ui.views.Student.SkillStud;
@@ -73,6 +74,18 @@ public class ProjectProposalAlum extends VerticalLayout {
 	    		newProj.setSkillsList(listSkills);
 	    		projectList.add(newProj);
 	    		clearAll();
+	    		
+	    		EmailSender es = new EmailSender();
+	    		String titleToSend = pTField.getValue();
+	    		String descToSend = area.getValue();
+	    		String timeStart = datePickerFirst.getValue().toString();
+	    		String timeEnd = datePickerSecond.getValue().toString();
+	    		String timeframe = timeStart + " to " + timeEnd;
+	    		String locToSend = locationTF.getValue();
+	    		String paidToSend = comboBox.getValue();
+	    		es.sendSpecificEmail("New Project Proposal!", titleToSend, descToSend, 
+	    				timeframe, locToSend, paidToSend, 2);
+	    		
 	    		Dialog good = new Dialog();
 				Label goodLabel = new Label("Successfully submitted! A Dyer Center Employee will review it shortly");
 				good.add(goodLabel);
