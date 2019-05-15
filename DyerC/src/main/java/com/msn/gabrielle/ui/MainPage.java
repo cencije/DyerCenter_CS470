@@ -15,55 +15,36 @@
  */
 package com.msn.gabrielle.ui;
 
-import com.vaadin.flow.component.ClickNotifier; 
-import com.vaadin.flow.component.Html;
-import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.dialog.Dialog;
-import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.H2;
-import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Label;
-import com.vaadin.flow.component.html.NativeButton;
-import com.vaadin.flow.component.icon.Icon;
-import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.page.Viewport;
-import com.vaadin.flow.router.HighlightConditions;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouterLayout;
-import com.vaadin.flow.router.RouterLink;
-import com.vaadin.flow.server.InitialPageSettings;
-import com.vaadin.flow.server.PWA;
-import com.vaadin.flow.server.PageConfigurator;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.Statement;
-
 import com.msn.gabrielle.ui.views.Student.SQLProjectStud;
-import com.msn.gabrielle.ui.views.categorieslist.CategoriesList;
-import com.msn.gabrielle.ui.views.reviewslist.ReviewsList;
 import com.msn.gabrielle.ui.SQLTablesManager;
 
 
 /**
- * The main layout contains the header with the navigation buttons, and the
- * child views below that.
+ * this is the page that initially loads to select if the user wants to go to the student,
+ * employee, or alumni page. This is where the login functionality should be. 
  */
 @Route(value = "", layout = MainLayout.class)
 @HtmlImport("frontend://styles/main-page-styles.html")
 public class MainPage extends VerticalLayout
         implements RouterLayout{
 	
+	/**
+	 * Constructor to initialize the page
+	 */
     public MainPage() { 
     	setSizeFull();
     	
+    	//Dialog with the student, alumni, employee button 
     	Dialog viewDialog = new Dialog();
-
     	viewDialog.setCloseOnEsc(false);
     	viewDialog.setCloseOnOutsideClick(false);
     	VerticalLayout mainLay = new VerticalLayout();
@@ -99,9 +80,8 @@ public class MainPage extends VerticalLayout
     	viewDialog.add(mainLay);
     	viewDialog.open();
     	add(viewDialog);
-
-    	//mainLayout.setHorizontalComponentAlignment(Alignment.CENTER, buttonLayout);
     	
+    	//The sql for loading the student 
     	SQLTablesManager sqlTM = new SQLTablesManager();
     	sqlTM.determineDBStates();
     	SQLProjectStud sqlPS = new SQLProjectStud();

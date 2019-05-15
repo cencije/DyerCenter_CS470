@@ -5,9 +5,14 @@ import java.util.List;
 import java.util.Set;
 import com.msn.gabrielle.ui.views.Student.SkillStud;
 
+/**
+ * Projects.java - a simple class for creating Project Objects
+ * @author Dyer Center Senior Design
+ *
+ */
 public class Projects {
 	
-	private String projectIDSQL;
+	private String projectIDSQL; // project id in database
 	
     private String projectTitle = ""; //project title
     
@@ -17,29 +22,51 @@ public class Projects {
    
     private String location = ""; // location of project
     
-    private String startDate = ""; 
+    private String startDate = ""; // first date of the project
     
-    private String endDate = "";
+    private String endDate = ""; //second date of the project
     
-    private String datePosted = "";
+    private String datePosted = ""; //date the project was posted 
     
-    private String paid = "";
+    private String paid = ""; // either "Paid", "Unpaid", or "Unknown
     
     private String timePosted = ""; //time project proposal was posted 
     
-    private List<String> skills;
+    private List<String> skills; //List of skills required for the project
     
-    List<SkillStud> listSkillStud;
+    List<SkillStud> listSkillStud; //List of skills required for the project
     
-    
+    /**
+     * Constructor with no inputs
+     */
     public Projects() {
         skills = new ArrayList<String>();
     }
+    
+    /**
+     * Constructor that takes in a project title
+     * 
+     * @param projectTitle is the title of the project getting created
+     */
     public Projects(String projectTitle) {
         this.projectTitle = projectTitle;
         skills = new ArrayList<String>();
     }
-
+    
+    /**
+     * Constructor that takes in every parameter necessary to create a project, besides the list
+     * of skills a project requires
+     * 
+     * @param id is the project id
+     * @param projectTitle is the title of the project
+     * @param startDate is the first date for the project
+     * @param endDate is the second date (end) for the project
+     * @param location is the location of where the project is
+     * @param description is the description of the project
+     * @param paid is either "Paid" "Unpaid" or "Unknown"
+     * @param proposedBy is the name of who proposed the project
+     * @param datePosted is the date the project was posted on
+     */
     public Projects (String id, String projectTitle, String startDate, String endDate, String location,
     				 String description, String paid, String proposedBy, String datePosted) {
     	this.projectIDSQL = id;
@@ -120,7 +147,10 @@ public class Projects {
     	System.out.println("Description:" + description);
         this.description = description;
     }
-
+    
+    /**
+     * Method to print out a project 
+     */
     @Override
     public String toString() {
         return "Project{" + getProjectTitle() + '}';
@@ -231,6 +261,7 @@ public class Projects {
     }
      
     /**
+     * Gets the skills list of strings 
      * 
      * @return list of skills String
      */
@@ -238,7 +269,10 @@ public class Projects {
     	return skills;
     }
     
-    
+    /**
+     * Sets the project skill set
+     * @param set is the string list of skills
+     */
     public void setSkillsSet(Set<String> set){
     	skills = new ArrayList<String>(); 
         for (String x : set) 
@@ -246,6 +280,7 @@ public class Projects {
     }
     
     /**
+     * Gets the skill list of SkillStud objects, which is the skill set 
      * 
      * @return list of skills SkillStud
      */
@@ -253,8 +288,12 @@ public class Projects {
     	return listSkillStud;
     }
     
+    /**
+     * Set the skill list of SkillStud objects
+     * 
+     * @param skillsList is the list of SkillStud objects you are setting
+     */
     public void setSkillsList(List<SkillStud> skillsList) {
     	listSkillStud = skillsList;
     }
-    
 }

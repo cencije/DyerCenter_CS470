@@ -31,22 +31,23 @@ import com.vaadin.flow.router.Route;
 @HtmlImport("frontend://styles/shared-styles-ALUMNI.html")
 @PageTitle("Project Proposal Alum")
 public class ProjectProposalAlum extends VerticalLayout {
-	private TextField pTField;
-	private DatePicker datePickerFirst;
-	private DatePicker datePickerSecond;
-	private TextField locationTF;
-	private List<SkillStud> skillList;
-	private TextArea area;
-	private ComboBox<String> comboBox;
-	private String pay;
-	private TextField name;
-	private TextField searchBar;
-	private Grid<SkillStud> firstGrid;
-    private List<Projects> projectList = new ArrayList<Projects>();
-	private DatePicker dialog;
-	private String nameStr;
+	private TextField pTField; //the text field for the project title
+	private DatePicker datePickerFirst; // the date field for start date
+	private DatePicker datePickerSecond; // the date field for end date
+	private TextField locationTF; //the location text field
+	private List<SkillStud> skillList; //the list of skills 
+	private TextArea area; //the area for writing the project description
+	private ComboBox<String> comboBox; // the combo box for the pay for a project 
+	private String pay; //the string from the comboBox
+	private TextField name; //the name text field
+	private TextField searchBar; //the search bar text field
+	private Grid<SkillStud> firstGrid; //the grid to display the skill set
+	private List<Projects> projectList; //list of project objects
+	SQLProjectAlum sqlPA = new SQLProjectAlum(); //the sql object to access the DB data
 	
-	SQLProjectAlum sqlPA = new SQLProjectAlum();
+	/**
+	 * constructor that sets up the layout to provide the project proposal fields
+	 */
 	public ProjectProposalAlum() {
 		addClassName("main-lay");
 		setWidthFull();
@@ -130,8 +131,11 @@ public class ProjectProposalAlum extends VerticalLayout {
     	add(hL2);
 	}
 	
+	/**
+	 * Checks if any of the fields are null in the fields 
+	 * @return true if the fields are all filled, or false if fields are empty
+	 */
 	public boolean projectError() {
-	    //if(projectList.isEmpty()) { return false; }
 	    if(pTField.isEmpty()) {   return false; }
 	    if(datePickerFirst.isEmpty()) {   return false; }
 	    if(datePickerSecond.isEmpty()) {  return false; }
@@ -143,6 +147,10 @@ public class ProjectProposalAlum extends VerticalLayout {
 	    return true;
 	}
 	
+	/**
+	 * Checks if the fields contain ' " or ; since the DB does not allow those characters
+	 * @return true if the fields do not contain those, or false if they do
+	 */
 	public boolean projectStringError() {
 	    if(checkContainsInvalidSymbols(pTField.getValue())) {   return false; }
 	    if(checkContainsInvalidSymbols(locationTF.getValue())) {  return false; }
@@ -263,6 +271,13 @@ public class ProjectProposalAlum extends VerticalLayout {
 		return vL;
     }
     
+    /**
+     * Gets the list of skills that match the search value that was entered int the search bar for the
+     * skill set. The value is the skill set name
+     * @param skills is the whole list of skills
+     * @param value is the string entered into the search bar
+     * @return the list of skills that match the search results
+     */
     private List<SkillStud> getSearchSkills (List<SkillStud> skills, String value){
     	List<SkillStud> skillsEdit = skills;
 
@@ -279,13 +294,16 @@ public class ProjectProposalAlum extends VerticalLayout {
 		return listToDisplay;
     }
     
+    /**
+     * Updates the skills list displayed based on the search bar results
+     */
     public void updateSkillList() {
     	List<SkillStud> listToDisplay = getSearchSkills(skillList, searchBar.getValue());
         firstGrid.setItems(listToDisplay);
     }
     
     /**
-     * clear all the fields in project dialog
+     * clear all the text fields and all fields in the layout
      */
     public void clearAll() {
     	pTField.clear();

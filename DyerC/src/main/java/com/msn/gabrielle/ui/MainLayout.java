@@ -15,25 +15,19 @@
  */
 package com.msn.gabrielle.ui;
 
-import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.H2;
-import com.vaadin.flow.component.icon.Icon;
-import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.page.Viewport;
-import com.vaadin.flow.router.HighlightConditions;
 import com.vaadin.flow.router.RouterLayout;
-import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.server.InitialPageSettings;
 import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.server.PageConfigurator;
-import com.msn.gabrielle.ui.views.categorieslist.CategoriesList;
-import com.msn.gabrielle.ui.views.reviewslist.ReviewsList;
 
 /**
- * The main layout contains the header with the navigation buttons, and the
- * child views below that.
+ * The main layout is the first page that initially loads to initialize
+ * the pages without any /..../ content. This routes to MainPage.class
+ * 
+ * @author Dyer Center Senior Project
  */
 
 @HtmlImport("frontend://styles/main-page-styles.html")
@@ -43,27 +37,7 @@ public class MainLayout extends Div
         implements RouterLayout, PageConfigurator {
 
     public MainLayout() {
-//        H2 title = new H2("Beverage Buddy");
-//        title.addClassName("main-layout__title");
-//
-//        RouterLink reviews = new RouterLink(null, ReviewsList.class);
-//        reviews.add(new Icon(VaadinIcon.LIST), new Text("Reviews"));
-//        reviews.addClassName("main-layout__nav-item");
-//        // Only show as active for the exact URL, but not for sub paths
-//        reviews.setHighlightCondition(HighlightConditions.sameLocation());
-//
-//        RouterLink categories = new RouterLink(null, CategoriesList.class);
-//        categories.add(new Icon(VaadinIcon.ARCHIVES), new Text("Categories"));
-//        categories.addClassName("main-layout__nav-item");
-//
-//        Div navigation = new Div(reviews, categories);
-//        navigation.addClassName("main-layout__nav");
-//
-//        Div header = new Div(title, navigation);
-//        header.addClassName("main-layout__header");
-//        add(header);
     	
-
         addClassName("main");
     }
 

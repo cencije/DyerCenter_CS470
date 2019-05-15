@@ -42,6 +42,10 @@ import com.vaadin.flow.component.timepicker.*;
 import com.vaadin.flow.component.dialog.*;
 import com.vaadin.flow.component.textfield.*;
 
+/**
+ * 
+ * @author Dyer Center Senior Design
+ */
 @Route(value = "eventsemp", layout = EmployeePage.class)
 @PageTitle("Events")
 @HtmlImport("frontend://styles/shared-styles-ALUMNI.html")

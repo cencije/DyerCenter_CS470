@@ -1,7 +1,6 @@
 package com.msn.gabrielle.backend;
 
 import java.util.Properties;
-import java.util.ArrayList;
 import java.util.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;

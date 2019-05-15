@@ -7,10 +7,10 @@ import java.sql.DriverManager;
 import java.sql.Statement;
 import java.util.Properties;
 
-import com.msn.gabrielle.ui.views.Student.SQLProfileStud;
-import com.msn.gabrielle.ui.views.Student.SQLProjectStud;
-import com.msn.gabrielle.ui.views.Student.SkillsLoader;
-
+/**
+ * 
+ * @author Dyer Center Senior Project 
+ */
 public class SQLTablesManager {
 
 
