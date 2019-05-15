@@ -49,6 +49,7 @@ public class ProjectListAlum extends VerticalLayout{
 	    public ProjectListAlum() {
 			addClassName("main-lay");
 	    	initView();
+			addClassName("main-layout-emp");
 	        addSearchBar();
 	        addContent();
 	        projectList = sqlPA.loadProjects();

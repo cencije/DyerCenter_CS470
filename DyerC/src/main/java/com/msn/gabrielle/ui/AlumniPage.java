@@ -75,6 +75,7 @@ public class AlumniPage extends Div
 		add(header);
 
 		addClassName("main-lay");
+		
     }
    
 }

@@ -53,7 +53,7 @@ public class StudentPage extends Div
 		
 		H2 title = new H2("DYER CENTER");
 		title.addClassName("main-lay__title");
-		
+				
 		RouterLink events = new RouterLink(null, EventsStud.class);
 		events.add(new Icon(VaadinIcon.CALENDAR), new Text("Events"));
 		events.addClassName("main-lay__nav-item");

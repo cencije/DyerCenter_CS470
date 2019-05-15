@@ -51,7 +51,9 @@ public class ProjectsListEmp extends VerticalLayout {
 
     SQLProjectEmp sqlPE = new SQLProjectEmp();
     public ProjectsListEmp() {
+		addClassName("main-lay");
         initView();
+		addClassName("main-layout-emp");
         addSearchBar();
         addContent();
         projectList = sqlPE.loadProjects();
