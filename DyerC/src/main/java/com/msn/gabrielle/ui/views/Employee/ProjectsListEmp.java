@@ -180,7 +180,11 @@ public class ProjectsListEmp extends VerticalLayout {
     	viewDialog.add(gridSkill);
     	Button deleteProject = new Button("Delete",
     	        new Icon(VaadinIcon.TRASH));
-    	//ADD SQL FOR DELETING A PROJECT
+    	deleteProject.addClickListener(e -> {
+    		sqlPE.deleteProject(currentProj);
+    		updateView();
+    		viewDialog.close();
+    	});
     	viewDialog.add(closeButton, deleteProject);
     	return viewDialog;
     }
@@ -209,6 +213,7 @@ public class ProjectsListEmp extends VerticalLayout {
     }
     
     private List<Projects> getSearchValues(String value){
+    	projectList = sqlPE.loadProjects();
     	if (value.isEmpty()) {
     		return projectList;
     	}

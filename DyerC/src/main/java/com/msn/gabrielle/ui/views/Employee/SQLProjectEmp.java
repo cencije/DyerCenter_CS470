@@ -119,6 +119,52 @@ public class SQLProjectEmp {
 		}	
 	}
 	
+	public void deleteProject(Projects p) {
+		String pID = p.getProjectIDSQL();
+		String title = p.getProjectTitle();
+		String sDate = p.getStartDate();
+		String eDate = p.getEndDate();
+		String location = p.getLocation();
+		String paid = p.getPay();
+		String description = p.getDescription();
+		String proposedBy = p.getProposedBy();
+		String datePosted = p.getDatePosted();
+		
+		Properties prop = new Properties();
+		String propFileName = "config_DB.properties";
+		try {
+			Class.forName("org.postgresql.Driver");
+			InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+			 
+			if (inputStream != null) {
+				prop.load(inputStream);
+			} else {
+				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+			}
+			Connection c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + prop.getProperty("dbLocal"),
+					 								   prop.getProperty("dbLocal"),  prop.getProperty("dbLocalPassword"));
+			System.out.println("-----------------------------------------------------------------");
+			System.out.println("Deleting Project from TABLE_PROJECT_INDEX");
+			Statement statementRemoveProject = c.createStatement();
+			String sqlRemoveProject = "DELETE FROM TABLE_PROJECT_INDEX WHERE ID = '" + pID + "'; ";
+			statementRemoveProject.executeUpdate(sqlRemoveProject);
+			statementRemoveProject.close();
+			
+			System.out.println("Deleting Project from TABLE_PROJECT_SKILLS");
+			Statement statementRemoveProjectSkills = c.createStatement();
+			String sqlRemoveProjectSkills = "DELETE FROM TABLE_PROJECT_SKILLS WHERE PROJECT_ID = '" + pID + "'; ";
+			statementRemoveProjectSkills.executeUpdate(sqlRemoveProjectSkills);
+			statementRemoveProjectSkills.close();
+			
+			System.out.println("Successful deletion of project from TABLE_PROJECT_INDEX");
+			c.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println(e.getClass().getName()+": "+e.getMessage());
+			System.exit(0);
+		}	
+	}
+	
 	/**
 	 * Loads all the projects that have been approved from TABLE_PROJECT_INDEX.
 	 * @return The list of all projects that have been approved.
@@ -241,6 +287,7 @@ public class SQLProjectEmp {
 		}
 		return skillsList;
 	}
+	
 	
 
 }
