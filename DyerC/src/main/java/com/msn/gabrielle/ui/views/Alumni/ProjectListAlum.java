@@ -117,6 +117,7 @@ public class ProjectListAlum extends VerticalLayout{
 	    	Button closeButton = new Button("Close", event -> {
 	    		viewDialog.close();
 	    	});
+	    	closeButton.addClassName("main-layout-emp__event");
 	    	List<SkillStud> skillList = new ArrayList<SkillStud>();
 	    	skillList = currentProj.getSkillList();
 	    	Grid<SkillStud> gridSkill = new Grid<>();
