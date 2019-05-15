@@ -15,6 +15,10 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import java.util.ArrayList;
 
+/**
+ * 
+ * @author Dyer Center Senior Design 
+ */
 @Route(value = "eventaddemp", layout = EmployeePage.class)
 @PageTitle("Add Event Page")
 public class AddEventEmp extends VerticalLayout {
@@ -27,10 +31,8 @@ public class AddEventEmp extends VerticalLayout {
 		Label addTitleLbl = new Label("Title: ");
 		Label addLocLbl = new Label("Location: ");
 		ComboBox<String> locations = new ComboBox<>("Locations");
-		//locations.setItems(Arrays.asList(arrayLocations));;
 		
 		Label addDescLbl = new Label("Description: ");
-		//TextField x = new TextField();
 		
 		vLabelLayout = new VerticalLayout();
 		hlayout = new HorizontalLayout();
@@ -39,11 +41,4 @@ public class AddEventEmp extends VerticalLayout {
 		
 		
 	}
-	
-	
-	//vLabelLayout.add(addTitleLbl);
-	
-	
-
-	
 }

@@ -1,11 +1,8 @@
 package com.msn.gabrielle.backend;
 
-import java.io.Serializable;
-import java.util.Objects;
-
 /**
  * Events.java - a simple class for creating Events Objects
- * @author Julianna Puleo
+ * @author Dyer Center Senior Design
  *
  */
 

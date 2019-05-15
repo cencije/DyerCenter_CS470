@@ -20,10 +20,8 @@ import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.html.NativeButton;
 import com.vaadin.flow.component.icon.Icon;
-import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
@@ -31,21 +29,24 @@ import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
+/**
+ * Class for the project list for Alumni. Routes from AlumniPage.class and uses that layout 
+ * @author Dyer Center Senior Design
+ */
 @Route(value = "projectsalum", layout = AlumniPage.class)
 @PageTitle("Projects Alumni")
 @HtmlImport("frontend://styles/shared-styles-ALUMNI.html")
 public class ProjectListAlum extends VerticalLayout{
-		private final TextField searchField = new TextField("",
-	            "Search by title");
-	    private final H2 header = new H2("Project Proposals");
-	    private final Grid<Projects> grid = new Grid<>();
-	    private List<Projects> projectList = new ArrayList();
-	    private String nameStr;
-	    private String descriptionStr;
-	    private String nameProposerStr;
+		private final TextField searchField = new TextField("", "Search by title"); //search bar for projects
+	    private final H2 header = new H2("Project Proposals"); //header that displays what is being searched
+	    private final Grid<Projects> grid = new Grid<>(); //grid for project display
+	    private List<Projects> projectList = new ArrayList(); //list of project objects
 
-	    SQLProjectAlum sqlPA = new SQLProjectAlum();
+	    SQLProjectAlum sqlPA = new SQLProjectAlum(); //sql for retrieving database info
 	    
+	    /**
+	     * Contructor that sets up layout for the page
+	     */
 	    public ProjectListAlum() {
 			addClassName("main-lay");
 	    	initView();
@@ -55,29 +56,18 @@ public class ProjectListAlum extends VerticalLayout{
 	        projectList = sqlPA.loadProjects();
 	        updateView();
 	    }
-
+	    
+	    /**
+	     * Adds the view to full stretch the screen
+	     */
 	    private void initView() {
 	        addClassName("categories-list");
 	        setDefaultHorizontalComponentAlignment(Alignment.STRETCH);
 	    }
 	    
-	    private void addStudentToggle() {
-	        Div radio = new Div();
-	    	RadioButtonGroup<String> group = new RadioButtonGroup<>();
-	    	group.setItems("Student", "Employee");
-	    	NativeButton button = new NativeButton("Switch validity state",
-	    	        event -> group.setInvalid(!group.isInvalid()));
-	    	radio.add(group);
-	        add(radio);
-	    }
-	    
-	    private String textSwitch(Button toggle) {
-	    	if(toggle.getText().contentEquals("Employee")) {
-	    		return "Student";
-	    	}
-	    	return "Employee";
-	    }
-	    
+	    /**
+	     * Creates the search bar for the project list
+	     */
 	    private void addSearchBar() {
 	        Div viewToolbar = new Div();
 	        viewToolbar.addClassName("view-toolbar");
@@ -92,7 +82,13 @@ public class ProjectListAlum extends VerticalLayout{
 	        viewToolbar.add(searchField);
 	        add(viewToolbar);
 	    }
-	
+	    
+	    /**
+	     * Pop up window that displays the project details. Uses the vaadin component
+	     * Dialog to display the pop up window 
+	     * @param currentProj is the project that is being displayed in the window
+	     * @return the pop up window for project view 
+	     */
 	    private Dialog viewDialog(Projects currentProj) {
 	    	Dialog viewDialog = new Dialog();
 	    	viewDialog.setCloseOnEsc(false);
@@ -132,7 +128,10 @@ public class ProjectListAlum extends VerticalLayout{
 	    	viewDialog.add(closeButton);
 	    	return viewDialog;
 	    }
-
+	    
+	    /**
+	     * Adds the project list to the page
+	     */
 	    private void addContent() {
 	        VerticalLayout container = new VerticalLayout();
 	        container.setClassName("view-container");
@@ -147,7 +146,14 @@ public class ProjectListAlum extends VerticalLayout{
 	        container.add(header, grid);
 	        add(container);
 	    }
-
+	    
+	    /**
+	     * Creates the view button in the grid that when clicked displays the popup window with the'
+	     * project details
+	     * 
+	     * @param project is the current project that the view button links
+	     * @return the button created 
+	     */
 	    private Button createEditButton(Projects project) {
 	        Button edit = new Button("View", event -> viewDialog(project).open());
 	        edit.setIcon(new Icon("lumo", "view"));
@@ -155,7 +161,10 @@ public class ProjectListAlum extends VerticalLayout{
 	        edit.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
 	        return edit;
 	    }
-
+	    
+	    /**
+	     * Updates the project list if something is searched 
+	     */
 	    private void updateView() {
 	    	grid.setItems(getSearchValues(searchField.getValue()));
 	    	
@@ -169,6 +178,11 @@ public class ProjectListAlum extends VerticalLayout{
 	        }
 	    }
 	    
+	    /**
+	     * Gets the projects that match the search results
+	     * @param value is the string entered in the search bar 
+	     * @return the list of projects that contain that string value
+	     */
 	    private List<Projects> getSearchValues(String value){
 	    	if (value.isEmpty()) {
 	    		return projectList;
