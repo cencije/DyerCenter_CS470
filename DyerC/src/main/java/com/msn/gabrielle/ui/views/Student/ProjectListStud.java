@@ -1,7 +1,10 @@
 package com.msn.gabrielle.ui.views.Student;
 
-import java.util.ArrayList; 
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import com.msn.gabrielle.backend.Projects;
 import com.msn.gabrielle.ui.*;
@@ -178,16 +181,26 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
     			projectList.add(newProj);
     			
     			EmailSender es = new EmailSender();
+    			String nameToSend = name.getValue();
         		String titleToSend = pTField.getValue();
         		String descToSend = area.getValue();
-        		String timeStart = datePickerFirst.getValue().toString();
-        		String timeEnd = datePickerSecond.getValue().toString();
+        		String timeStart = datePickerFirst.getValue().format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+        		String timeEnd = datePickerSecond.getValue().format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
         		String timeframe = timeStart + " to " + timeEnd;
         		String locToSend = locationTF.getValue();
         		String paidToSend = comboBox.getValue();
-        		es.sendSpecificEmail("New Project Proposal!", titleToSend, descToSend, 
-        				timeframe, locToSend, paidToSend, 1);
+        		
+        		Set<SkillStud> skillSetGrid = firstGrid.getSelectedItems();
+        		ArrayList<String> skillsForEmail = new ArrayList<String>();
+        		for(Iterator<SkillStud> it = skillSetGrid.iterator(); it.hasNext();) {
+        			String s = it.next().printSkill();
+        			skillsForEmail.add(s);
+        		}
+        		String formattedSkills = " " + skillsForEmail.toString().replace("[", "").replace("]", "").replace(",", "").trim();
     			
+        		es.sendSpecificEmail("New Project Proposal!", titleToSend, descToSend, 
+        				timeframe, locToSend, paidToSend, 1, nameToSend, formattedSkills);
+        		
     			dialog.close();
     			clearAll();
     			updateList();
