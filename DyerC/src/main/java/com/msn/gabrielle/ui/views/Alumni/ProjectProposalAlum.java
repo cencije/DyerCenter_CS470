@@ -15,7 +15,6 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.component.HasComponents;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
@@ -27,6 +26,10 @@ import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
+/**
+ * Class for the project proposal for Alumni. Routes from AlumniPage.class and uses that layout 
+ * @author Dyer Center Senior Design
+ */
 @Route(value = "projectpropalum", layout = AlumniPage.class)
 @HtmlImport("frontend://styles/shared-styles-ALUMNI.html")
 @PageTitle("Project Proposal Alum")
