@@ -310,7 +310,7 @@ public class EventsEmp extends VerticalLayout{
 		for(int i = 0; i < eventsList.size(); i++) {
 			Entry newEntry = new Entry();
 			newEntry.setTitle(eventsList.get(i).getTitle());
-			if(eventsList.get(i).getUrl()==null) {
+			if(eventsList.get(i).getUrl().equals("null")) {
 				newEntry.setDescription(eventsList.get(i).getLocation() + ", " +
 						eventsList.get(i).getDescription());
 			} else {

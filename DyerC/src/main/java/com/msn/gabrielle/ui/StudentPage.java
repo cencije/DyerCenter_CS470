@@ -45,7 +45,8 @@ import com.vaadin.flow.component.dialog.Dialog;
 @HtmlImport("frontend://styles/shared-styles-ALUMNI.html")
 public class StudentPage extends Div
         implements RouterLayout{
-		
+	
+	boolean opened = false;
 	/**
 	 * Constructor that sets up the header and navigation layout
 	 */
@@ -54,7 +55,12 @@ public class StudentPage extends Div
 		Dialog initial = new Dialog();
 		Label welcome = new Label("Welcome, John! Click one of the items from the control panel above to navigate to a new page.");
 		initial.add(welcome);
-		initial.open();
+		if(opened == false) {
+			initial.open();
+		}
+		if(initial.isOpened()) {
+			opened = true;
+		}
 		
 		//title of the header bar
 		H2 title = new H2("DYER CENTER");

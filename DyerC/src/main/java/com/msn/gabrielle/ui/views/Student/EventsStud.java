@@ -53,7 +53,7 @@ import com.vaadin.flow.component.icon.*;
 public class EventsStud extends VerticalLayout{
 	
 	FullCalendar calendar = FullCalendarBuilder.create().build();
-	int monthNumber, yearNum, cMN;
+	int monthNumber, yearRn, yearNum, cMN;
 	HorizontalLayout monthMoveLayout;
 	Label currentMonth;
 	String currentYear;
@@ -122,7 +122,8 @@ public class EventsStud extends VerticalLayout{
 		currentMonth = new Label("");
 		currentMonth.addClassName("main-lay__event-title");
 		currentYear = new String(formattedDate.substring(0, 4));
-		yearNum = Integer.parseInt(currentYear);
+		yearRn = Integer.parseInt(currentYear);
+		yearNum = yearRn;
 
 		if(formattedDate.charAt(5) == '0' && formattedDate.charAt(6) == '1') { cMN = 1; monthNumber = 1;}
 		if(formattedDate.charAt(5) == '0' && formattedDate.charAt(6) == '2') { cMN = 2; monthNumber = 2;}
@@ -142,6 +143,7 @@ public class EventsStud extends VerticalLayout{
 		today = new Button("Today", event -> {
         	calendar.today();
         	monthNumber = cMN;
+        	yearNum = yearRn;
         	monthLabelSetUp();
         });
 		today.addClassName("main-lay__event-today");
@@ -187,7 +189,7 @@ public class EventsStud extends VerticalLayout{
 		for(int i = 0; i < eventsList.size(); i++) {
 			Entry newEntry = new Entry();
 			newEntry.setTitle(eventsList.get(i).getTitle());
-			if(eventsList.get(i).getUrl()==null) {
+			if(eventsList.get(i).getUrl().equals("null")) {
 				newEntry.setDescription(eventsList.get(i).getLocation() + ", " +
 						eventsList.get(i).getDescription());
 			} else {

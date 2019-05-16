@@ -121,14 +121,14 @@ public class ProfileStud extends VerticalLayout{
 		Label lblMajor1 = new Label("Major 1: " + profileMajor1);
 		Label lblMajor2 = new Label("Major 2: " + profileMajor2);
 		Label lblMinor1 = new Label("Minor 1: " + profileMinor1);
-		Label lblMinor2 = new Label("Minor 2: " + profileMinor2);
+		Label lblMinor2 = new Label("Certificate: " + profileMinor2);
 		ComboBox<String> cbMajor1 = new ComboBox<>("Major 1");
 		cbMajor1.setItems(Arrays.asList(arrayMajor));
 		ComboBox<String> cbMajor2 = new ComboBox<>("Major 2");
 		cbMajor2.setItems(arrayMajor2);
 		ComboBox<String> cbMinor1 = new ComboBox<>("Minor 1");
 		cbMinor1.setItems(Arrays.asList(arrayMinor));
-		ComboBox<String> cbMinor2 = new ComboBox<>("Minor 2");
+		ComboBox<String> cbMinor2 = new ComboBox<>("Certificate");
 		cbMinor2.setItems(Arrays.asList(arrayMinor));
 		
 		Button btnUpdateFields = new Button("Update Fields", event -> {
@@ -146,7 +146,7 @@ public class ProfileStud extends VerticalLayout{
 		    	}
 		    	else if ((Maj1.equals("Undecided") && !Maj2.equals("N/A")) ||
 		    			 (Min1.equals("N/A") && !Min2.equals("N/A"))) {
-		    		Label lblNotif = new Label("Major/Minor 2 must be 'Undecided' or 'N/A' if Major/Minor 1 is 'Undecided' or 'N/A'");
+		    		Label lblNotif = new Label("Major/Certificate must be 'Undecided' or 'N/A' if Major/Minor 1 is 'Undecided' or 'N/A'");
 		    		nDuplicateValues = new Notification(lblNotif);
 					nDuplicateValues.setDuration(3000);
 					nDuplicateValues.setPosition(Position.MIDDLE);
@@ -160,7 +160,7 @@ public class ProfileStud extends VerticalLayout{
 			    	lblMajor1.setText("Major 1: " + Maj1);
 			    	lblMajor2.setText("Major 2: " + Maj2);
 			    	lblMinor1.setText("Minor 1: " + Min1);
-			    	lblMinor2.setText("Minor 2: " + Min2);
+			    	lblMinor2.setText("Certificate: " + Min2);
 			    	
 		    	}
 		    	else {

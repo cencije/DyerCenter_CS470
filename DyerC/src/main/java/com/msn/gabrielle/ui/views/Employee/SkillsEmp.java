@@ -115,6 +115,8 @@ public class SkillsEmp extends VerticalLayout {
 			if (skillExists) {
 				// Remove the skill from the database, update the Grid
 				deleteSkill(category, skill);
+				tfSkillCategory.clear();
+				tfSkillName.clear();
 				updateGrid();
 			}
 			else {
@@ -125,7 +127,6 @@ public class SkillsEmp extends VerticalLayout {
 				nSkillExists.open();
 			}
 		});
-		btnDeleteSkill.setDisableOnClick(true);
 		btnDeleteSkill.setEnabled(true);
 		btnDeleteSkill.addClassName("main-lay__button");
 		

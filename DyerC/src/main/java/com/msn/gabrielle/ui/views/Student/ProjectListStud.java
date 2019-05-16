@@ -122,10 +122,11 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
     	
     	projectForum.add(nameUnPaid);
     	viewDialog.add(projectForum);
+    	HorizontalLayout hL = new HorizontalLayout();
     	Button closeButton = new Button("Close", event -> {
     		viewDialog.close();
     	});
-    	closeButton.addClassName("main-layout__next-button");
+    	closeButton.addClassName("button-click");
     	List<SkillStud> personList = currentProj.getSkillList();
     	Grid<SkillStud> grid = new Grid<>();
     	grid.setItems(personList);
@@ -160,7 +161,6 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
     
     private Dialog dialog() {
         Dialog dialog = new Dialog();
-
     	dialog.setCloseOnEsc(false);
     	dialog.setCloseOnOutsideClick(false);
     	
@@ -227,8 +227,8 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
     	    dialog.close();
     	});
     	buttons.add(saveButton, cancelButton);
-    	saveButton.addClassName("view-toolbar__event-click");
-    	cancelButton.addClassName("view-toolbar__event-click");
+    	saveButton.addClassName("main-layout__button-click");
+    	cancelButton.addClassName("main-layout__button-click");
     	dialog.add(projectForum, buttons);
     	dialog.open();
     	return dialog;
