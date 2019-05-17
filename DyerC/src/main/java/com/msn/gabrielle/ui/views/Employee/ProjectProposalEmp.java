@@ -13,7 +13,6 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.component.HasComponents;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
@@ -25,27 +24,32 @@ import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
+/**
+ * Class for the project proposal for Employee. Routes from EmployeePage.class and uses that layout 
+ * @author Dyer Center Senior Design
+ */
 @Route(value = "projectpropemp", layout = EmployeePage.class)
 @HtmlImport("frontend://styles/shared-styles-ALUMNI.html")
 @PageTitle("Project Proposal Emp")
 public class ProjectProposalEmp extends VerticalLayout {
-	private TextField pTField;
-	private DatePicker datePickerFirst;
-	private DatePicker datePickerSecond;
-	private TextField locationTF;
-	private List<SkillStud> skillList;
-	private TextArea area;
-	private ComboBox<String> comboBox;
-	private String pay;
-	private TextField name;
-	private TextField searchBar;
-	private Grid<SkillStud> firstGrid;
-    private List<Projects> projectList = new ArrayList<Projects>();
-	private DatePicker dialog;
-	private String nameStr;
+	private TextField pTField; // project title field
+	private DatePicker datePickerFirst; // start date field
+	private DatePicker datePickerSecond; //end date field
+	private TextField locationTF; //location field
+	private List<SkillStud> skillList; //list of skill stud objects
+	private TextArea area; //description text area
+	private ComboBox<String> comboBox; //combo box: "paid" "unpaid" "unknown"
+	private String pay; // value of the comboBox
+	private TextField name; //name of the project proposer field
+	private TextField searchBar; //search bar for skills
+	private Grid<SkillStud> firstGrid; //grid for skills 
+    private List<Projects> projectList = new ArrayList<Projects>(); //list of projects
 	
-	SQLProjectEmp sqlPE = new SQLProjectEmp();
+	SQLProjectEmp sqlPE = new SQLProjectEmp(); //database obj to retrieve data
 	
+	/**
+	 * constructor to create layout
+	 */
 	public ProjectProposalEmp() {
 		addClassName("main-lay");
 		setWidthFull();
@@ -110,6 +114,10 @@ public class ProjectProposalEmp extends VerticalLayout {
     	add(hL2);
 	}
 	
+	/**
+	 * Checks if any of the fields are null in the fields 
+	 * @return true if the fields are all filled, or false if fields are empty
+	 */
 	public boolean projectError() {
 	    if(pTField.isEmpty()) {   return false; }
 	    if(datePickerFirst.isEmpty()) {   return false; }
@@ -122,6 +130,10 @@ public class ProjectProposalEmp extends VerticalLayout {
 	    return true;
 	}
 	
+	/**
+	 * Checks if the fields contain ' " or ; since the DB does not allow those characters
+	 * @return true if the fields do not contain those, or false if they do
+	 */
 	public boolean projectStringError() {
 	    if(checkContainsInvalidSymbols(pTField.getValue())) {   return false; }
 	    if(checkContainsInvalidSymbols(locationTF.getValue())) {  return false; }
@@ -242,6 +254,13 @@ public class ProjectProposalEmp extends VerticalLayout {
 		return vL;
     }
     
+    /**
+     * Gets the list of skills that match the search value that was entered int the search bar for the
+     * skill set. The value is the skill set name
+     * @param skills is the whole list of skills
+     * @param value is the string entered into the search bar
+     * @return the list of skills that match the search results
+     */
     private List<SkillStud> getSearchSkills (List<SkillStud> skills, String value){
     	List<SkillStud> skillsEdit = skills;
 
@@ -258,10 +277,14 @@ public class ProjectProposalEmp extends VerticalLayout {
 		return listToDisplay;
     }
     
+    /**
+     * Updates the skills list displayed based on the search bar results
+     */
     public void updateSkillList() {
     	List<SkillStud> listToDisplay = getSearchSkills(skillList, searchBar.getValue());
         firstGrid.setItems(listToDisplay);
     }
+    
     /**
      * clear all the fields in project dialog
      */

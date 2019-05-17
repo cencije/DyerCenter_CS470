@@ -43,7 +43,7 @@ import com.vaadin.flow.component.textfield.*;
 
 /**
  * EventsStud creates and fills the layout for the Events page within the 
- * dyer center employee view.
+ * dyer center employee view. Routes from Employee.class
  * @author Dyer Center Senior Design
  */
 @Route(value = "eventsemp", layout = EmployeePage.class)

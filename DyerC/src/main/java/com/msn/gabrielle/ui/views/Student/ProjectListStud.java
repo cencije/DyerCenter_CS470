@@ -16,12 +16,10 @@ import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.component.polymertemplate.ModelItem;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
-import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
-import com.vaadin.flow.component.HasStyle;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.KeyModifier;
 import com.vaadin.flow.component.Tag;
@@ -35,7 +33,6 @@ import com.vaadin.flow.component.grid.Grid.SelectionMode;
 import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Label;
-import com.vaadin.flow.component.listbox.ListBox;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.templatemodel.Encode;
@@ -44,6 +41,10 @@ import com.msn.gabrielle.ui.views.Student.ProjectListStud.ProjectsModel;
 import com.msn.gabrielle.ui.views.Student.SkillStud;
 import com.msn.gabrielle.backend.EmailSender;
 
+/**
+ * Class for the project list for Student. Routes from StudentPage.class and uses that layout 
+ * @author Dyer Center Senior Design
+ */
 @Route(value = "projectsstud", layout = StudentPage.class)
 @PageTitle("Projects")
 @HtmlImport("frontend://styles/shared-project-style.html")
@@ -51,21 +52,21 @@ import com.msn.gabrielle.backend.EmailSender;
 public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
 	
 	SQLProjectStud sqlPStud = new SQLProjectStud();
-	private TextField searchField = new TextField("",
-            "Search projects");
-    private List<Projects> projectList;
-    private List<SkillStud> skillsList;
-    private String nameStr;
-    private TextField pTField;
-    private DatePicker datePickerFirst;
-    private DatePicker datePickerSecond;
-    private TextField locationTF;
-    private TextArea area;
-    private TextField name;   
-    private ComboBox<String> comboBox;
-    private TextField searchBar;
-    private Grid<SkillStud> firstGrid;
+    private List<Projects> projectList; // list of projects
+    private List<SkillStud> skillsList; //list of skills
+    private TextField pTField; //project title field
+    private DatePicker datePickerFirst; //start date field
+    private DatePicker datePickerSecond; //end date field
+    private TextField locationTF; //location field
+    private TextArea area; //description field
+    private TextField name; //name of project proposer field
+    private ComboBox<String> comboBox; //combo box for pay
+    private TextField searchBar; //search bar for skills
+    private Grid<SkillStud> firstGrid; //grid for skills 
     
+    /**
+     * Interface for project layout to set the projects
+     */
     public interface ProjectsModel extends TemplateModel{
     	@Encode(value = LongToStringEncoder.class, path = "id")
         @Encode(value = LocalDateToStringEncoder.class, path = "date")
@@ -81,13 +82,14 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
     @Id("radio")
     private RadioButtonGroup<String> combo;
     
+    /**
+     * Constructor to set the layout
+     */
     public ProjectListStud() {
       search.setPlaceholder("Search by title");
       search.addValueChangeListener(e -> updateList());
       search.setValueChangeMode(ValueChangeMode.EAGER);
       search.addFocusShortcut(Key.KEY_F, KeyModifier.CONTROL);
-        //initView();
-      nameStr = "";
       projectList = sqlPStud.loadProjects();
       getModel().setReviews(projectList);
       getElement().setProperty("reviewButtonText", "New project");
@@ -99,6 +101,11 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
       updateList();
     }
     
+    /**
+     * Popup window to view the project details 
+     * @param currentProj is the current project being viewed
+     * @return the dialog object
+     */
     private Dialog viewDialog(Projects currentProj) {
     	Dialog viewDialog = new Dialog();
     	viewDialog.setCloseOnEsc(false);
@@ -122,7 +129,6 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
     	
     	projectForum.add(nameUnPaid);
     	viewDialog.add(projectForum);
-    	HorizontalLayout hL = new HorizontalLayout();
     	Button closeButton = new Button("Close", event -> {
     		viewDialog.close();
     	});
@@ -140,11 +146,20 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
     	return viewDialog;
     }
     
+    /**
+     * called when the view button is clicked on project list boxes, pulls up
+     * the popup window with the current project to view
+     * @param project is the current project being viewed
+     */
     @EventHandler
     private void edit(@ModelItem Projects project) {
     	viewDialog(project).open();
     }
     
+    /**
+     * When the view all radio button is clicked on the layout, the project list 
+     * gets updated to show only all projects
+     */
     @EventHandler
     private void view_click() {
     	projectList = sqlPStud.loadProjects();
@@ -152,6 +167,10 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
     	updateList();
     }
     
+    /**
+     * When the matches radio button is clicked on the layout, the project list 
+     * gets updated to show only the projects that the student matches with
+     */
     @EventHandler
     private void match_click() {
     	projectList = sqlPStud.loadMatchingProjectsCatSkill("goodwayj@lafayette.edu");
@@ -159,6 +178,10 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
     	updateList();
     }
     
+    /**
+     * Pop up window for the project proposal view
+     * @return the dialog object 
+     */
     private Dialog dialog() {
         Dialog dialog = new Dialog();
     	dialog.setCloseOnEsc(false);
@@ -234,8 +257,11 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
     	return dialog;
     }
     
+    /**
+	 * Checks if any of the fields are null in the fields 
+	 * @return true if the fields are all filled, or false if fields are empty
+	 */
     public boolean projectError() {
-    	//if(projectList.isEmpty()) { return false; }
         if(pTField.isEmpty()) {   return false; }
         if(datePickerFirst.isEmpty()) {   return false; }
         if(datePickerSecond.isEmpty()) {  return false; }
@@ -247,6 +273,10 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
         return true;
     }
     
+    /**
+	 * Checks if the fields contain ' " or ; since the DB does not allow those characters
+	 * @return true if the fields do not contain those, or false if they do
+	 */
     public boolean projectStringError() {
 	    if(checkContainsInvalidSymbols(pTField.getValue())) {   return false; }
 	    if(checkContainsInvalidSymbols(locationTF.getValue())) {  return false; }
@@ -364,6 +394,13 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
 		return vL;
     }
     
+    /**
+     * Gets the list of skills that match the search value that was entered int the search bar for the
+     * skill set. The value is the skill set name
+     * @param skills is the whole list of skills
+     * @param value is the string entered into the search bar
+     * @return the list of skills that match the search results
+     */
     private List<SkillStud> getSearchSkills (List<SkillStud> skills, String value){
     	List<SkillStud> skillsEdit = skills;
 
@@ -380,6 +417,9 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
 		return listToDisplay;
     }
     
+    /**
+     * Updates the skills list displayed based on the search bar results
+     */
     public void updateSkillList() {
     	List<SkillStud> listToDisplay = getSearchSkills(skillsList, searchBar.getValue());
         firstGrid.setItems(listToDisplay);
@@ -417,6 +457,11 @@ public class ProjectListStud extends PolymerTemplate<ProjectsModel>{
         getModel().setReviews(projects);
     }
     
+    /**
+     * Gets the list of projects that match with the search bar value
+     * @param value is the string inputed into the search bar
+     * @return the list of projects that match the value
+     */
     private List<Projects> getSearchValues(String value){
     	if (value.isEmpty()) {
     		return projectList;
